@@ -9,5 +9,13 @@ export default defineConfig({
     styleImport({
       resolves: [VantResolve()],
     }),
-  ]
+  ],
+  resolve: {
+    alias: {
+      '@': '/src',
+    }
+  },
+  server: {
+    port: 8000
+  }
 })
