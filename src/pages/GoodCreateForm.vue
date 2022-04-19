@@ -123,7 +123,7 @@ export default defineComponent({
               router.replace({
                 name: 'Detail',
                 params: {
-                  goodNo: data.data.goodNo
+                  id: data.data.goodNo
                 }
               })
             }
