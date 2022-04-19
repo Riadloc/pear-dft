@@ -18,7 +18,7 @@
           :rules="[{ required: true, message: '请填写手机号' }, { pattern: /^\d{11}$/, message: '手机号格式不正确' }]"
         />
       </van-cell-group>
-      <van-cell-group :border="false" size="large">
+      <!-- <van-cell-group :border="false" size="large">
         <template #title>
           <div class="text-white flex items-center mt-4">
             <pear-icon set="ion" name="shield-checkmark-outline" size="1.5em" class="mr-1" />
@@ -43,7 +43,7 @@
             </van-button>
           </template>
         </van-field>
-      </van-cell-group>
+      </van-cell-group> -->
       <van-cell-group
         :border="false"
         size="large"
@@ -128,7 +128,8 @@ export default defineComponent({
       console.log('submit', values)
       run({
         ...values,
-        code: values.captchaCode
+        // code: values.captchaCode
+        code: '1234'
       })
     }
     const { loading: btnLoading, run } = useRequest<any>(postSignup, {

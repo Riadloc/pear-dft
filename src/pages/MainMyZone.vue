@@ -67,7 +67,7 @@
         round
         :border="false"
         title-class="text-gray-100"
-        class="mb-4 rounded bg-gray-800"
+        class="mb-4 rounded bg-slate-700"
       >
         <template #title>
           <van-icon name="service" size="1.3rem" />
