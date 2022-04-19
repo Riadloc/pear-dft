@@ -40,7 +40,7 @@
           :rules="[{ required: true, message: '请填写验证码' }, { pattern: /^\d{4}$/, message: '验证码不正确' }]"
         >
           <template #button>
-            <van-button size="small" type="primary" :disabled="countDownTime > 0" @click="sendCode">
+            <van-button size="small" type="primary" :disabled="countDownTime > 0 || !phone" @click="sendCode">
               <div class="flex items-center">
                 <template v-if="countDownTime">
                   <van-count-down :time="60 * 1000" format="ss秒" class="count-down" @finish="countDownTime = 0" />后重发
