@@ -1,28 +1,30 @@
 <template>
-  <div>
-    <router-view></router-view>
-    <van-tabbar active-color="#fff" :border="false" class="bg-gray-900" v-model="active">
-      <van-tabbar-item icon="wap-home">首页</van-tabbar-item>
-      <van-tabbar-item icon="bag">藏品</van-tabbar-item>
-      <van-tabbar-item icon="manager">我的</van-tabbar-item>
-    </van-tabbar>
-  </div>
+  <van-config-provider id="app" :theme-vars="theme">
+    <router-view v-slot="{ Component }">
+      <transition
+        name="fade" mode="out-in"
+      >
+        <component :is="Component" />
+      </transition>
+    </router-view>
+  </van-config-provider>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { Card } from '@/components'
+import { defineComponent } from 'vue'
+import { theme } from '@/assets/config'
 export default defineComponent({
-  components: { Card },
   setup() {
-    const active = ref(0)
-
     return {
-      active,
-    };
+      theme
+    }
   }
-});
+})
 </script>
 <style lang="less">
+#app {
+  width: 100%;
+  min-height: 100vh;
+}
 .van-tabbar-item {
   &--active {
     @apply bg-gray-900 !important;

@@ -1,0 +1,15 @@
+export const WEB_NAME = '梨数字'
+
+export const theme = {
+  cellBackgroundColor: '#222',
+  cellGroupBackgroundColor: 'rgba(0,0,0,.1)',
+  cellGroupTitlePadding: '0.5rem 0',
+  fieldInputTextColor: '#fff',
+  fieldLabelColor: '#fff',
+  radioLabelColor: '#fff',
+  navBarBackgroundColor: 'transparent',
+  navBarTitleTextColor: '#fff',
+  tabsNavBackgroundColor: 'transparent',
+  tabActiveTextColor: '#fff',
+  tabTextColor: '#f5f5f5'
+}

@@ -1,0 +1,99 @@
+<template>
+  <div class="my-zone p-4">
+    <div class="my-short-info">
+      <div class="flex items-center p-4 rounded-lg">
+        <van-image
+          round
+          fit="cover"
+          width="4rem"
+          height="4rem"
+        >
+          <template v-slot:error>加载失败</template>
+        </van-image>
+        <div class="flex flex-col ml-4 flex-1">
+          <span class="text-white">{{ userData.nickname }}</span>
+          <span class="text-gray-400 text-sm">ID: {{ userData.userId }}</span>
+        </div>
+        <div>
+          <van-icon name="arrow" size="1.2rem" class="text-white" />
+        </div>
+      </div>
+    </div>
+    <div class="my-menu mt-10">
+      <van-cell
+        is-link
+        round
+        :border="false"
+        to="/orderList"
+        title-class="text-gray-100"
+        class="mb-4 rounded bg-slate-700"
+      >
+        <template #title>
+          <van-icon name="bag" size="1.3rem" />
+          <span class="ml-2">订单</span>
+        </template>
+      </van-cell>
+      <!-- <van-cell
+        is-link
+        clickable
+        round
+        :border="false"
+        title-class="text-gray-100"
+        class="mb-4 rounded bg-gray-800"
+      >
+        <template #title>
+          <div class="flex items-center">
+            <van-icon name="setting" size="1.3rem" />
+            <span class="ml-2">设置</span>
+          </div>
+        </template>
+      </van-cell>
+      <van-cell
+        is-link
+        clickable
+        round
+        :border="false"
+        title-class="text-gray-100"
+        class="mb-4 rounded bg-gray-800"
+      >
+        <template #title>
+          <van-icon name="lock" size="1.3rem" />
+          <span class="ml-2">隐私协议</span>
+        </template>
+      </van-cell>
+      <van-cell
+        is-link
+        clickable
+        round
+        :border="false"
+        title-class="text-gray-100"
+        class="mb-4 rounded bg-gray-800"
+      >
+        <template #title>
+          <van-icon name="service" size="1.3rem" />
+          <span class="ml-2">联系我们</span>
+        </template>
+      </van-cell> -->
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/stores/user.store'
+export default defineComponent({
+  setup() {
+    const store = useUserStore()
+    const { userData } = storeToRefs(store)
+
+    return {
+      userData
+    }
+  }
+})
+</script>
+
+<style lang="less" scoped>
+
+</style>

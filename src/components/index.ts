@@ -1,5 +1,17 @@
-import Card from './Card.vue';
+import type { App } from 'vue'
+import PearCard from './PearCard.vue'
+import PearSmallCard from './PearSmallCard.vue'
+import PearIcon from './PearIcon.vue'
 
 export {
-  Card
+  PearIcon,
+  PearCard,
+  PearSmallCard
+}
+
+export default {
+  install(app: App): void {
+    app
+      .component('pear-icon', PearIcon)
+  }
 }

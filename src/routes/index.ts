@@ -1,11 +1,77 @@
-import * as VueRouter from 'vue-router';
+import * as VueRouter from 'vue-router'
+import * as Cookie from 'cookie'
+import { useUserStore } from '@/stores/user.store'
 
-const Home = () => import('@/pages/home.vue')
+const HomeWrapper = () => import('@/pages/HomeWrapper.vue')
+const MainHome = () => import('@/pages/MainHome.vue')
+const MyZone = () => import('@/pages/MainMyZone.vue')
+const Collect = () => import('@/pages/MainCollect.vue')
+const Login = () => import('@/pages/PLogin.vue')
+const Signup = () => import('@/pages/PSignup.vue')
+const Detail = () => import('@/pages/PDetail.vue')
+const OrderList = () => import('@/pages/OrderList.vue')
+const PayPage = () => import('@/pages/PayPage.vue')
+const GoodCreateForm = () => import('@/pages/GoodCreateForm.vue')
 
 const routes = [
   {
     path: '/',
-    component: Home
+    component: HomeWrapper,
+    redirect: '/home',
+    children: [
+      {
+        path: 'home',
+        name: 'Home',
+        component: MainHome,
+        meta: {
+          requiresAuth: false
+        }
+      },
+      {
+        path: 'collect',
+        name: 'Collect',
+        component: Collect
+      },
+      {
+        path: 'mine',
+        name: 'Mine',
+        component: MyZone
+      }
+    ]
+  },
+  {
+    path: '/login',
+    component: Login,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/signup',
+    component: Signup,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/detail/:id',
+    name: 'Detail',
+    component: Detail
+  },
+  {
+    path: '/orderList',
+    component: OrderList
+  },
+  {
+    path: '/pay',
+    name: 'PayPage',
+    component: PayPage,
+    props: true
+  },
+  {
+    path: '/goods/create',
+    name: 'GoodCreate',
+    component: GoodCreateForm
   }
 ]
 
@@ -14,4 +80,30 @@ const router = VueRouter.createRouter({
   routes
 })
 
-export default router;
+router.beforeEach(async (to) => {
+  const store = useUserStore()
+  const { meta } = to
+  if (meta.requiresAuth !== false) {
+    const cookies = Cookie.parse(document.cookie)
+    const isCookieExpired = !(cookies && cookies['connect.sid'])
+    const userId = localStorage.getItem('user.id')
+    if (userId) {
+      console.log(isCookieExpired, store.isLoggedIn)
+      if (isCookieExpired && !store.isLoggedIn) {
+        const res = await store.getUserInfo(userId)
+        if (!res) {
+          return '/login'
+        }
+        return true
+      }
+      return true
+    } else if (store.isLoggedIn && store.userData.id) {
+      localStorage.setItem('user.id', `${store.userData.userId}`)
+      return true
+    }
+    return '/login'
+  }
+  return true
+})
+
+export default router
