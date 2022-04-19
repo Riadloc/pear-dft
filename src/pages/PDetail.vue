@@ -16,7 +16,7 @@
           :name="data.name"
           :price="data.price"
           :amount="data.copies"
-          owner="刘爽"
+          owner="梨数字官方"
         >
           <template #actions v-if="!data.isSoldOut">
             <div class="flex gap-4 px-4 mb-4">

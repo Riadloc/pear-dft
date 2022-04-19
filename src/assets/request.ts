@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import Qs from 'qs'
 import { Toast } from 'vant'
+import { BASE_URL } from './config'
 
 interface Response {
   code: number;
@@ -9,7 +10,7 @@ interface Response {
 }
 
 const request = axios.create({
-  baseURL: 'http://127.0.0.1:3000/api',
+  baseURL: (import.meta.env.PROD ? BASE_URL.PROD : BASE_URL.DEV) + '/api',
   paramsSerializer: function(params) {
     return Qs.stringify(params, { arrayFormat: 'brackets' })
   },
