@@ -16,7 +16,7 @@
       @change="onChange"
     >
       <van-tabbar-item to="/home" icon="wap-home">首页</van-tabbar-item>
-      <!-- <van-tabbar-item to="/collect" icon="bag">藏品</van-tabbar-item> -->
+      <van-tabbar-item to="/collect" icon="bag">藏品</van-tabbar-item>
       <van-tabbar-item to="/mine" icon="manager">我的</van-tabbar-item>
     </van-tabbar>
   </div>

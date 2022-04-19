@@ -60,7 +60,7 @@
           <van-icon name="lock" size="1.3rem" />
           <span class="ml-2">隐私协议</span>
         </template>
-      </van-cell>
+      </van-cell>  -->
       <van-cell
         is-link
         clickable
@@ -73,7 +73,7 @@
           <van-icon name="service" size="1.3rem" />
           <span class="ml-2">联系我们</span>
         </template>
-      </van-cell> -->
+      </van-cell>
     </div>
   </div>
 </template>

@@ -146,11 +146,6 @@ export default defineComponent({
         countDownTime.value = ONE_MINUTE
         if (data.code === HTTP_CODE.ERROR) {
           Notify(data.msg)
-        } else {
-          Notify({ type: 'success', message: '注册成功' })
-          store.setUserInfo(data.data)
-          localStorage.setItem('user.id', `${data.data.userId}`)
-          router.replace('/')
         }
       }
     })
