@@ -1,7 +1,7 @@
 <template>
   <div class="plogin">
     <h3 class="text-white text-lg my-10">欢迎登录 {{ WEB_NAME }}</h3>
-    <van-button size="small" type="primary" round class="absolute right-4 top-4" to="/signup">注 册</van-button>
+    <van-button size="small" plain type="primary" round class="absolute right-4 top-4" to="/signup">注 册</van-button>
     <van-form @submit="onSubmit" validate-trigger="onSubmit">
       <van-cell-group :border="false" size="large">
         <template #title>
@@ -10,7 +10,7 @@
               <pear-icon set="ion" name="happy-outline" size="1.5em" class="mr-1" />
               <span class="text-lg">手机号</span>
             </div>
-            <van-button type="success" size="mini" @click="toggleLoginType">{{ loginTypeName }}登录</van-button>
+            <van-button type="success" size="mini" plain @click="toggleLoginType">{{ loginTypeName }}登录</van-button>
           </div>
         </template>
         <van-field
@@ -40,7 +40,7 @@
           :rules="[{ required: true, message: '请填写验证码' }, { pattern: /^\d{4}$/, message: '验证码不正确' }]"
         >
           <template #button>
-            <van-button size="small" type="primary" :disabled="countDownTime > 0 || !phone" @click="sendCode">
+            <van-button size="mini" type="primary" :disabled="countDownTime > 0 || !phone" @click="sendCode">
               <div class="flex items-center">
                 <template v-if="countDownTime">
                   <van-count-down :time="60 * 1000" format="ss秒" class="count-down" @finish="countDownTime = 0" />后重发
@@ -72,7 +72,7 @@
         />
       </van-cell-group>
       <div class="mt-10">
-        <van-button round block type="primary" native-type="submit" :loading="btnLoading">
+        <van-button round block plain type="primary" native-type="submit" :loading="btnLoading">
           登录
         </van-button>
       </div>

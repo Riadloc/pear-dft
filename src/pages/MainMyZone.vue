@@ -7,6 +7,8 @@
           fit="cover"
           width="4rem"
           height="4rem"
+          src="/android-chrome-512x512.png"
+          class="bg-white"
         >
           <template v-slot:error>加载失败</template>
         </van-image>
@@ -26,20 +28,21 @@
         :border="false"
         to="/orderList"
         title-class="text-gray-100"
-        class="mb-4 rounded bg-slate-700"
+        class="mb-4 rounded bg-slate-800"
       >
         <template #title>
           <van-icon name="bag" size="1.3rem" />
           <span class="ml-2">订单</span>
         </template>
       </van-cell>
-      <!-- <van-cell
+      <van-cell
         is-link
         clickable
         round
         :border="false"
+        to="/setting"
         title-class="text-gray-100"
-        class="mb-4 rounded bg-gray-800"
+        class="mb-4 rounded bg-slate-800"
       >
         <template #title>
           <div class="flex items-center">
@@ -48,7 +51,7 @@
           </div>
         </template>
       </van-cell>
-      <van-cell
+      <!-- <van-cell
         is-link
         clickable
         round
@@ -66,8 +69,9 @@
         clickable
         round
         :border="false"
+        to="/contact"
         title-class="text-gray-100"
-        class="mb-4 rounded bg-slate-700"
+        class="mb-4 rounded bg-slate-800"
       >
         <template #title>
           <van-icon name="service" size="1.3rem" />

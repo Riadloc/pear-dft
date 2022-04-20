@@ -16,9 +16,9 @@
           :name="data.name"
           :price="data.price"
           :amount="data.copies"
-          owner="梨数字官方"
+          :owner="data.user?.nickname"
         >
-          <template #actions v-if="!data.isSoldOut">
+          <template #actions v-if="!data.isSoldOut && !isFluxGoodDetail">
             <div class="flex gap-4 px-4 mb-4">
               <van-button type="primary" block @click="onPay">购买</van-button>
             </div>
@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useRequest } from 'vue-request'
 import { getGoodDetail } from '@/services/goods.service'
@@ -55,7 +55,7 @@ export default defineComponent({
 
     const onBack = () => router.back()
 
-    const goodNo = route.params.id
+    const goodNo = route.params.id as string
     const { data } = useRequest(() => getGoodDetail({ goodNo }), {
       initialData: {
         name: '',
@@ -81,12 +81,15 @@ export default defineComponent({
       })
     }
 
+    const isFluxGoodDetail = computed(() => goodNo.startsWith('F'))
+
     return {
       qrcode,
       onBack,
       onPay,
       WEB_NAME,
-      data
+      data,
+      isFluxGoodDetail
     }
   }
 })

@@ -11,7 +11,9 @@ export const theme = {
   navBarTitleTextColor: '#fff',
   tabsNavBackgroundColor: 'transparent',
   tabActiveTextColor: '#fff',
-  tabTextColor: '#f5f5f5'
+  tabTextColor: '#f5f5f5',
+  buttonPlainBackgroundColor: 'transparent'
+  // buttonPrimaryBackgroundColor: 'linear-gradient(to right, #5eaeff, #1087ff)'
 }
 
 export const BASE_URL = {

@@ -11,7 +11,7 @@
       route
       active-color="#fff"
       :border="false"
-      class="bg-gray-900"
+      class="bg-black py-1"
       v-model="active"
       @change="onChange"
     >
@@ -41,7 +41,7 @@ export default defineComponent({
 <style lang="less">
 .van-tabbar-item {
   &--active {
-    @apply bg-gray-900 !important;
+    @apply bg-black !important;
   }
 }
 </style>

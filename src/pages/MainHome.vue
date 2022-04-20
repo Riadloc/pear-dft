@@ -31,7 +31,7 @@
           :name="item.name"
           :price="item.price"
           :amount="item.copies"
-          owner="梨数字官方"
+          :owner="item.user?.nickname"
         />
       </van-list>
     <!-- </van-pull-refresh> -->

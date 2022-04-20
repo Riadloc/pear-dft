@@ -10,6 +10,8 @@ const Login = () => import('@/pages/PLogin.vue')
 const Signup = () => import('@/pages/PSignup.vue')
 const Detail = () => import('@/pages/PDetail.vue')
 const OrderList = () => import('@/pages/OrderList.vue')
+const ContactUs = () => import('@/pages/ContactUs.vue')
+const CustomSetting = () => import('@/pages/CustomSetting.vue')
 const PayPage = () => import('@/pages/PayPage.vue')
 const GoodCreateForm = () => import('@/pages/GoodCreateForm.vue')
 
@@ -61,6 +63,14 @@ const routes = [
   {
     path: '/orderList',
     component: OrderList
+  },
+  {
+    path: '/contact',
+    component: ContactUs
+  },
+  {
+    path: '/setting',
+    component: CustomSetting
   },
   {
     path: '/pay',

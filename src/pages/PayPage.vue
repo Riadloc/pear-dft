@@ -16,7 +16,7 @@
       <span class="text-gray-200">藏品名：{{ name }}</span>
       <span class="text-gray-200 ml-4">价格：￥{{ price }}</span>
     </div>
-    <div class="flex justify-between gap-4 absolute bottom-0 left-0 right-0 px-4 py-4 bg-gray-800 shadow-lg rounded-t-xl">
+    <div class="flex justify-between gap-4 absolute bottom-0 left-0 right-0 px-4 py-6 bg-gray-800 shadow-lg rounded-t-xl">
       <van-button type="warning" block @click="cancel">取消</van-button>
       <van-button type="primary" block @click="download">下载</van-button>
     </div>
