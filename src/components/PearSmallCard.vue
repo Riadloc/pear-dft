@@ -1,7 +1,7 @@
 <template>
   <div :class="['card', 'overflow-hidden', 'bg-card', round && 'rounded-lg']">
     <van-image
-      :class="[round && 'rounded-lg']"
+      :class="[round && 'rounded-lg', 'overflow-hidden']"
       :src="cover"
     >
       <template v-slot:loading>

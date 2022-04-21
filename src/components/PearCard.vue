@@ -3,7 +3,7 @@
     <van-image
       width="100%"
       :src="cover"
-      class="rounded-2  xl overflow-hidden"
+      class="rounded-2xl overflow-hidden"
     >
       <template v-slot:loading>
         <van-loading type="spinner" size="20" />
