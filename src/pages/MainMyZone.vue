@@ -1,7 +1,7 @@
 <template>
   <div class="my-zone p-4">
     <div class="my-short-info">
-      <div class="flex items-center p-4 rounded-lg">
+      <div class="flex items-center p-4 rounded-lg" @click="goUserPage">
         <van-image
           round
           fit="cover"
@@ -28,7 +28,7 @@
         :border="false"
         to="/orderList"
         title-class="text-gray-100"
-        class="mb-4 rounded bg-slate-800"
+        class="mb-4 rounded bg-card"
       >
         <template #title>
           <van-icon name="bag" size="1.3rem" />
@@ -42,7 +42,7 @@
         :border="false"
         to="/setting"
         title-class="text-gray-100"
-        class="mb-4 rounded bg-slate-800"
+        class="mb-4 rounded bg-card"
       >
         <template #title>
           <div class="flex items-center">
@@ -71,7 +71,7 @@
         :border="false"
         to="/contact"
         title-class="text-gray-100"
-        class="mb-4 rounded bg-slate-800"
+        class="mb-4 rounded bg-card"
       >
         <template #title>
           <van-icon name="service" size="1.3rem" />
@@ -86,13 +86,19 @@
 import { defineComponent } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user.store'
+import { useRouter } from 'vue-router'
 export default defineComponent({
   setup() {
+    const router = useRouter()
     const store = useUserStore()
     const { userData } = storeToRefs(store)
+    const goUserPage = () => {
+      router.push('/user')
+    }
 
     return {
-      userData
+      userData,
+      goUserPage
     }
   }
 })

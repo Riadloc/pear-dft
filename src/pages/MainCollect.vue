@@ -8,7 +8,7 @@
       :finished="finished"
       finished-text=""
       @load="onLoad"
-      class="collect-list flex flex-wrap mt-8"
+      class="collect-list flex flex-wrap mt-8 pb-10"
     >
       <pear-small-card
         v-for="item in goods"

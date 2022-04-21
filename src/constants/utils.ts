@@ -13,3 +13,10 @@ export function validatePassword(value: string): boolean | string {
   }
   return false
 }
+
+export function datamask(phone: string) {
+  if (phone) {
+    return phone.slice(0, 3) + '****' + phone.slice(-4)
+  }
+  return ''
+}

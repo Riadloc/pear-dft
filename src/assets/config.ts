@@ -12,7 +12,11 @@ export const theme = {
   tabsNavBackgroundColor: 'transparent',
   tabActiveTextColor: '#fff',
   tabTextColor: '#f5f5f5',
-  buttonPlainBackgroundColor: 'transparent'
+  buttonPlainBackgroundColor: 'transparent',
+  navBarIconColor: '#fff',
+  navBarArrowSize: '1.2rem',
+  numberKeyboardBackgroundColor: '#292a2d',
+  numberKeyboardKeyBackgroundColor: '#292a2d'
   // buttonPrimaryBackgroundColor: 'linear-gradient(to right, #5eaeff, #1087ff)'
 }
 

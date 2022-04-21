@@ -14,6 +14,8 @@ const ContactUs = () => import('@/pages/ContactUs.vue')
 const CustomSetting = () => import('@/pages/CustomSetting.vue')
 const PayPage = () => import('@/pages/PayPage.vue')
 const GoodCreateForm = () => import('@/pages/GoodCreateForm.vue')
+const UserSetting = () => import('@/pages/UserSetting.vue')
+const AuthorizedIdentity = () => import('@/pages/AuthorizedIdentity.vue')
 
 const routes = [
   {
@@ -82,6 +84,16 @@ const routes = [
     path: '/goods/create',
     name: 'GoodCreate',
     component: GoodCreateForm
+  },
+  {
+    path: '/certify',
+    name: 'AuthorizedIdentity',
+    component: AuthorizedIdentity
+  },
+  {
+    path: '/user',
+    name: 'UserSetting',
+    component: UserSetting
   }
 ]
 

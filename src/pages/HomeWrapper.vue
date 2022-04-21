@@ -11,13 +11,28 @@
       route
       active-color="#fff"
       :border="false"
-      class="bg-black py-1"
+      class="bg-card py-1"
       v-model="active"
       @change="onChange"
     >
-      <van-tabbar-item to="/home" icon="wap-home">首页</van-tabbar-item>
-      <van-tabbar-item to="/collect" icon="bag">藏品</van-tabbar-item>
-      <van-tabbar-item to="/mine" icon="manager">我的</van-tabbar-item>
+      <van-tabbar-item to="/home">
+        <template #icon>
+          <i class="iconfont icon-huaban"></i>
+        </template>
+        首页
+      </van-tabbar-item>
+      <van-tabbar-item to="/collect" icon="bag">
+        <template #icon>
+          <i class="iconfont icon-huabanfuben5"></i>
+        </template>
+        藏品
+      </van-tabbar-item>
+      <van-tabbar-item to="/mine" icon="manager">
+        <template #icon>
+          <i class="iconfont icon-huabanfuben text-xl"></i>
+        </template>
+        我的
+      </van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -38,10 +53,17 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .van-tabbar-item {
   &--active {
-    @apply bg-black !important;
+    @apply bg-card !important;
+    .iconfont {
+      filter: none!important;
+    }
+  }
+  .iconfont {
+    filter: contrast(0.1);
+    font-size: 1.5rem;
   }
 }
 </style>

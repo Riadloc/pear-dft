@@ -12,6 +12,10 @@ export function postSendSms(data: any) {
   return request.post('/user/send_sms', data)
 }
 
+export function certifyUser(data: any) {
+  return request.post('/user/certify', data)
+}
+
 export function getUserInfo(userId: string) {
   return request.get('/user', {
     params: {

@@ -4,7 +4,7 @@
     <h3 class="text-white text-lg mb-1">请使用支付宝扫码支付</h3>
     <h4 class="text-gray-400 text-sm mb-4">该码仅限本次使用</h4>
     <div
-      class="qr-code rounded-lg overflow-hidden bg-gray-700 relative"
+      class="qr-code rounded-2xl overflow-hidden bg-gray-700 relative"
       ref="qrCodeRef"
       style="width: 90vw; height: 90vw;"
     >
@@ -13,22 +13,22 @@
       </div>
     </div>
     <div class="flex mt-4 pb-20">
-      <span class="text-gray-200">藏品名：{{ name }}</span>
-      <span class="text-gray-200 ml-4">价格：￥{{ price }}</span>
+      <span class="text-gray-200">藏品名：<span class="text-white">{{ name }}</span></span>
+      <span class="text-gray-200 ml-4">价格：<span class="text-white">￥{{ price }}</span></span>
     </div>
-    <div class="flex justify-between gap-4 absolute bottom-0 left-0 right-0 px-4 py-6 bg-gray-800 shadow-lg rounded-t-xl">
-      <van-button type="warning" block @click="cancel">取消</van-button>
+    <div class="flex justify-between absolute bottom-0 left-0 right-0 px-4 py-6 bg-gray-800 shadow-lg rounded-t-xl">
+      <van-button type="warning" block @click="cancel" class="mr-4">取消</van-button>
       <van-button type="primary" block @click="download">下载</van-button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, ref } from 'vue'
+import { defineComponent, onMounted, onBeforeUnmount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import QRCodeStyling from 'qr-code-styling'
 import { Dialog, Notify } from 'vant'
-import { checkPaymentOrder, createPaymentOrder } from '@/services/payment.service'
+import { cancelPaymentOrder, checkPaymentOrder, createPaymentOrder } from '@/services/payment.service'
 import { useRequest } from 'vue-request'
 import { TradeStatus } from '@/constants/enums'
 import AlipayPng from '../assets/alipay.png'
@@ -40,13 +40,15 @@ export default defineComponent({
       required: true
     },
     price: String,
-    name: String
+    name: String,
+    orderId: String
   },
   setup(props) {
     const router = useRouter()
 
     const qrCodeRef = ref()
     const qrCodeInstance = ref<QRCodeStyling>()
+    const timer = ref<number | undefined>(undefined)
     const back = () => {
       router.back()
     }
@@ -68,9 +70,8 @@ export default defineComponent({
       }
     })
     const pollingTime = ref(50)
-    const { run: runCheck, cancel: cancelRequst } = useRequest<any>(checkPaymentOrder, {
+    const { run: runCheck } = useRequest<any>(checkPaymentOrder, {
       manual: true,
-      pollingInterval: 5000,
       onSuccess(data) {
         pollingTime.value = pollingTime.value - 1
         if (pollingTime.value <= 0) {
@@ -127,12 +128,14 @@ export default defineComponent({
     const cancel = () => {
       Dialog.confirm({
         title: '提示',
-        message: '确认取消本次购买？',
+        message: '取消会关闭这个支付订单，确认取消本次购买？',
         confirmButtonText: '继续购买',
         cancelButtonText: '去意已决'
       }).then(() => {
-        //
+        cancelRequst()
       }).catch(() => {
+        cancelRequst()
+        cancelPaymentOrder({ tradeNo: createdResp.value?.data?.outTradeNo })
         back()
       })
     }
@@ -159,17 +162,27 @@ export default defineComponent({
       qrCodeInstance.value.append(qrCodeRef.value)
       setTimeout(() => {
         if (createdResp.value?.data?.outTradeNo) {
-          runCheck(createdResp.value?.data?.outTradeNo)
+          timer.value = setInterval(() => {
+            runCheck(createdResp.value?.data?.outTradeNo)
+          }, 5000)
         }
-      }, 5000)
+      }, 0)
+    }
+    const cancelRequst = () => {
+      clearInterval(timer.value)
+      timer.value = undefined
     }
 
     const containerWidth = ref(0)
     onMounted(() => {
       containerWidth.value = Math.floor(window.screen.width * 0.9)
-      run(props.goodId)
+      run({
+        goodId: props.goodId,
+        orderId: props.orderId
+      })
     })
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
+      // console.log
       cancelRequst()
     })
 

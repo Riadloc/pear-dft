@@ -18,9 +18,10 @@
           :amount="data.copies"
           :owner="data.user?.nickname"
         >
-          <template #actions v-if="!data.isSoldOut && !isFluxGoodDetail">
+          <template #actions v-if="showPayButton">
             <div class="flex gap-4 px-4 mb-4">
-              <van-button type="primary" block @click="onPay">购买</van-button>
+              <van-button type="primary" block @click="onPay" v-if="store.userData.certified">购买</van-button>
+              <van-button type="warning" block @click="onCertify" v-else>需要实名认证</van-button>
             </div>
           </template>
         </pear-card>
@@ -47,11 +48,15 @@ import { useRequest } from 'vue-request'
 import { getGoodDetail } from '@/services/goods.service'
 import { PearCard } from '@/components'
 import { WEB_NAME } from '@/assets/config'
+import { checkCanCreateOrder } from '@/services/payment.service'
+import { Dialog } from 'vant'
+import { useUserStore } from '@/stores/user.store'
 export default defineComponent({
   components: { PearCard },
   setup() {
     const router = useRouter()
     const route = useRoute()
+    const store = useUserStore()
 
     const onBack = () => router.back()
 
@@ -70,26 +75,38 @@ export default defineComponent({
     })
 
     const qrcode = ref('')
-    const onPay = () => {
-      router.push({
-        name: 'PayPage',
-        params: {
-          name: data.value.name,
-          goodId: data.value.id,
-          price: data.value.price
-        }
-      })
+    const onPay = async () => {
+      const { name, id: goodId, price } = data.value
+      const res = await checkCanCreateOrder({ goodId }) as any
+      if (res.code === -1) {
+        Dialog.alert({
+          message: res.msg
+        })
+      } else {
+        router.push({
+          name: 'PayPage',
+          params: {
+            name,
+            goodId,
+            price
+          }
+        })
+      }
+    }
+    const onCertify = () => {
+      router.push('/certify')
     }
 
-    const isFluxGoodDetail = computed(() => goodNo.startsWith('F'))
-
+    const showPayButton = computed(() => !data.value?.isSoldOut && !goodNo.startsWith('F'))
     return {
       qrcode,
       onBack,
       onPay,
+      onCertify,
       WEB_NAME,
       data,
-      isFluxGoodDetail
+      showPayButton,
+      store
     }
   }
 })

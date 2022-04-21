@@ -18,6 +18,11 @@ export default defineConfig({
     }
   },
   server: {
-    port: 8000
+    port: 8000,
+    host: '0.0.0.0'
+  },
+  esbuild: {
+    pure: ['console.log'],
+    minify: true
   }
 })

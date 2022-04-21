@@ -1,3 +1,6 @@
 {
-  "singleQuote": true
+  "singleQuote": true,
+  "bracketSameLine": true,
+  "bracketSpacing": true,
+  "proseWrap": "always"
 }

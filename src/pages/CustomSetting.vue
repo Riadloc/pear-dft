@@ -6,7 +6,7 @@
         round
         :border="false"
         title-class="text-gray-100"
-        class="mb-4 rounded bg-slate-800"
+        class="mb-4 rounded bg-card"
       >
         <template #title>
           <div class="flex items-center">

@@ -2,16 +2,16 @@
   <div>
     <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh"> -->
       <van-swipe
-        class="my-swipe"
-        :autoplay="3000"
+        class="my-swipe mb-4"
+        :autoplay="5000"
         indicator-color="white"
       >
-        <van-swipe-item class="my-swipe p-4">
-          <img class="rounded-lg" src="../assets/banner1.jpg" alt="banner">
+        <van-swipe-item class="my-swipe">
+          <img src="../assets/banner1.jpg" alt="banner">
         </van-swipe-item>
-        <van-swipe-item class="my-swipe p-4">
+        <!-- <van-swipe-item class="my-swipe">
           <img class="rounded-lg" src="../assets/banner1.jpg" alt="banner">
-        </van-swipe-item>
+        </van-swipe-item> -->
       </van-swipe>
       <van-list
         v-model:loading="loading"
@@ -34,7 +34,12 @@
           :owner="item.user?.nickname"
         />
       </van-list>
-    <!-- </van-pull-refresh> -->
+      <div class="fixed rounded-lg bg-black bg-opacity-80 bottom-chip" v-if="store.isLoggedIn && !store.userData.certified">
+        <div class="text-white py-3 px-4 text-sm flex items-center justify-between">
+          <span>请先完成实名认证再购买藏品</span>
+          <van-button type="primary" size="mini" round class="px-2" @click="certify">实名认证</van-button>
+        </div>
+      </div>
   </div>
 </template>
 <script lang="ts">
@@ -43,6 +48,7 @@ import { useRouter } from 'vue-router'
 import { PearCard } from '@/components'
 import { getGoodsList } from '@/services/goods.service'
 import { useLoadMore } from 'vue-request'
+import { useUserStore } from '@/stores/user.store'
 // import { Toast } from 'vant'
 // interface GoodItem {
 //   name: string;
@@ -58,6 +64,7 @@ export default defineComponent({
     const active = ref(0)
 
     const router = useRouter()
+    const store = useUserStore()
     const goToDetail = (good: any) => {
       router.push({ name: 'Detail', params: { id: good.goodNo } })
     }
@@ -92,7 +99,11 @@ export default defineComponent({
       loadMore()
     }
     const goods = computed(() => dataList.value || [])
-    console.log(goods)
+
+    const certify = () => {
+      router.push('/certify')
+    }
+
     return {
       active,
       goToDetail,
@@ -101,13 +112,17 @@ export default defineComponent({
       onRefresh,
       finished,
       onLoad,
-      loading
+      certify,
+      loading,
+      store
     }
   }
 })
 </script>
-<style>
-/* .my-swipe .van-swipe-item {
-  height: 150px;
-} */
+<style lang="less" scoped>
+  .bottom-chip {
+    width: 90%;
+    bottom: 4rem;
+    left: 5%;
+  }
 </style>
