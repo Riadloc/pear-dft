@@ -28,7 +28,7 @@
         :border="false"
         to="/orderList"
         title-class="text-gray-100"
-        class="mb-4 rounded bg-card"
+        class="mb-3 rounded bg-card"
       >
         <template #title>
           <van-icon name="bag" size="1.3rem" />
@@ -42,7 +42,7 @@
         :border="false"
         to="/setting"
         title-class="text-gray-100"
-        class="mb-4 rounded bg-card"
+        class="mb-3 rounded bg-card"
       >
         <template #title>
           <div class="flex items-center">
@@ -57,7 +57,7 @@
         round
         :border="false"
         title-class="text-gray-100"
-        class="mb-4 rounded bg-gray-800"
+        class="mb-3 rounded bg-gray-800"
       >
         <template #title>
           <van-icon name="lock" size="1.3rem" />
@@ -71,7 +71,7 @@
         :border="false"
         to="/contact"
         title-class="text-gray-100"
-        class="mb-4 rounded bg-card"
+        class="mb-3 rounded bg-card"
       >
         <template #title>
           <van-icon name="service" size="1.3rem" />

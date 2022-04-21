@@ -1,13 +1,14 @@
 <template>
   <div class="user-info">
     <van-nav-bar :border="false" title="个人信息" left-arrow @click-left="back" />
-    <div class="py-12">
+    <div class="py-6">
       <van-cell
         round
         :border="false"
         title-class="text-gray-100"
         class="mb-4 rounded bg-card"
         :is-link="!store.userData.certified"
+        :to="store.userData.certified ? '' : '/certify'"
       >
         <template #title>
           <div class="flex items-center">
