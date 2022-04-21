@@ -111,7 +111,10 @@ export default defineComponent({
     const captchaCode = ref('')
     const onSubmit = (values: any) => {
       console.log('submit', values)
-      run(values)
+      run({
+        ...values,
+        code: captchaCode.value
+      })
     }
     const { loading: btnLoading, run } = useRequest<any>(postLogin, {
       manual: true,
