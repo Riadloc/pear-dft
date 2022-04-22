@@ -1,6 +1,6 @@
 <template>
   <div class="main-home">
-    <router-view v-slot="{ Component }">
+    <router-view tag="div" class="main-home__content" v-slot="{ Component }">
       <transition
         name="fade" mode="out-in"
       >
@@ -54,6 +54,14 @@ export default defineComponent({
 })
 </script>
 <style lang="less" scoped>
+.main-home {
+  height: 100vh;
+  overflow: hidden;
+  &__content {
+    height: calc(100vh - var(--van-tabbar-height) - 0.5rem);
+    overflow-y: auto;
+  }
+}
 .van-tabbar-item {
   &--active {
     @apply bg-card !important;

@@ -52,6 +52,7 @@ const routes = [
   },
   {
     path: '/signup',
+    name: 'Signup',
     component: Signup,
     meta: {
       requiresAuth: false

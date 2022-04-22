@@ -1,24 +1,24 @@
 <template>
-  <div :class="['card', 'overflow-hidden', 'bg-card', round && 'rounded-2xl']">
+  <div :class="['card', 'overflow-hidden', 'bg-card', round && 'rounded-3xl']">
     <van-image
       width="100%"
       :src="cover"
-      class="rounded-2xl overflow-hidden"
+      class="rounded-3xl overflow-hidden"
     >
       <template v-slot:loading>
         <van-loading type="spinner" size="20" />
       </template>
     </van-image>
-    <div class="py-1 pb-2 px-4 relative">
+    <div class="py-1 pb-3 px-4 relative">
       <div>
-        <span class="text-xl text-white font-semibold">{{ name }}</span>
+        <span class="text-lg text-white font-semibold">{{ name }}</span>
       </div>
-      <div class="tag rounded-sm inline-flex flex-row my-2 overflow-hidden" v-if="amount">
-        <span v-if="limit" class="text-gray-800 text-sm bg-amber-200 text-center px-2">限量</span>
-        <span class="text-sm text-center px-2 text-amber-200 bg-gray-600">{{ amount }}份</span>
+      <div class="tag rounded-sm inline-flex flex-row my-1.5 overflow-hidden" v-if="amount">
+        <span v-if="limit" class="text-gray-800 text-xs bg-amber-200 text-center px-2">限量</span>
+        <span class="text-xs text-center px-2 text-amber-200 bg-gray-600">{{ amount }}份</span>
       </div>
       <div class="flex flex-row justify-between">
-        <div class="text-gray-300 text-sm">{{ owner }}</div>
+        <div class="text-gray-300 text-xs">{{ owner }}</div>
       </div>
       <div class="text-white text-2xl absolute bottom-6 right-4">￥{{ price }}</div>
     </div>

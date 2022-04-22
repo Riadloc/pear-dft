@@ -1,5 +1,5 @@
 <template>
-  <van-config-provider id="app" :theme-vars="theme">
+  <van-config-provider id="provider" :theme-vars="theme">
     <router-view v-slot="{ Component }">
       <transition
         name="fade" mode="out-in"
@@ -21,7 +21,7 @@ export default defineComponent({
 })
 </script>
 <style lang="less">
-#app {
+#provider {
   width: 100%;
   min-height: 100vh;
 }

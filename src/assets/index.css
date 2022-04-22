@@ -21,3 +21,15 @@ body {
 .van-key {
   color: #ffffff;
 }
+
+.van-dialog {
+  @apply bg-card text-white;
+}
+
+.van-dialog .van-button {
+  @apply bg-card text-white;
+}
+
+.van-dialog__message {
+  @apply text-gray-300;
+}

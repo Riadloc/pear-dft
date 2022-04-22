@@ -2,16 +2,16 @@
   <div>
     <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh"> -->
       <van-swipe
-        class="my-swipe mb-4"
+        class="my-swipe rounded-2xl"
         :autoplay="5000"
         indicator-color="white"
       >
-        <van-swipe-item class="my-swipe">
+        <van-swipe-item>
           <img src="../assets/banner1.jpg" alt="banner">
         </van-swipe-item>
-        <!-- <van-swipe-item class="my-swipe">
-          <img class="rounded-lg" src="../assets/banner1.jpg" alt="banner">
-        </van-swipe-item> -->
+        <van-swipe-item>
+          <img src="../assets/banner1.jpg" alt="banner">
+        </van-swipe-item>
       </van-swipe>
       <van-list
         v-model:loading="loading"
@@ -23,7 +23,7 @@
         <pear-card
           v-for="item in goods"
           :key="item.name"
-          class="mb-4"
+          class="mt-4"
           @click="() => goToDetail(item)"
           :cover="item.cover"
           round
@@ -124,5 +124,9 @@ export default defineComponent({
     width: 90%;
     bottom: 4rem;
     left: 5%;
+  }
+  .my-swipe {
+    width: calc(100vw - 2rem);
+    margin: 1rem auto 0;
   }
 </style>

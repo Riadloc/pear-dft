@@ -24,6 +24,7 @@ import {
   Uploader,
   PullRefresh,
   NumberKeyboard,
+  Dialog,
   Image as VanImage
 } from 'vant'
 
@@ -54,6 +55,7 @@ export default {
       .use(Uploader)
       .use(PullRefresh)
       .use(NumberKeyboard)
+      .use(Dialog)
       .use(Notify)
   }
 }

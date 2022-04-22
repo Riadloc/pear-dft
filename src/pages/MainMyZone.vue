@@ -31,7 +31,7 @@
         class="mb-3 rounded bg-card"
       >
         <template #title>
-          <van-icon name="bag" size="1.3rem" />
+          <pear-icon set="ph" name="package-light" size="1.3rem" />
           <span class="ml-2">订单</span>
         </template>
       </van-cell>
@@ -46,7 +46,7 @@
       >
         <template #title>
           <div class="flex items-center">
-            <van-icon name="setting" size="1.3rem" />
+            <pear-icon set="ph" name="gear-light" size="1.3rem" />
             <span class="ml-2">设置</span>
           </div>
         </template>
@@ -74,7 +74,7 @@
         class="mb-3 rounded bg-card"
       >
         <template #title>
-          <van-icon name="service" size="1.3rem" />
+          <pear-icon set="ph" name="chats-light" size="1.3rem" />
           <span class="ml-2">联系我们</span>
         </template>
       </van-cell>

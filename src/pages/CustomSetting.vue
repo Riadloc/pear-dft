@@ -1,21 +1,6 @@
 <template>
   <div class="custom-setting">
     <van-nav-bar :border="false" title="设置" fixed left-arrow @click-left="back" />
-    <div class="py-12">
-      <van-cell
-        round
-        :border="false"
-        title-class="text-gray-100"
-        class="mb-4 rounded bg-card"
-      >
-        <template #title>
-          <div class="flex items-center">
-            <pear-icon set="fluent" name="shield-lock-20-regular" size="1.3rem" />
-            <span class="ml-2">修改密码</span>
-          </div>
-        </template>
-      </van-cell>
-    </div>
     <div class="flex justify-between gap-4 absolute bottom-0 left-0 right-0 px-4 py-6 bg-gray-800 shadow-lg rounded-t-xl">
       <van-button type="danger" block @click="logout">退出登录</van-button>
     </div>

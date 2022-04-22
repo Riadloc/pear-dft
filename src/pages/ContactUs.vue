@@ -4,7 +4,11 @@
     <van-image
       width="80vw"
       src="/qq-group.jpeg"
-    />
+    >
+      <template v-slot:loading>
+        <van-loading type="spinner" size="20" />
+      </template>
+    </van-image>
     <h3 class="mt-4 text-white font-medium text-lg">加入官方群了解更多资讯</h3>
     <a class="mt-2 text-green-500 text-sm underline" href="/qq-group.jpeg" download="梨数藏官方QQ群.jpeg">保存至手机</a>
   </div>

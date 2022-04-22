@@ -23,3 +23,7 @@ export function getUserInfo(userId: string) {
     }
   })
 }
+
+export function updateUserInfo(userId: string | number, data: any) {
+  return request.put(`/user/${userId}`, data)
+}

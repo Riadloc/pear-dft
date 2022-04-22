@@ -7,7 +7,6 @@
         <template #title>
           <div class="text-white flex items-center justify-between">
             <div class="flex items-center">
-              <pear-icon set="ion" name="happy-outline" size="1.5em" class="mr-1" />
               <span class="text-lg">手机号</span>
             </div>
             <van-button type="success" size="mini" plain @click="toggleLoginType">{{ loginTypeName }}登录</van-button>
@@ -28,7 +27,6 @@
       >
         <template #title>
           <div class="text-white flex items-center mt-4">
-            <pear-icon set="ion" name="shield-checkmark-outline" size="1.5em" class="mr-1" />
             <span class="text-lg">验证码</span>
           </div>
         </template>
@@ -58,7 +56,6 @@
       >
         <template #title>
           <div class="text-white flex items-center mt-4">
-            <pear-icon set="ion" name="lock-closed-outline" size="1.5em" class="mr-1" />
             <span class="text-lg">密码</span>
           </div>
         </template>
@@ -83,7 +80,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { Notify } from 'vant'
+import { Notify, Toast } from 'vant'
 import { useRequest } from 'vue-request'
 import { useUserStore } from '@/stores/user.store'
 import { postLogin, postSendSms } from '@/services/user.service'
@@ -121,7 +118,7 @@ export default defineComponent({
       onSuccess(data) {
         console.log(data)
         if (data.code === HTTP_CODE.ERROR) {
-          Notify(data.msg)
+          Toast.fail(data.msg)
         } else {
           Notify({
             type: 'success',
@@ -148,7 +145,7 @@ export default defineComponent({
       onSuccess(data) {
         countDownTime.value = ONE_MINUTE
         if (data.code === HTTP_CODE.ERROR) {
-          Notify(data.msg)
+          Toast({ type: 'success', message: data.msg })
         }
       }
     })

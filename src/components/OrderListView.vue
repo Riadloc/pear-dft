@@ -6,7 +6,7 @@
     @load="onLoad"
     class="px-4"
   >
-    <div v-for="item in goods" :key="item.id" class="flex my-4 bg-card rounded overflow-hidden">
+    <div v-for="item in goods" :key="item.id" class="flex mt-4 bg-card rounded overflow-hidden">
       <van-image
         width="90"
         height="90"
