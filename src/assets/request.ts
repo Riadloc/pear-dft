@@ -10,7 +10,7 @@ interface Response {
 }
 
 const request = axios.create({
-  baseURL: (import.meta.env.PROD ? BASE_URL.PROD : BASE_URL.DEV) + '/api',
+  baseURL: window.location.protocol + (import.meta.env.PROD ? BASE_URL.PROD : BASE_URL.DEV) + '/api',
   paramsSerializer: function(params) {
     return Qs.stringify(params, { arrayFormat: 'brackets' })
   },

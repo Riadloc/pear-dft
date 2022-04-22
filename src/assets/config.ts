@@ -21,6 +21,6 @@ export const theme = {
 }
 
 export const BASE_URL = {
-  DEV: 'http://127.0.0.1:3000',
-  PROD: 'http://pearmeta.art'
+  DEV: '//127.0.0.1:3000',
+  PROD: '//pearmeta.art'
 }
