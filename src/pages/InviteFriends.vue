@@ -14,7 +14,7 @@
       </template>
     </div>
     <div class="flex justify-around w-full mt-4">
-      <div class="flex flex-col items-center" @click="() => onShare('link')">
+      <div class="flex flex-col items-center" ref="copyLink" :data-clipboard-text="inviteLink">
         <div class="rounded-full p-2 bg-orange-300 w-[2.8rem] h-[2.8rem]"><pear-icon set="ph" name="link-light" size="1.8rem" /></div>
         <h5 class="text-gray-300 mt-2 text-xs">复制链接</h5>
       </div>
@@ -27,9 +27,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import html2canvas from 'html2canvas'
 import QRCodeStyling from 'qr-code-styling'
+import ClipboardJs from 'clipboard'
 import { mapState } from 'pinia'
 import { useUserStore } from '@/stores/user.store'
 import { Toast } from 'vant'
@@ -39,6 +40,13 @@ export default defineComponent({
     return {
       loaded: false,
       qrcode: ''
+    }
+  },
+  setup() {
+    const copyLink = ref<any>(null)
+
+    return {
+      copyLink
     }
   },
   computed: {
@@ -54,6 +62,11 @@ export default defineComponent({
     html2canvas(posterDom).then((canvas) => {
       this.loaded = true
       posterDom.appendChild(canvas)
+    })
+    const clipboard = new ClipboardJs(this.copyLink)
+    clipboard.on('success', (e: any) => {
+      Toast('链接已复制到剪贴板')
+      e.clearSelection()
     })
   },
   methods: {
@@ -82,15 +95,12 @@ export default defineComponent({
     onShare(type: string) {
       switch (type) {
         case 'link':
-          navigator.clipboard.writeText(this.inviteLink)
-            .then(() => {
-              Toast('链接已复制到剪贴板')
-            })
-          break
         case 'poster': {
           const canvas = document.querySelector('.poster canvas') as HTMLCanvasElement
-          const url = canvas.toDataURL('iamge/png')
-          downloadFile(url, '梨数藏.png')
+          canvas.toBlob(blob => {
+            const url = URL.createObjectURL(blob as Blob)
+            downloadFile(url, '梨数藏.png')
+          })
           break
         }
       }
