@@ -154,9 +154,11 @@ export default defineComponent({
     const onSubmit = (values: any) => {
       console.log('submit', values)
       if (type === PageTypes.SIGN_UP) {
+        const inviteCode = sessionStorage.getItem('inviteCode')
         runSignup({
           ...values,
-          code: values.captchaCode
+          code: values.captchaCode,
+          inviteCode
         })
       } else {
         if (values.phone !== store.userData.phone) {

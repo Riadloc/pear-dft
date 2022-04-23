@@ -1,7 +1,7 @@
 <template>
   <div class="order-list">
     <van-nav-bar :border="false" title="已购作品" left-arrow @click-left="back" />
-    <van-tabs v-model:active="active">
+    <van-tabs v-model:active="active" swipeable>
       <van-tab title="待支付" name="wait">
         <order-list-view :status="OrderStatus.WAIT" />
       </van-tab>

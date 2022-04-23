@@ -25,6 +25,7 @@ import {
   PullRefresh,
   NumberKeyboard,
   Dialog,
+  ShareSheet,
   Image as VanImage
 } from 'vant'
 
@@ -57,5 +58,7 @@ export default {
       .use(NumberKeyboard)
       .use(Dialog)
       .use(Notify)
+      .use(ShareSheet)
+    app.config.globalProperties.$back = history.back
   }
 }

@@ -162,6 +162,11 @@ export default defineComponent({
       }
     })
     const toggleLoginType = () => {
+      if (loginType.value === LoginTypes.PASSWORD) {
+        password.value = ''
+      } else {
+        captchaCode.value = ''
+      }
       loginType.value = loginType.value === LoginTypes.PASSWORD ? LoginTypes.CODE : LoginTypes.PASSWORD
     }
 

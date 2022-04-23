@@ -15,6 +15,8 @@ const CustomSetting = () => import('@/pages/CustomSetting.vue')
 const PayPage = () => import('@/pages/PayPage.vue')
 const GoodCreateForm = () => import('@/pages/GoodCreateForm.vue')
 const UserSetting = () => import('@/pages/UserSetting.vue')
+const InviteFriends = () => import('@/pages/InviteFriends.vue')
+const MyInvitation = () => import('@/pages/MyInvitation.vue')
 const AuthorizedIdentity = () => import('@/pages/AuthorizedIdentity.vue')
 
 const routes = [
@@ -95,6 +97,16 @@ const routes = [
     path: '/user',
     name: 'UserSetting',
     component: UserSetting
+  },
+  {
+    path: '/invite',
+    name: 'Invite',
+    component: InviteFriends
+  },
+  {
+    path: '/my-invitation',
+    name: 'MyInvitation',
+    component: MyInvitation
   }
 ]
 

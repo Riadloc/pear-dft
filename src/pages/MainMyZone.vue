@@ -78,6 +78,20 @@
           <span class="ml-2">联系我们</span>
         </template>
       </van-cell>
+      <van-cell
+        is-link
+        clickable
+        round
+        :border="false"
+        to="/invite"
+        title-class="text-gray-100"
+        class="mb-3 rounded bg-card"
+      >
+        <template #title>
+          <pear-icon set="ph" name="share-light" size="1.3rem" />
+          <span class="ml-2">邀请好友</span>
+        </template>
+      </van-cell>
     </div>
   </div>
 </template>

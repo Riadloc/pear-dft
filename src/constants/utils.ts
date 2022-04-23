@@ -20,3 +20,15 @@ export function datamask(phone: string) {
   }
   return ''
 }
+
+export function downloadFile(url: string, filename: string) {
+  const eleLink = document.createElement('a')
+  eleLink.download = filename
+  eleLink.style.display = 'none'
+  eleLink.href = url
+  // 触发点击
+  document.body.appendChild(eleLink)
+  eleLink.click()
+  // 然后移除
+  document.body.removeChild(eleLink)
+}

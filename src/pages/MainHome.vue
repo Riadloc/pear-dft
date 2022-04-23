@@ -7,10 +7,10 @@
         indicator-color="white"
       >
         <van-swipe-item>
-          <img src="../assets/banner1.jpg" alt="banner">
+          <img src="/banner.jpg" alt="banner">
         </van-swipe-item>
         <van-swipe-item>
-          <img src="../assets/banner1.jpg" alt="banner">
+          <img src="/banner.jpg" alt="banner">
         </van-swipe-item>
       </van-swipe>
       <van-list

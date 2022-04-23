@@ -17,6 +17,15 @@ export default defineComponent({
     return {
       theme
     }
+  },
+  mounted() {
+    const query = location.href.split('?')[1]
+    if (query) {
+      const searchParams = new URLSearchParams(query)
+      if (searchParams.get('code')) {
+        sessionStorage.setItem('inviteCode', searchParams.get('code') as string)
+      }
+    }
   }
 })
 </script>
