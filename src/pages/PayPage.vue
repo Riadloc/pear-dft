@@ -48,7 +48,7 @@ export default defineComponent({
 
     const qrCodeRef = ref()
     const qrCodeInstance = ref<QRCodeStyling>()
-    const timer = ref<number | undefined>(undefined)
+    const timer = ref<any>(undefined)
     const back = () => {
       router.back()
     }

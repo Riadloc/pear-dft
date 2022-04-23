@@ -44,7 +44,7 @@ export default defineComponent({
   computed: {
     ...mapState(useUserStore, ['userData']),
     inviteLink() {
-      const { userId } = this.userData
+      const { userId } = this.userData as any
       return location.origin + `/?code=${userId}`
     }
   },
