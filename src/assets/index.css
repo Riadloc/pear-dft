@@ -37,3 +37,27 @@ body {
 .van-dialog__message {
   @apply text-gray-300;
 }
+
+:root {
+  --card-large-size: calc(100vw - 2rem);
+  --card-small-size: calc(50vw - 1.5rem);
+  --card-base-size: 6rem;
+}
+
+.card-large {
+  width: var(--card-large-size);
+  height: var(--card-large-size);
+  object-fit: cover;
+}
+
+.card-small {
+  width: var(--card-small-size);
+  height: var(--card-small-size);
+  object-fit: cover;
+}
+
+.card-base {
+  width: var(--card-base-size);
+  height: var(--card-base-size);
+  object-fit: cover;
+}

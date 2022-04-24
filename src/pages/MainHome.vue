@@ -26,6 +26,7 @@
           class="mt-4"
           @click="() => goToDetail(item)"
           :cover="item.cover"
+          cover-size-class="card-large"
           round
           limit
           :name="item.name"

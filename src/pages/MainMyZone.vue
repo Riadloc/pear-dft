@@ -7,7 +7,7 @@
           fit="cover"
           width="4rem"
           height="4rem"
-          src="/android-chrome-512x512.png"
+          src="/apple-touch-icon.png"
           class="bg-white"
         >
           <template v-slot:error>加载失败</template>

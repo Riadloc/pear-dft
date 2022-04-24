@@ -11,6 +11,7 @@
           class="mb-4"
           key="1"
           :cover="data.cover"
+          cover-size-class="card-large"
           round
           limit
           :name="data.name"

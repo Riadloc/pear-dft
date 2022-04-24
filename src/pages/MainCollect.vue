@@ -1,5 +1,5 @@
 <template>
-  <div class="collect p-4">
+  <div class="collect p-4 px-2">
     <div class="collect-header">
       <h3 class="text-white text-xl">我的藏品</h3>
     </div>
@@ -14,8 +14,7 @@
         v-for="item in goods"
         @click="() => goDetail(item)"
         :key="item.name"
-        class="mb-4"
-        style="flex: 0 0 46%;margin-left: 2%;margin-right: 2%;"
+        class="mb-4 mx-2"
         :cover="item.cover"
         round
         limit

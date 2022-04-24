@@ -1,18 +1,17 @@
 <template>
-  <div class="invite-friends contact-us h-screen flex flex-col justify-center items-center px-[40px]">
+  <div class="invite-friends contact-us h-screen flex flex-col justify-center items-center px-[40px] overflow-hidden">
     <pear-navbar title="邀请好友" fixed left-arrow />
-    <div class="poster w-full overflow-hidden">
-      <template v-if="!loaded">
-        <img src="/caterina.jpg" alt="" class="w-full">
-        <div class="flex justify-between items-center">
-          <div class="p-4">
-            <h3 class="text-sm text-bold text-black mb-2">梨数藏</h3>
-            <p class="text-xs text-gray-700">精品数字藏品，等你来发现</p>
-          </div>
-          <img :src="qrcode" alt="" class="w-[96px] h-[96px]" v-if="qrcode">
+    <div class="poster poster-dom rounded-xl overflow-hidden">
+      <van-image src="/caterina.jpg" alt="" class="w-full" />
+      <div class="flex justify-between items-center py-1 px-4">
+        <div>
+          <h3 class="text-sm text-bold text-black mb-2">梨数藏</h3>
+          <p class="text-xs text-gray-700">精品数字藏品，等你来发现</p>
         </div>
-      </template>
+        <img :src="qrcode" alt="" class="w-[96px] h-[96px]" v-if="qrcode">
+      </div>
     </div>
+    <div class="poster poster-canvas"></div>
     <div class="flex justify-around w-full mt-4">
       <div class="flex flex-col items-center" ref="copyLink" :data-clipboard-text="inviteLink">
         <div class="rounded-full p-2 bg-orange-300 w-[2.8rem] h-[2.8rem]"><pear-icon set="ph" name="link-light" size="1.8rem" /></div>
@@ -38,7 +37,6 @@ import { downloadFile } from '@/constants/utils'
 export default defineComponent({
   data() {
     return {
-      loaded: false,
       qrcode: ''
     }
   },
@@ -58,10 +56,10 @@ export default defineComponent({
   },
   async mounted() {
     await this.genQrcode(this.inviteLink)
-    const posterDom = document.querySelector('.poster') as HTMLElement
+    const posterDom = document.querySelector('.poster-dom') as HTMLElement
+    const posterCanvas = document.querySelector('.poster-canvas') as HTMLElement
     html2canvas(posterDom).then((canvas) => {
-      this.loaded = true
-      posterDom.appendChild(canvas)
+      posterCanvas.appendChild(canvas)
     })
     const clipboard = new ClipboardJs(this.copyLink)
     clipboard.on('success', (e: any) => {
@@ -81,12 +79,8 @@ export default defineComponent({
           color: '#000',
           type: 'rounded'
         },
-        backgroundOptions: {
-          color: '#fff'
-        },
         imageOptions: {
-          crossOrigin: 'anonymous',
-          margin: 20
+          crossOrigin: 'anonymous'
         }
       })
       const blob = await res.getRawData() as Blob
@@ -94,13 +88,12 @@ export default defineComponent({
     },
     onShare(type: string) {
       switch (type) {
-        case 'link':
         case 'poster': {
-          const canvas = document.querySelector('.poster canvas') as HTMLCanvasElement
+          const canvas = document.querySelector('.poster-canvas canvas') as HTMLCanvasElement
           canvas.toBlob(blob => {
             const url = URL.createObjectURL(blob as Blob)
-            downloadFile(url, '梨数藏.png')
-          })
+            downloadFile(url, 'pearmeta_rec.png')
+          }, 'image/png')
           break
         }
       }
@@ -111,6 +104,11 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .poster {
-  // margin-top: calc(var(--van-nav-bar-height) + 2rem);
+  @apply w-full bg-white overflow-hidden;
+  &-canvas {
+    @apply absolute;
+    right: 200%;
+    top: 0;
+  }
 }
 </style>

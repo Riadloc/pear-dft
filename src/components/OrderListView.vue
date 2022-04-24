@@ -7,21 +7,18 @@
     class="px-4"
   >
     <div v-for="item in goods" :key="item.id" class="flex mt-4 bg-card rounded overflow-hidden">
-      <van-image
-        width="90"
-        height="90"
+      <pear-image
+        :thumbnail="50"
         :src="item.cover"
+        :alt="item.name"
+        size="card-base"
         class="rounded overflow-hidden"
-      >
-        <template v-slot:loading>
-          <van-loading type="spinner" size="20" />
-        </template>
-      </van-image>
+      />
       <div class="flex flex-col px-4 justify-center relative flex-1">
         <h4 class="text-white text-base">{{ item.name }}</h4>
         <div class="tag inline-flex flex-row my-1 overflow-hidden">
-          <span class="text-gray-800 text-xs bg-amber-200 text-center px-2">编号</span>
-          <span class="text-amber-200 text-xs bg-gray-600 text-center px-2">{{ item.fluxGoods.serial }}</span>
+          <span class="text-gray-800 text-xs bg-amber-200 text-center px-2 rounded-l">编号</span>
+          <span class="text-amber-200 text-xs bg-gray-600 text-center px-2 rounded-r">{{ item.fluxGoods.serial }}</span>
         </div>
         <span class="text-gray-300">￥{{ item.fluxGoods.price }}</span>
         <van-button

@@ -1,20 +1,19 @@
 <template>
-  <div :class="['card', 'overflow-hidden', 'bg-card', round && 'rounded-lg']">
-    <van-image
-      :class="[round && 'rounded-lg', 'overflow-hidden']"
+  <div :class="['card', 'overflow-hidden', 'bg-card', round && 'rounded-2xl']">
+    <pear-image
+      :thumbnail="50"
       :src="cover"
-    >
-      <template v-slot:loading>
-        <van-loading type="spinner" size="20" />
-      </template>
-    </van-image>
+      :alt="`${name}`"
+      :class="[round && 'rounded-2xl', 'overflow-hidden']"
+      size="card-small"
+    />
     <div class="p-2 pt-1 relative">
       <div class="flex flex-col">
         <!-- <span class="text-gray-800 text-sm bg-amber-200 rounded">dwheuiwhi</span> -->
         <span class="text-md text-white">{{ name }}</span>
         <div class="tag inline-flex flex-row my-1 overflow-hidden">
-          <span class="text-gray-800 text-xs bg-amber-200 text-center px-2">编号</span>
-          <span class="text-amber-200 text-xs bg-gray-600 text-center px-2">{{ serial }}</span>
+          <p class="text-gray-800 text-xs bg-amber-200 text-center px-2 rounded-l">编号</p>
+          <p class="text-amber-200 text-xs bg-gray-600 text-center px-2 rounded-r">{{ serial }}</p>
         </div>
         <span class="text-gray-300">￥{{ price }}</span>
       </div>

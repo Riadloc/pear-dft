@@ -1,14 +1,12 @@
 <template>
   <div :class="['card', 'overflow-hidden', 'bg-card', round && 'rounded-3xl']">
-    <van-image
-      width="100%"
+    <pear-image
       :src="cover"
+      :alt="`${name}`"
+      width="100%"
+      :size="coverSizeClass"
       class="rounded-3xl overflow-hidden"
-    >
-      <template v-slot:loading>
-        <van-loading type="spinner" size="20" />
-      </template>
-    </van-image>
+    />
     <div class="py-1 pb-3 px-4 relative">
       <div>
         <span class="text-lg text-white font-semibold">{{ name }}</span>
@@ -42,7 +40,8 @@ export default defineComponent({
     },
     amount: Number,
     owner: String,
-    price: String
+    price: String,
+    coverSizeClass: String
   }
 })
 </script>
