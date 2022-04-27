@@ -19,8 +19,8 @@
         round
         limit
         :name="item.name"
-        :price="item.fluxGoods.price"
-        :serial="item.fluxGoods.serial"
+        :price="item.price"
+        :serial="item.serial"
       />
     </van-list>
     <!-- <div class="collect-list flex flex-wrap justify-between mt-8">
@@ -31,10 +31,9 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
 import { PearSmallCard } from '@/components'
-import { getOrderList } from '@/services/order.service'
 import { useLoadMore } from 'vue-request'
-import { OrderStatus } from '@/constants/enums'
 import { useRouter } from 'vue-router'
+import { getMyGoodList } from '@/services/goods.service'
 
 export default defineComponent({
   components: { PearSmallCard },
@@ -44,10 +43,9 @@ export default defineComponent({
     const finished = ref(false)
     const pageSize = ref(10)
     const pageNo = ref(0)
-    const { loadingMore: loading, data, dataList, loadMore } = useLoadMore(() => getOrderList({
+    const { loadingMore: loading, data, dataList, loadMore } = useLoadMore(() => getMyGoodList({
       pageSize: pageSize.value,
-      pageNo: pageNo.value,
-      status: OrderStatus.PURCHASED
+      pageNo: pageNo.value
     }), {
       manual: true,
       listKey: 'list',
@@ -71,7 +69,7 @@ export default defineComponent({
     const count = computed(() => data.value?.count || 0)
 
     const goDetail = (item: any) => {
-      router.push({ name: 'Detail', params: { id: item.fluxGoods.goodNo } })
+      router.push({ name: 'Detail', params: { id: item.goodNo } })
     }
 
     console.log(goods)

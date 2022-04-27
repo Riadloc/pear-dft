@@ -7,7 +7,7 @@
       :class="[round && 'rounded-2xl', 'overflow-hidden']"
       size="card-small"
     />
-    <div class="p-2 pt-1 relative">
+    <div class="p-2 relative">
       <div class="flex flex-col">
         <!-- <span class="text-gray-800 text-sm bg-amber-200 rounded">dwheuiwhi</span> -->
         <span class="text-md text-white">{{ name }}</span>

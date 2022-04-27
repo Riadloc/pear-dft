@@ -5,7 +5,7 @@
         <van-icon class="back-icon" name="arrow-left" color="#fff" size="1.5rem" @click="onBack" />
       </template>
     </van-nav-bar>
-    <div class="p-3">
+    <div class="p-4">
       <div class="header">
         <pear-card
           class="mb-4"

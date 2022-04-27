@@ -11,3 +11,7 @@ export function getGoodDetail(params: any) {
 export function getGoodsList(params: any) {
   return request.get('goods', { params })
 }
+
+export function getMyGoodList(params: any) {
+  return request.get('goods/collect', { params })
+}

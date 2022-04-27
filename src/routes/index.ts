@@ -2,22 +2,21 @@ import * as VueRouter from 'vue-router'
 import * as Cookie from 'cookie'
 import { useUserStore } from '@/stores/user.store'
 
-const HomeWrapper = () => import('@/pages/HomeWrapper.vue')
-const MainHome = () => import('@/pages/MainHome.vue')
-const MyZone = () => import('@/pages/MainMyZone.vue')
-const Collect = () => import('@/pages/MainCollect.vue')
-const Login = () => import('@/pages/PLogin.vue')
-const Signup = () => import('@/pages/PSignup.vue')
-const Detail = () => import('@/pages/PDetail.vue')
-const OrderList = () => import('@/pages/OrderList.vue')
-const ContactUs = () => import('@/pages/ContactUs.vue')
-const CustomSetting = () => import('@/pages/CustomSetting.vue')
-const PayPage = () => import('@/pages/PayPage.vue')
-const GoodCreateForm = () => import('@/pages/GoodCreateForm.vue')
-const UserSetting = () => import('@/pages/UserSetting.vue')
-const InviteFriends = () => import('@/pages/InviteFriends.vue')
-const MyInvitation = () => import('@/pages/MyInvitation.vue')
-const AuthorizedIdentity = () => import('@/pages/AuthorizedIdentity.vue')
+const HomeWrapper = () => import('@/views/HomeWrapper.vue')
+const MainHome = () => import('@/views/MainHome.vue')
+const MyZone = () => import('@/views/MainMyZone.vue')
+const Collect = () => import('@/views/MainCollect.vue')
+const Login = () => import('@/views/PLogin.vue')
+const Signup = () => import('@/views/PSignup.vue')
+const Detail = () => import('@/views/PDetail.vue')
+const OrderList = () => import('@/views/OrderList.vue')
+const ContactUs = () => import('@/views/ContactUs.vue')
+const CustomSetting = () => import('@/views/CustomSetting.vue')
+const PayPage = () => import('@/views/PayPage.vue')
+const UserSetting = () => import('@/views/UserSetting.vue')
+const InviteFriends = () => import('@/views/InviteFriends.vue')
+const MyInvitation = () => import('@/views/MyInvitation.vue')
+const AuthorizedIdentity = () => import('@/views/AuthorizedIdentity.vue')
 
 const routes = [
   {
@@ -82,11 +81,6 @@ const routes = [
     name: 'PayPage',
     component: PayPage,
     props: true
-  },
-  {
-    path: '/goods/create',
-    name: 'GoodCreate',
-    component: GoodCreateForm
   },
   {
     path: '/certify',
