@@ -33,10 +33,13 @@ request.interceptors.response.use(function(response: AxiosResponse<Response>) {
   switch (response.status) {
     case 401:
       Toast('还未登录')
-      history.replaceState(null, '', '/login')
+      location.replace('/login')
       break
     case 403:
       Toast('被禁止的请求')
+      break
+    case 429:
+      Toast('请求太过频繁，请稍后重试')
       break
   }
   return data

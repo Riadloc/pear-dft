@@ -78,11 +78,12 @@ export default defineComponent({
           cancelRequst()
           return
         }
-        const { subCode, tradeStatus } = data.data
+        const { tradeStatus: { subCode, tradeStatus } } = data.data
         if (tradeStatus) {
           switch (tradeStatus) {
             case TradeStatus.TRADE_FINISHED:
             case TradeStatus.TRADE_SUCCESS:
+              Notify.clear()
               Dialog.alert({
                 title: '支付成功',
                 message: '已支付，交易成功'
@@ -92,6 +93,7 @@ export default defineComponent({
               cancelRequst()
               break
             case TradeStatus.TRADE_CLOSED:
+              Notify.clear()
               Dialog.alert({
                 title: '交易关闭',
                 message: '交易已关闭，不可继续支付'
@@ -101,7 +103,14 @@ export default defineComponent({
               cancelRequst()
               break
             case TradeStatus.WAIT_BUYER_PAY:
-              Notify('已扫码，等待支付中')
+              Notify({
+                type: 'primary',
+                message: '已扫码，等待支付中...',
+                duration: 0
+              })
+              break
+            default:
+              Notify.clear()
               break
           }
         } else if (subCode) {

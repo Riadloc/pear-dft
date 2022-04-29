@@ -1,5 +1,5 @@
 <template>
-  <div :class="['card', 'overflow-hidden', 'bg-card', round && 'rounded-3xl']">
+  <div :class="['card', 'overflow-hidden', 'bg-card', round && 'rounded-3xl', 'relative']">
     <pear-image
       :src="cover"
       :alt="`${name}`"
@@ -19,6 +19,9 @@
         <div class="text-gray-300 text-xs">{{ owner }}</div>
       </div>
       <div class="text-white text-2xl absolute bottom-6 right-4">￥{{ price }}</div>
+    </div>
+    <div class="absolute left-4 top-4 bg-black bg-opacity-80 px-2 py-1 rounded-full leading-4" v-if="isSoldOut">
+      <span class="text-gray-400 text-xs">已售罄</span>
     </div>
     <slot name="actions"></slot>
   </div>
@@ -41,7 +44,8 @@ export default defineComponent({
     amount: Number,
     owner: String,
     price: String,
-    coverSizeClass: String
+    coverSizeClass: String,
+    isSoldOut: Number
   }
 })
 </script>

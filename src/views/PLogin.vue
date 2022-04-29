@@ -32,8 +32,8 @@
         </template>
         <van-field
           class="rounded"
-          v-model="captchaCode"
-          name="captchaCode"
+          v-model="code"
+          name="code"
           placeholder="请填写验证码"
           :rules="[{ required: true, message: '请填写验证码' }, { pattern: /^\d{4}$/, message: '验证码不正确' }]"
         >
@@ -41,7 +41,7 @@
             <van-button size="mini" type="primary" :disabled="countDownTime > 0 || !phone" @click="sendCode">
               <div class="flex items-center">
                 <template v-if="countDownTime">
-                  <van-count-down :time="60 * 1000" format="ss秒" class="count-down" @finish="countDownTime = 0" />后重发
+                  <van-count-down :time="countDownTime" format="ss秒" class="count-down" @finish="onCountDownFinished" />后重发
                 </template>
                 <span v-else>发送验证码</span>
               </div>
@@ -68,6 +68,24 @@
           :rules="[{ required: true, message: '请填写密码' }, { validator: validatePassword }]"
         />
       </van-cell-group>
+      <van-cell-group :border="false" size="large">
+        <template #title>
+          <div class="text-white flex items-center mt-4">
+            <span class="text-lg">图形验证码</span>
+          </div>
+        </template>
+        <van-field
+          class="rounded"
+          v-model="captchaCode"
+          name="captchaCode"
+          placeholder="请填写验证码"
+          :rules="[{ required: true, message: '请填写验证码' }, { pattern: /^\w{4}$/, message: '验证码不正确' }]"
+        >
+          <template #button>
+            <div @click="runCaptchaSvg" v-html="captchaSvg" class="bg-white w-36 h-12"></div>
+          </template>
+        </van-field>
+      </van-cell-group>
       <div class="mt-10">
         <van-button round block plain type="primary" native-type="submit" :loading="btnLoading">
           登录
@@ -83,7 +101,7 @@ import { useRouter } from 'vue-router'
 import { Notify, Toast } from 'vant'
 import { useRequest } from 'vue-request'
 import { useUserStore } from '@/stores/user.store'
-import { postLogin, postSendSms } from '@/services/user.service'
+import { getCaptchaSvg, postLogin, postSendSms } from '@/services/user.service'
 import { validatePassword } from '@/constants/utils'
 import { WEB_NAME } from '@/assets/config'
 import { HTTP_CODE } from '@/constants/enums'
@@ -105,16 +123,18 @@ export default defineComponent({
 
     const phone = ref('')
     const password = ref('')
+    const code = ref('')
     const captchaCode = ref('')
     const onSubmit = (values: any) => {
       console.log('submit', values)
       run({
-        ...values,
-        code: captchaCode.value
+        ...values
       })
     }
     const { loading: btnLoading, run } = useRequest<any>(postLogin, {
       manual: true,
+      throttleInterval: 2000,
+      throttleOptions: { leading: true, trailing: false },
       onSuccess(data) {
         console.log(data)
         if (data.code === HTTP_CODE.ERROR) {
@@ -142,10 +162,31 @@ export default defineComponent({
     }
     const { run: runSendSms } = useRequest<any>(postSendSms, {
       manual: true,
+      throttleInterval: 1000,
+      throttleOptions: { leading: true, trailing: false },
       onSuccess(data) {
         countDownTime.value = ONE_MINUTE
         if (data.code === HTTP_CODE.ERROR) {
           Toast({ type: 'success', message: data.msg })
+        } else {
+          if (data.data > 0) {
+            Notify('获取时间没超过1分钟！')
+            countDownTime.value = data.data * 1000
+          } else {
+            countDownTime.value = ONE_MINUTE
+          }
+        }
+      }
+    })
+    const captchaSvg = ref(';')
+    const { run: runCaptchaSvg } = useRequest<any>(getCaptchaSvg, {
+      throttleInterval: 2000,
+      throttleOptions: { leading: true, trailing: false },
+      onSuccess(data) {
+        if (data.code === HTTP_CODE.ERROR) {
+          Toast({ type: 'success', message: data.msg })
+        } else {
+          captchaSvg.value = data.data
         }
       }
     })
@@ -165,7 +206,7 @@ export default defineComponent({
       if (loginType.value === LoginTypes.PASSWORD) {
         password.value = ''
       } else {
-        captchaCode.value = ''
+        code.value = ''
       }
       loginType.value = loginType.value === LoginTypes.PASSWORD ? LoginTypes.CODE : LoginTypes.PASSWORD
     }
@@ -173,6 +214,7 @@ export default defineComponent({
     return {
       phone,
       password,
+      code,
       captchaCode,
       btnLoading,
       onSubmit,
@@ -180,6 +222,8 @@ export default defineComponent({
       countDownTime,
       onCountDownFinished,
       sendCode,
+      runCaptchaSvg,
+      captchaSvg,
 
       loginType,
       loginTypeName,

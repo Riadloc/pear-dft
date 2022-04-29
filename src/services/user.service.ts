@@ -31,3 +31,7 @@ export function updateUserInfo(userId: string | number, data: any) {
 export function getMyInvitaions() {
   return request.get('/user/invitation')
 }
+
+export function getCaptchaSvg() {
+  return request.get('/user/captcha')
+}

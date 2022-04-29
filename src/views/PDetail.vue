@@ -18,10 +18,12 @@
           :price="data.price"
           :amount="data.copies"
           :owner="data.user?.nickname"
+          :is-sold-out="data.isSoldOut"
         >
           <template #actions v-if="showPayButton">
             <div class="flex gap-4 px-4 mb-4">
-              <van-button type="primary" block @click="onPay" v-if="store.userData.certified">购买</van-button>
+              <van-button type="warning" block disabled v-if="data.isSoldOut">已售罄</van-button>
+              <van-button type="primary" block @click="onPay" v-else-if="store.userData.certified">购买</van-button>
               <van-button type="warning" block @click="onCertify" v-else>需要实名认证</van-button>
             </div>
           </template>
