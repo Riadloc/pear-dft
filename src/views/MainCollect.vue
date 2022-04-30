@@ -18,7 +18,7 @@
         :cover="item.cover"
         round
         limit
-        :name="item.name"
+        :name="item.parentGood.name"
         :price="item.price"
         :serial="item.serial"
       />

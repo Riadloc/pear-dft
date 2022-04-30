@@ -16,11 +16,11 @@
       />
       <div class="flex flex-col px-4 justify-center relative flex-1">
         <h4 class="text-white text-base">{{ item.name }}</h4>
-        <div class="tag inline-flex flex-row my-1 overflow-hidden">
+        <!-- <div class="tag inline-flex flex-row my-1 overflow-hidden">
           <span class="text-gray-800 text-xs bg-amber-200 text-center px-2 rounded-l">编号</span>
-          <span class="text-amber-200 text-xs bg-gray-600 text-center px-2 rounded-r">{{ item.fluxGoods.serial }}</span>
-        </div>
-        <span class="text-gray-300">￥{{ item.fluxGoods.price }}</span>
+          <span class="text-amber-200 text-xs bg-gray-600 text-center px-2 rounded-r">{{ item.good.serial }}</span>
+        </div> -->
+        <span class="text-gray-300">￥{{ item.good.price }}</span>
         <van-popover
           v-if="item.status === OrderStatus.WAIT"
           v-model:show="item.show"
@@ -96,8 +96,8 @@ export default defineComponent({
         name: 'PayPage',
         params: {
           name: data.name,
-          goodId: data.fluxGoods.goodId,
-          price: data.fluxGoods.price,
+          goodId: data.good.goodId,
+          price: data.good.price,
           orderId: data.id
         }
       })

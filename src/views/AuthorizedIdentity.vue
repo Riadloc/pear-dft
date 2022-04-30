@@ -1,39 +1,42 @@
 
 <template>
-  <div class="authorized-identity pt-20 px-10">
+  <div class="authorized-identity pt-20">
     <van-nav-bar :border="false" left-arrow @click-left="back" fixed />
-    <h2 class="text-3xl font-semibold text-white">填写实名认证信息</h2>
-    <p class="text-sm text-gray-400 mt-4 mb-10">当前登录手机号：{{ phone }}</p>
-    <van-form @submit="onSubmit">
-      <van-field
-        v-model="realName"
-        name="realName"
-        class="px-0 bg-paper"
-        placeholder="请输入姓名"
-        :rules="[{ required: true, message: '请输入姓名' }]"
-      />
-      <van-field
-        readonly
-        @touchstart.stop="show = true"
+    <van-notice-bar wrapable :scrollable="false">一分钟内只能请求认证一次，一天内最多请求三次</van-notice-bar>
+    <div class="px-10 mt-6">
+      <h2 class="text-3xl font-semibold text-white">填写实名认证信息</h2>
+      <p class="text-sm text-gray-400 mt-4 mb-10">当前登录手机号：{{ phone }}</p>
+      <van-form @submit="onSubmit">
+        <van-field
+          v-model="realName"
+          name="realName"
+          class="px-0 bg-paper"
+          placeholder="请输入姓名"
+          :rules="[{ required: true, message: '请输入姓名' }]"
+        />
+        <van-field
+          readonly
+          @touchstart.stop="show = true"
+          v-model="idCard"
+          name="idCard"
+          class="px-0 bg-paper"
+          placeholder="请输入身份证号"
+          :rules="[{ required: true, message: '请输入身份证号' }, { pattern: /^[\d]{17}[\dxX]{1}$/, message: '格式不正确' }]"
+        />
+        <div class="mt-10">
+          <van-button round block type="primary" plain native-type="submit" :loading="loading">
+            提交认证
+          </van-button>
+        </div>
+      </van-form>
+      <van-number-keyboard
         v-model="idCard"
-        name="idCard"
-        class="px-0 bg-paper"
-        placeholder="请输入身份证号"
-        :rules="[{ required: true, message: '请输入身份证号' }, { pattern: /^[\d]{17}[\dxX]{1}$/, message: '格式不正确' }]"
+        :show="show"
+        extra-key="X"
+        :maxlength="18"
+        @blur="show = false"
       />
-      <div class="mt-10">
-        <van-button round block type="primary" plain native-type="submit" :loading="loading">
-          提交认证
-        </van-button>
-      </div>
-    </van-form>
-    <van-number-keyboard
-      v-model="idCard"
-      :show="show"
-      extra-key="X"
-      :maxlength="18"
-      @blur="show = false"
-    />
+    </div>
   </div>
 </template>
 
@@ -46,6 +49,7 @@ import { certifyUser } from '@/services/user.service'
 import { Dialog, Toast } from 'vant'
 import { useRouter } from 'vue-router'
 import dayjs from 'dayjs'
+import { HTTP_CODE } from '@/constants/enums'
 export default defineComponent({
   setup() {
     const show = ref(false)
@@ -62,7 +66,15 @@ export default defineComponent({
 
     const { loading, run } = useRequest(certifyUser, {
       manual: true,
-      onSuccess() {
+      throttleInterval: 2000,
+      throttleOptions: { leading: true, trailing: false },
+      onSuccess(res: any) {
+        if (res.code === HTTP_CODE.ERROR) {
+          Dialog.alert({
+            message: res.msg
+          })
+          return
+        }
         Toast({
           message: '信息认证成功',
           onClose: () => {

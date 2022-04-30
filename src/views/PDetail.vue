@@ -54,6 +54,8 @@ import { WEB_NAME } from '@/assets/config'
 import { checkCanCreateOrder } from '@/services/payment.service'
 import { Dialog } from 'vant'
 import { useUserStore } from '@/stores/user.store'
+import { throttle } from 'lodash-es'
+
 export default defineComponent({
   components: { PearCard },
   setup() {
@@ -78,7 +80,7 @@ export default defineComponent({
     })
 
     const qrcode = ref('')
-    const onPay = async () => {
+    const onPay = throttle(async () => {
       const { name, id: goodId, price } = data.value
       const res = await checkCanCreateOrder({ goodId }) as any
       if (res.code === -1) {
@@ -95,7 +97,10 @@ export default defineComponent({
           }
         })
       }
-    }
+    }, 1000, {
+      leading: true,
+      trailing: false
+    })
     const onCertify = () => {
       router.push('/certify')
     }

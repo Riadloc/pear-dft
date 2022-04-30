@@ -27,7 +27,7 @@
 import { defineComponent, onMounted, onBeforeUnmount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import QRCodeStyling from 'qr-code-styling'
-import { Dialog, Notify } from 'vant'
+import { Dialog, Notify, Toast } from 'vant'
 import { cancelPaymentOrder, checkPaymentOrder, createPaymentOrder } from '@/services/payment.service'
 import { useRequest } from 'vue-request'
 import { TradeStatus } from '@/constants/enums'
@@ -143,6 +143,7 @@ export default defineComponent({
       }).then(() => {
         cancelRequst()
       }).catch(() => {
+        Toast('订单已取消')
         cancelRequst()
         cancelPaymentOrder({ tradeNo: createdResp.value?.data?.outTradeNo })
         back()
