@@ -22,6 +22,7 @@
       <pear-card
         v-for="item in goods"
         :key="item.name"
+        :data="item"
         class="mt-4"
         @click="() => goToDetail(item)"
         :cover="item.cover"

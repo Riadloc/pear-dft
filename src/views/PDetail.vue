@@ -10,6 +10,7 @@
         <pear-card
           class="mb-4"
           key="1"
+          :data="data"
           :cover="data.cover"
           cover-size-class="card-large"
           round
@@ -22,9 +23,10 @@
         >
           <template #actions v-if="showPayButton">
             <div class="flex gap-4 px-4 mb-4">
-              <van-button type="warning" block disabled v-if="data.isSoldOut">已售罄</van-button>
-              <van-button type="primary" block @click="onPay" v-else-if="store.userData.certified">购买</van-button>
-              <van-button type="warning" block @click="onCertify" v-else>需要实名认证</van-button>
+              <van-button type="warning" block disabled v-if="data.isSoldOut === 1">已售罄</van-button>
+              <van-button type="success" block disabled v-else-if="!data.onShelf">敬请期待</van-button>
+              <van-button type="warning" block @click="onCertify" v-else-if="store.userData.certified == 0">需要实名认证</van-button>
+              <van-button type="primary" block @click="onPay" v-else-if="data.onShelf && store.userData.certified == 1">购买</van-button>
             </div>
           </template>
         </pear-card>
@@ -71,8 +73,9 @@ export default defineComponent({
         name: '',
         price: '',
         copies: 1,
+        onShelf: false,
         cover: '',
-        isSoldOut: false
+        isSoldOut: 1
       },
       formatResult(data) {
         return data.data
@@ -105,7 +108,7 @@ export default defineComponent({
       router.push('/certify')
     }
 
-    const showPayButton = computed(() => !data.value?.isSoldOut && !goodNo.startsWith('F'))
+    const showPayButton = computed(() => !goodNo.startsWith('F'))
     return {
       qrcode,
       onBack,
