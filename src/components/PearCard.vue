@@ -24,7 +24,7 @@
       <span class="text-gray-400 text-xs">已售罄</span>
     </div>
     <div class="absolute left-4 top-4 bg-black bg-opacity-80 px-2 py-1 rounded-full leading-4" v-else-if="!data?.onShelf">
-      <span class="text-green-500 text-xs">{{ formatDate(data?.shelfTime) }} 开售</span>
+      <span class="text-green-500 text-xs">{{ formatDate(data?.shelfTime as Date) }} 开售</span>
     </div>
     <slot name="actions"></slot>
   </div>
