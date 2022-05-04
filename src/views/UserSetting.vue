@@ -58,6 +58,25 @@
         title-class="text-gray-100"
         class="mb-3 rounded bg-card"
         is-link
+        to="/email"
+      >
+        <template #title>
+          <div class="flex items-center">
+            <pear-icon set="ph" name="envelope-simple-light" size="1.3rem" />
+            <span class="ml-2">邮箱</span>
+          </div>
+        </template>
+        <template #value>
+          <span v-if="userData.email">{{ userData.email }}</span>
+          <span v-else>绑定邮箱</span>
+        </template>
+      </van-cell>
+      <van-cell
+        round
+        :border="false"
+        title-class="text-gray-100"
+        class="mb-3 rounded bg-card"
+        is-link
         :to="{ name: 'Signup', params: { type: 1 } }"
       >
         <template #title>

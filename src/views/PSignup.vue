@@ -1,20 +1,24 @@
 <template>
   <div class="psignup">
-    <h3 class="text-white text-lg my-10">{{ pageTexts.welcome }}</h3>
-    <van-button
-      size="small"
-      type="primary"
-      plain
-      round
-      class="absolute right-4 top-4"
-      to="/login"
-      v-if="isSignup"
-    >登 录</van-button>
+    <template v-if="isSignup">
+      <h3 class="text-white text-lg my-10">{{ pageTexts.welcome }}</h3>
+      <van-button
+        size="small"
+        type="primary"
+        plain
+        round
+        class="absolute right-4 top-4"
+        to="/login"
+      >登 录</van-button>
+    </template>
+    <div class="mb-6" v-else>
+      <pear-navbar title="密码修改" fixed left-arrow />
+    </div>
     <van-form @submit="onSubmit" validate-trigger="onSubmit">
       <van-cell-group :border="false" size="large">
         <template #title>
           <div class="text-white flex items-center">
-            <span class="text-lg">手机号</span>
+            <span class="text-md">手机号</span>
           </div>
         </template>
         <van-field
@@ -28,7 +32,7 @@
       <van-cell-group :border="false" size="large">
         <template #title>
           <div class="text-white flex items-center mt-4">
-            <span class="text-lg">手机验证码</span>
+            <span class="text-md">手机验证码</span>
           </div>
         </template>
         <van-field
@@ -56,7 +60,7 @@
       >
         <template #title>
           <div class="text-white flex items-center mt-4">
-            <span class="text-lg">{{ pageTexts.psw1 }}</span>
+            <span class="text-md">{{ pageTexts.psw1 }}</span>
           </div>
         </template>
         <van-field
@@ -74,7 +78,7 @@
       >
         <template #title>
           <div class="text-white flex items-center mt-4">
-            <span class="text-lg">{{ pageTexts.psw2 }}</span>
+            <span class="text-md">{{ pageTexts.psw2 }}</span>
           </div>
         </template>
         <van-field
@@ -93,7 +97,7 @@
       <van-cell-group :border="false" size="large">
         <template #title>
           <div class="text-white flex items-center mt-4">
-            <span class="text-lg">图形验证码</span>
+            <span class="text-md">图形验证码</span>
           </div>
         </template>
         <van-field

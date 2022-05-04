@@ -93,8 +93,11 @@ export default defineComponent({
       }
     })
     const onRefresh = () => {
-      finished.value = false
+      pageNo.value = 1
       refresh()
+      setTimeout(() => {
+        finished.value = false
+      }, 500)
     }
     const onLoad = () => {
       pageNo.value = pageNo.value + 1

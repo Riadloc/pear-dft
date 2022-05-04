@@ -35,6 +35,16 @@
         <div class="section">
           <h4 class="section-title">藏品详情</h4>
           <p class="section-content">{{ data.description || '无' }}</p>
+          <div>
+            <pear-image
+              v-for="picture in data.pictures"
+              :key="picture"
+              :src="picture"
+              width="100%"
+              size="w-full"
+              class="rounded overflow-hidden mt-3"
+            />
+          </div>
         </div>
         <div class="section">
           <h4 class="section-title">购买须知</h4>
@@ -57,6 +67,7 @@ import { checkCanCreateOrder } from '@/services/payment.service'
 import { Dialog } from 'vant'
 import { useUserStore } from '@/stores/user.store'
 import { throttle } from 'lodash-es'
+import { HTTP_CODE } from '@/constants/enums'
 
 export default defineComponent({
   components: { PearCard },
@@ -86,7 +97,7 @@ export default defineComponent({
     const onPay = throttle(async () => {
       const { name, id: goodId, price } = data.value
       const res = await checkCanCreateOrder({ goodId }) as any
-      if (res.code === -1) {
+      if (res.code === HTTP_CODE.ERROR) {
         Dialog.alert({
           message: res.msg
         })

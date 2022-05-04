@@ -27,6 +27,7 @@ import {
   Dialog,
   NoticeBar,
   Popover,
+  Progress,
   ShareSheet,
   Image as VanImage
 } from 'vant'
@@ -62,6 +63,7 @@ export default {
       .use(Notify)
       .use(NoticeBar)
       .use(Popover)
+      .use(Progress)
       .use(ShareSheet)
     app.config.globalProperties.$back = history.back
   }

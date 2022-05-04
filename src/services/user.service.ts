@@ -35,3 +35,11 @@ export function getMyInvitaions() {
 export function getCaptchaSvg() {
   return request.get('/user/captcha')
 }
+
+export function sendEmailCode(data: any) {
+  return request.post('/user/mail/code', data)
+}
+
+export function verifyEmailCode(data: any) {
+  return request.post('/user/mail/verify', data)
+}

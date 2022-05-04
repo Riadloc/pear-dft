@@ -18,7 +18,8 @@ export const theme = {
   navBarTextColor: '#fff',
   numberKeyboardBackgroundColor: '#292a2d',
   numberKeyboardKeyBackgroundColor: '#292a2d',
-  dialogBackgroundColor: '#292a2d'
+  dialogBackgroundColor: '#292a2d',
+  cellActiveColor: 'rgba(255,255,255,.3)'
   // buttonPrimaryBackgroundColor: 'linear-gradient(to right, #5eaeff, #1087ff)'
 }
 

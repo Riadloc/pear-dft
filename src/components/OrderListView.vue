@@ -1,4 +1,5 @@
 <template>
+<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
   <van-list
     v-model:loading="loading"
     :finished="finished"
@@ -6,35 +7,46 @@
     @load="onLoad"
     class="px-4"
   >
-    <div v-for="item in goods" :key="item.id" class="flex mt-4 bg-card rounded overflow-hidden">
-      <pear-image
-        :thumbnail="50"
-        :src="item.cover"
-        :alt="item.name"
-        size="card-base"
-        class="rounded overflow-hidden"
-      />
-      <div class="flex flex-col px-4 justify-center relative flex-1">
-        <h4 class="text-white text-base">{{ item.name }}</h4>
-        <!-- <div class="tag inline-flex flex-row my-1 overflow-hidden">
-          <span class="text-gray-800 text-xs bg-amber-200 text-center px-2 rounded-l">编号</span>
-          <span class="text-amber-200 text-xs bg-gray-600 text-center px-2 rounded-r">{{ item.good.serial }}</span>
-        </div> -->
-        <span class="text-gray-300">￥{{ item.good.price }}</span>
-        <van-popover
-          v-if="item.status === OrderStatus.WAIT"
-          v-model:show="item.show"
-          :actions="actions"
-          @select="(_action, index) => onSelect(item, index)"
-          placement="bottom-end"
-        >
-          <template #reference>
-            <van-button type="warning" plain class="absolute bottom-4 right-4" size="mini">更多</van-button>
+    <div
+      v-for="item in goods"
+      :key="item.id"
+      class="flex flex-col mt-4 bg-card rounded text-gray-300 p-3">
+      <div class="flex justify-between text-sm mb-2">
+        <span>{{ formatDate(item.createdAt) }}</span>
+        <span :class="statusNameClass">{{ statusName }}</span>
+      </div>
+      <div class="flex">
+        <pear-image
+          :thumbnail="50"
+          :src="item.cover"
+          :alt="item.name"
+          size="card-base"
+          class="rounded overflow-hidden"
+        />
+        <div class="flex flex-col pl-4 justify-center flex-1 text-sm">
+          <div class="flex justify-between items-center leading-7">
+            <h4>{{ item.name }}</h4>
+            <span class="font-bold text-amber-200 text-lg">￥{{ item.good.price }}</span>
+          </div>
+          <span class="leading-7">卖家: 梨数字官方</span>
+          <span class="leading-7 whitespace-nowrap">单据: {{ item.orderNo }}</span>
+        </div>
+      </div>
+      <div class="flex justify-between items-end" v-if="status === OrderStatus.WAIT">
+        <span class="text-xs">
+          <template v-if="item.countDownTime > 0">
+            支付倒计时：<van-count-down :time="item.countDownTime" format="mm分ss秒" class="count-down" @finish="item.countDownTime = 0" />
           </template>
-        </van-popover>
+        </span>
+        <div class="leading-4">
+          <van-button v-if="item.countDownTime > 0" round plain size="mini" class="!text-gray-300" @click="onSelect(item, 0)">继续支付</van-button>
+          <van-button round plain size="mini" class="!text-gray-300" @click="onSelect(item, 2)">刷新状态</van-button>
+          <van-button round plain size="mini" class="!text-gray-300" @click="onSelect(item, 1)">取消订单</van-button>
+        </div>
       </div>
     </div>
   </van-list>
+</van-pull-refresh>
 </template>
 
 <script lang="ts">
@@ -45,12 +57,19 @@ import { getOrderList } from '@/services/order.service'
 import { useRouter } from 'vue-router'
 import { Dialog, Toast } from 'vant'
 import { cancelPaymentOrder, checkPaymentOrder } from '@/services/payment.service'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   props: {
     status: {
-      type: Number as PropType<OrderStatus>,
+      type: [Number, Array] as PropType<OrderStatus | OrderStatus[]>,
       required: true
+    },
+    statusName: {
+      type: String
+    },
+    statusNameClass: {
+      type: String
     }
   },
   setup(props) {
@@ -58,7 +77,7 @@ export default defineComponent({
     const finished = ref(false)
     const pageSize = ref(10)
     const pageNo = ref(0)
-    const { loadingMore: loading, data, dataList, loadMore, refresh } = useLoadMore(() => getOrderList({
+    const { loadingMore: loading, data, dataList, refreshing, loadMore, refresh } = useLoadMore(() => getOrderList({
       pageSize: pageSize.value,
       pageNo: pageNo.value,
       status: props.status
@@ -66,7 +85,17 @@ export default defineComponent({
       manual: true,
       listKey: 'list',
       formatResult(data: any) {
-        return data.data
+        const res = data.data
+        if (props.status === OrderStatus.WAIT) {
+          return {
+            ...res,
+            list: res.list?.map((item: any) => ({
+              ...item,
+              countDownTime: (dayjs(item.createdAt).add(5, 'minute').unix() - dayjs().unix()) * 1000
+            }))
+          }
+        }
+        return res
       },
       onSuccess(data) {
         if (data.list.length < pageSize.value) {
@@ -110,6 +139,13 @@ export default defineComponent({
         cancelButtonText: '再考虑下'
       }).then(() => {
         cancelPaymentOrder({ tradeNo: data.orderNo })
+          .then((res: any) => {
+            if (res.code === HTTP_CODE.ERROR) {
+              Toast(res.msg)
+            } else {
+              onRefresh()
+            }
+          })
         onRefresh()
       }).catch(() => {
         //
@@ -158,7 +194,9 @@ export default defineComponent({
       count,
       finished,
       loading,
+      refreshing,
       onLoad,
+      onRefresh,
       purchase,
       OrderStatus,
 
@@ -166,10 +204,19 @@ export default defineComponent({
       actions,
       onSelect
     }
+  },
+  methods: {
+    formatDate(date: Date) {
+      return dayjs(date).format('YY-MM-DD HH:mm:ss')
+    }
   }
 })
 </script>
 
 <style lang="less" scoped>
-
+.count-down {
+  color: var(--van-orange)!important;
+  font-size: inherit!important;
+  display: inline-block;
+}
 </style>

@@ -7,7 +7,7 @@
         <template #title>
           <div class="text-white flex items-center justify-between">
             <div class="flex items-center">
-              <span class="text-lg">手机号</span>
+              <span class="text-md">手机号</span>
             </div>
             <van-button type="success" size="mini" plain @click="toggleLoginType">{{ loginTypeName }}登录</van-button>
           </div>
@@ -27,7 +27,7 @@
       >
         <template #title>
           <div class="text-white flex items-center mt-4">
-            <span class="text-lg">验证码</span>
+            <span class="text-md">验证码</span>
           </div>
         </template>
         <van-field
@@ -56,7 +56,7 @@
       >
         <template #title>
           <div class="text-white flex items-center mt-4">
-            <span class="text-lg">密码</span>
+            <span class="text-md">密码</span>
           </div>
         </template>
         <van-field
@@ -71,7 +71,7 @@
       <van-cell-group :border="false" size="large">
         <template #title>
           <div class="text-white flex items-center mt-4">
-            <span class="text-lg">图形验证码</span>
+            <span class="text-md">图形验证码</span>
           </div>
         </template>
         <van-field
@@ -167,7 +167,7 @@ export default defineComponent({
       onSuccess(data) {
         countDownTime.value = ONE_MINUTE
         if (data.code === HTTP_CODE.ERROR) {
-          Toast({ type: 'success', message: data.msg })
+          Toast({ type: 'fail', message: data.msg })
         } else {
           if (data.data > 0) {
             Notify('获取时间没超过1分钟！')
@@ -184,7 +184,7 @@ export default defineComponent({
       throttleOptions: { leading: true, trailing: false },
       onSuccess(data) {
         if (data.code === HTTP_CODE.ERROR) {
-          Toast({ type: 'success', message: data.msg })
+          Toast({ type: 'fail', message: data.msg })
         } else {
           captchaSvg.value = data.data
         }

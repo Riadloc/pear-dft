@@ -17,6 +17,7 @@ const UserSetting = () => import('@/views/UserSetting.vue')
 const InviteFriends = () => import('@/views/InviteFriends.vue')
 const MyInvitation = () => import('@/views/MyInvitation.vue')
 const AuthorizedIdentity = () => import('@/views/AuthorizedIdentity.vue')
+const MailBind = () => import('@/views/MailBind.vue')
 
 const routes = [
   {
@@ -101,6 +102,11 @@ const routes = [
     path: '/my-invitation',
     name: 'MyInvitation',
     component: MyInvitation
+  },
+  {
+    path: '/email',
+    name: 'MailBind',
+    component: MailBind
   }
 ]
 

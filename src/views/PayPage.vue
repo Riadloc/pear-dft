@@ -2,9 +2,9 @@
   <div class="pay-page flex flex-col justify-center items-center">
     <van-nav-bar :border="false" title="购买" left-arrow left-text="返回" fixed @click-left="back" />
     <h3 class="text-white text-lg mb-1">请使用支付宝扫码支付</h3>
-    <h4 class="text-gray-400 text-sm mb-4">该码仅限本次使用</h4>
+    <h4 class="text-gray-400 text-sm mb-4">二维码有效期为5分钟，仅限本次使用</h4>
     <div
-      class="qr-code rounded-2xl overflow-hidden bg-gray-700 relative"
+      class="qr-code overflow-hidden bg-gray-700 relative"
       ref="qrCodeRef"
       style="width: 90vw; height: 90vw;"
     >
@@ -12,7 +12,7 @@
         <van-loading v-if="loading" type="spinner" color="#fff" vertical>二维码生成中...</van-loading>
       </div>
     </div>
-    <div class="flex mt-4 pb-20">
+    <div class="flex mt-4 pb-20 text-sm">
       <span class="text-gray-200">藏品名：<span class="text-white">{{ name }}</span></span>
       <span class="text-gray-200 ml-4">价格：<span class="text-white">￥{{ price }}</span></span>
     </div>

@@ -6,7 +6,8 @@ interface UserData {
   userId: number;
   nickname: string;
   phone: string;
-  certified: 0 | 1
+  email: string;
+  certified: 0 | 1;
 }
 
 export const useUserStore = defineStore('user', {
@@ -18,6 +19,7 @@ export const useUserStore = defineStore('user', {
         userId: 0,
         nickname: '',
         phone: '',
+        email: '',
         certified: 0
       }
     }

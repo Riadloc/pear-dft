@@ -3,10 +3,28 @@
     <van-nav-bar :border="false" title="已购作品" left-arrow @click-left="back" />
     <van-tabs v-model:active="active" swipeable>
       <van-tab title="待支付" name="wait">
-        <order-list-view :status="OrderStatus.WAIT" />
+        <order-list-view
+          class="tab-panel"
+          :status="OrderStatus.WAIT"
+          status-name="待支付"
+          status-name-class="text-yellow-400"
+        />
       </van-tab>
       <van-tab title="已购买" name="purchased">
-        <order-list-view :status="OrderStatus.PURCHASED" />
+        <order-list-view
+          class="tab-panel"
+          :status="OrderStatus.PURCHASED"
+          status-name="已购买"
+          status-name-class="text-green-400"
+        />
+      </van-tab>
+      <van-tab title="已取消" name="cancelled">
+        <order-list-view
+          class="tab-panel"
+          :status="[OrderStatus.TERMINATED, OrderStatus.CLOSED]"
+          status-name="已取消"
+          status-name-class="text-red-400"
+        />
       </van-tab>
     </van-tabs>
   </div>
@@ -38,5 +56,7 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-
+.tab-panel {
+  min-height: calc(100vh - var(--van-tabs-line-height) - var(--van-nav-bar-height));
+}
 </style>
