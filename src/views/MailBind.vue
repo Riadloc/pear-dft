@@ -95,23 +95,23 @@ export default defineComponent({
     }
 
     const sendCode = () => {
-      if (!email.value || countDownTime.value > 0) {
+      if (!email.value || countDownTime.value > 0 || codeLoading.value) {
         return
       }
       if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.([a-zA-Z0-9]+)$/.test(email.value)) {
         Toast('邮箱格式不正确')
         return
       }
+      countDownTime.value = ONE_MINUTE
       runSendEmailCode({
         email: email.value
       })
     }
-    const { run: runSendEmailCode } = useRequest<any>(sendEmailCode, {
+    const { run: runSendEmailCode, loading: codeLoading } = useRequest<any>(sendEmailCode, {
       manual: true,
       throttleInterval: 1000,
       throttleOptions: { leading: true, trailing: false },
       onSuccess(data) {
-        countDownTime.value = ONE_MINUTE
         if (data.code === HTTP_CODE.ERROR) {
           Toast({ type: 'fail', message: data.msg })
         } else {
@@ -182,6 +182,9 @@ export default defineComponent({
   }
   .link {
     color: var(--van-blue);
+    &:active {
+      color: rgba(25,137,250,.5)
+    }
   }
   .van-cell:after {
     border-bottom: none!important;
