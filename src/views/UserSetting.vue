@@ -23,6 +23,20 @@
         :border="false"
         title-class="text-gray-100"
         class="mb-3 rounded bg-card"
+        :label="userData.metaAccount || '开通中...'"
+      >
+        <template #title>
+          <div class="flex items-center">
+            <pear-icon set="ph" name="wallet-light" size="1.3rem" />
+            <span class="ml-2">数字身份账户信息</span>
+          </div>
+        </template>
+      </van-cell>
+      <van-cell
+        round
+        :border="false"
+        title-class="text-gray-100"
+        class="mb-3 rounded bg-card"
       >
         <template #title>
           <div class="flex items-center">

@@ -32,6 +32,27 @@
         </pear-card>
       </div>
       <div class="main">
+        <div class="section" v-if="data.hash">
+          <h4 class="section-title">认证信息</h4>
+          <div class="text-gray-300 text-sm">
+            <div class="flex justify-between mt-2">
+              <span>合约地址</span>
+              <span class="text-blue-500" @click="goContract">{{ formatHex(data.contract) }}</span>
+            </div>
+            <div class="flex justify-between mt-2">
+              <span>认证标识</span>
+              <span class="text-blue-500" @click="goTxHash">{{ formatHex(data.hash) }}</span>
+            </div>
+            <div class="flex justify-between mt-2">
+              <span>认证标准</span>
+              <span class="text-gray-100">ERC-721</span>
+            </div>
+            <div class="flex justify-between mt-2">
+              <span>认证网络</span>
+              <span class="text-gray-100">Polygon</span>
+            </div>
+          </div>
+        </div>
         <div class="section">
           <h4 class="section-title">藏品详情</h4>
           <p class="section-content">{{ data.description || '无' }}</p>
@@ -119,6 +140,16 @@ export default defineComponent({
       router.push('/certify')
     }
 
+    const formatHex = (value = '') => {
+      return value.slice(0, 6) + '...' + value.slice(-6)
+    }
+    const goContract = () => {
+      window.open(`https://polygonscan.com/address/${data.value.contract}`)
+    }
+    const goTxHash = () => {
+      window.open(`https://polygonscan.com/tx/${data.value.hash}`)
+    }
+
     const showPayButton = computed(() => !goodNo.startsWith('F'))
     return {
       qrcode,
@@ -128,7 +159,10 @@ export default defineComponent({
       WEB_NAME,
       data,
       showPayButton,
-      store
+      store,
+      goContract,
+      goTxHash,
+      formatHex
     }
   }
 })
