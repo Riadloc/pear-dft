@@ -32,7 +32,7 @@
         </pear-card>
       </div>
       <div class="main">
-        <div class="section" v-if="data.hash">
+        <div class="section">
           <h4 class="section-title">认证信息</h4>
           <div class="text-gray-300 text-sm">
             <div class="flex justify-between mt-2">
@@ -41,7 +41,8 @@
             </div>
             <div class="flex justify-between mt-2">
               <span>认证标识</span>
-              <span class="text-blue-500" @click="goTxHash">{{ formatHex(data.hash) }}</span>
+              <span class="text-blue-500" @click="goTxHash" v-if="data.hash">{{ formatHex(data.hash) }}</span>
+              <span class="text-gray-100" v-else>上链确认中</span>
             </div>
             <div class="flex justify-between mt-2">
               <span>认证标准</span>
