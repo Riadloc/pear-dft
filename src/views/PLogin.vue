@@ -92,6 +92,7 @@
         </van-button>
       </div>
     </van-form>
+    <pear-spinner :show="smsLoading" />
   </div>
 </template>
 
@@ -99,6 +100,7 @@
 import { defineComponent, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { Notify, Toast } from 'vant'
+import PearSpinner from '@/components/PearSpinner.vue'
 import { useRequest } from 'vue-request'
 import { useUserStore } from '@/stores/user.store'
 import { getCaptchaSvg, postLogin, postSendSms } from '@/services/user.service'
@@ -112,6 +114,7 @@ enum LoginTypes {
 }
 
 export default defineComponent({
+  components: { PearSpinner },
   data() {
     return {
       WEB_NAME
@@ -160,7 +163,7 @@ export default defineComponent({
         phone: phone.value
       })
     }
-    const { run: runSendSms } = useRequest<any>(postSendSms, {
+    const { loading: smsLoading, run: runSendSms } = useRequest<any>(postSendSms, {
       manual: true,
       throttleInterval: 1000,
       throttleOptions: { leading: true, trailing: false },
@@ -219,6 +222,7 @@ export default defineComponent({
       btnLoading,
       onSubmit,
 
+      smsLoading,
       countDownTime,
       onCountDownFinished,
       sendCode,

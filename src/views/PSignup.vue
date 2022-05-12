@@ -121,6 +121,7 @@
         <!-- <van-radio name="agree" icon-size="1rem" class="mt-4 text-sm">我已同意用户协议</van-radio> -->
       </div>
     </van-form>
+    <pear-spinner :show="smsLoading" />
   </div>
 </template>
 
@@ -128,6 +129,7 @@
 import { computed, defineComponent, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useRequest } from 'vue-request'
+import PearSpinner from '@/components/PearSpinner.vue'
 import { postSignup, postSendSms, updateUserInfo, getCaptchaSvg } from '@/services/user.service'
 import { WEB_NAME } from '@/assets/config'
 import { HTTP_CODE } from '@/constants/enums'
@@ -156,6 +158,7 @@ const PageTypeTexts = {
 }
 
 export default defineComponent({
+  components: { PearSpinner },
   data() {
     return {
       WEB_NAME
@@ -254,7 +257,7 @@ export default defineComponent({
         phone: phone.value
       })
     }
-    const { run: runSendSms } = useRequest<any>(postSendSms, {
+    const { loading: smsLoading, run: runSendSms } = useRequest<any>(postSendSms, {
       manual: true,
       throttleInterval: 1000,
       throttleOptions: { leading: true, trailing: false },
@@ -292,6 +295,7 @@ export default defineComponent({
       btnLoading,
       captchaSvg,
 
+      smsLoading,
       countDownTime,
       onCountDownFinished,
       changeCountDownTime,

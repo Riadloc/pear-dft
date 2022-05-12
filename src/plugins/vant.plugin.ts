@@ -17,6 +17,7 @@ import {
   NavBar,
   Sticky,
   CountDown,
+  Search,
   Tab,
   Tabs,
   Notify,
@@ -28,6 +29,7 @@ import {
   NoticeBar,
   Popover,
   Progress,
+  Overlay,
   ShareSheet,
   Image as VanImage
 } from 'vant'
@@ -53,6 +55,7 @@ export default {
       .use(Sticky)
       .use(VanImage)
       .use(CountDown)
+      .use(Search)
       .use(Tab)
       .use(Tabs)
       .use(Loading)
@@ -62,6 +65,7 @@ export default {
       .use(Dialog)
       .use(Notify)
       .use(NoticeBar)
+      .use(Overlay)
       .use(Popover)
       .use(Progress)
       .use(ShareSheet)
