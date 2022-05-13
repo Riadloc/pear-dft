@@ -61,3 +61,24 @@ body {
   height: var(--card-base-size);
   object-fit: cover;
 }
+
+.pear-plain-button {
+  background-image: linear-gradient(90deg,#32363d,#464a51);
+  color: #fff;
+  border: none;
+}
+
+.pear-danger-button {
+  background-image: linear-gradient(90deg,#DC2626,#EF4444);
+  color: #fff;
+  border: none;
+}
+
+.pear-color-button {
+  background: linear-gradient(135deg,#eaffb3,#7bffd8 49%,#c3c0ff);
+  color: #171b2e;
+  border: none;
+}
+/* .pear-plain-button::before {
+  display: none!important;
+} */

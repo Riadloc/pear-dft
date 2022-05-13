@@ -23,10 +23,10 @@
         >
           <template #actions v-if="showPayButton">
             <div class="flex gap-4 px-4 mb-4">
-              <van-button type="warning" block disabled v-if="data.isSoldOut === 1">已售罄</van-button>
-              <van-button type="success" block disabled v-else-if="!data.onShelf">敬请期待</van-button>
-              <van-button type="warning" block @click="onCertify" v-else-if="store.userData.certified == 0">需要实名认证</van-button>
-              <van-button type="primary" block @click="onPay" v-else-if="data.onShelf && store.userData.certified == 1">购买</van-button>
+              <van-button class="pear-plain-button" round block disabled v-if="data.isSoldOut === 1">已售罄</van-button>
+              <van-button type="success" round block disabled v-else-if="!data.onShelf">敬请期待</van-button>
+              <van-button type="warning" round block @click="onCertify" v-else-if="store.userData.certified == 0">需要实名认证</van-button>
+              <van-button class="pear-color-button" round block @click="onPay" v-else-if="data.onShelf && store.userData.certified == 1">购买</van-button>
             </div>
           </template>
         </pear-card>
@@ -181,7 +181,7 @@ export default defineComponent({
   // height: 20rem;
 }
 .section {
-  @apply bg-neutral-800 rounded-lg my-4 p-4;
+  @apply bg-card rounded-lg my-4 p-4;
   &-title {
     @apply text-white text-lg;
   }

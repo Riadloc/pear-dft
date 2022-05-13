@@ -21,7 +21,21 @@
         </div>
       </div>
     </div>
-    <div class="my-menu mt-10">
+    <div class="my-menu mt-2">
+      <div class="wallet flex flex-row justify-between items-center bg-card mb-5 p-3 rounded-md" @click="goWallet">
+        <div class="flex items-center">
+          <!-- <div>
+            <i class="iconfont icon-qianbao text-4xl"></i>
+          </div> -->
+          <div class="text-white ml-3">
+            <p class="text-gray-300 text-xs">账户余额</p>
+            <p class="text-lg align-bottom"><span class="text-sm">￥</span>0</p>
+          </div>
+        </div>
+        <div>
+          <van-button round class="pear-plain-button px-2" size="mini">进入钱包</van-button>
+        </div>
+      </div>
       <van-cell
         is-link
         round
@@ -56,14 +70,15 @@
         clickable
         round
         :border="false"
+        to="/contact"
         title-class="text-gray-100"
-        class="mb-3 rounded bg-gray-800"
+        class="mb-3 rounded bg-card"
       >
         <template #title>
-          <van-icon name="lock" size="1.3rem" />
-          <span class="ml-2">隐私协议</span>
+          <pear-icon set="ph" name="chats-light" size="1.3rem" />
+          <span class="ml-2">关于我们</span>
         </template>
-      </van-cell>  -->
+      </van-cell> -->
       <van-cell
         is-link
         clickable
@@ -109,15 +124,23 @@ export default defineComponent({
     const goUserPage = () => {
       router.push('/user')
     }
+    const goWallet = () => {
+      router.push('/wallet')
+    }
 
     return {
       userData,
-      goUserPage
+      goUserPage,
+      goWallet
     }
   }
 })
 </script>
 
 <style lang="less" scoped>
-
+.wallet {
+  &:active {
+    opacity: 0.6;
+  }
+}
 </style>

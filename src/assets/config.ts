@@ -12,14 +12,20 @@ export const theme = {
   tabsNavBackgroundColor: 'transparent',
   tabActiveTextColor: '#fff',
   tabTextColor: '#f5f5f5',
-  buttonPlainBackgroundColor: 'transparent',
+  buttonPlainBackgroundColor: 'linear-gradient(90deg,#32363d,#464a51)',
   navBarIconColor: '#fff',
   navBarArrowSize: '1.2rem',
   navBarTextColor: '#fff',
   numberKeyboardBackgroundColor: '#292a2d',
   numberKeyboardKeyBackgroundColor: '#292a2d',
   dialogBackgroundColor: '#292a2d',
-  cellActiveColor: 'rgba(255,255,255,.3)'
+  cellActiveColor: 'rgba(255,255,255,.3)',
+  searchContentBackgroundColor: '#373b3e',
+  stepperBackgroundColor: '#292a2d',
+  stepperButtonDisabledColor: '#292a2d',
+  stepperButtonIconColor: '#fff',
+  stepperInputTextColor: '#fff',
+  searchActionTextColor: '#fff'
   // buttonPrimaryBackgroundColor: 'linear-gradient(to right, #5eaeff, #1087ff)'
 }
 

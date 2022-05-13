@@ -36,6 +36,10 @@ export function getCaptchaSvg() {
   return request.get('/user/captcha')
 }
 
+export function validateCaptcha(code: string) {
+  return request.post('/user/captcha/validate', { captchaCode: code })
+}
+
 export function sendEmailCode(data: any) {
   return request.post('/user/mail/code', data)
 }

@@ -1,12 +1,11 @@
 <template>
   <div class="user-info">
     <van-nav-bar :border="false" title="个人信息" left-arrow @click-left="back" />
-    <div class="py-6">
+    <div class="pb-6">
       <van-cell
         round
-        :border="false"
         title-class="text-gray-100"
-        class="mb-3 rounded bg-card"
+        class="rounded bg-card"
       >
         <template #title>
           <div class="flex items-center">
@@ -20,9 +19,8 @@
       </van-cell>
       <van-cell
         round
-        :border="false"
         title-class="text-gray-100"
-        class="mb-3 rounded bg-card"
+        class="rounded bg-card"
         :label="userData.metaAccount || '开通中...'"
       >
         <template #title>
@@ -37,6 +35,24 @@
         :border="false"
         title-class="text-gray-100"
         class="mb-3 rounded bg-card"
+        :is-link="!userData.certified"
+        :to="userData.certified ? '' : '/certify'"
+      >
+        <template #title>
+          <div class="flex items-center">
+            <pear-icon set="ph" name="shield-plus" size="1.3rem" />
+            <span class="ml-2">实名认证</span>
+          </div>
+        </template>
+        <template #value>
+          <span v-if="userData.certified">已认证</span>
+          <span v-else>去认证</span>
+        </template>
+      </van-cell>
+      <van-cell
+        round
+        title-class="text-gray-100"
+        class="rounded bg-card"
       >
         <template #title>
           <div class="flex items-center">
@@ -50,9 +66,8 @@
       </van-cell>
       <van-cell
         round
-        :border="false"
         title-class="text-gray-100"
-        class="mb-3 rounded bg-card"
+        class="rounded bg-card"
         is-link
         @click="onChangeName"
       >
@@ -68,9 +83,8 @@
       </van-cell>
       <van-cell
         round
-        :border="false"
         title-class="text-gray-100"
-        class="mb-3 rounded bg-card"
+        class="rounded bg-card"
         is-link
         to="/email"
       >
@@ -115,25 +129,9 @@
           </div>
         </template>
       </van-cell>
-      <van-cell
-        round
-        :border="false"
-        title-class="text-gray-100"
-        class="mb-3 rounded bg-card"
-        :is-link="!userData.certified"
-        :to="userData.certified ? '' : '/certify'"
-      >
-        <template #title>
-          <div class="flex items-center">
-            <pear-icon set="ph" name="shield-plus" size="1.3rem" />
-            <span class="ml-2">实名认证</span>
-          </div>
-        </template>
-        <template #value>
-          <span v-if="userData.certified">已认证</span>
-          <span v-else>去认证</span>
-        </template>
-      </van-cell>
+      <!-- <div class="mt-10">
+        <van-button class="pear-plain-button !text-red-600" block @click="logout">退出登录</van-button>
+      </div> -->
     </div>
     <van-dialog v-model:show="show" title="输入新昵称" show-cancel-button :beforeClose="beforeClose">
       <div class="p-4">
@@ -156,12 +154,13 @@ import { datamask } from '@/constants/utils'
 import { updateUserInfo } from '@/services/user.service'
 import { useUserStore } from '@/stores/user.store'
 import { mapActions, mapState } from 'pinia'
-import { Toast } from 'vant'
+import { Dialog, Toast } from 'vant'
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 export default defineComponent({
   setup() {
     const router = useRouter()
+    const store = useUserStore()
 
     const show = ref(false)
     const name = ref('')
@@ -174,6 +173,18 @@ export default defineComponent({
       return true
     }
 
+    const logout = () => {
+      Dialog.confirm({
+        message: '确认退出登录？'
+      }).then(() => {
+        localStorage.removeItem('user.id')
+        store.$reset()
+        router.replace('/login')
+      }).catch(() => {
+        //
+      })
+    }
+
     const back = () => {
       router.back()
     }
@@ -183,6 +194,7 @@ export default defineComponent({
       name,
       show,
       renameForm,
+      logout,
       beforeClose
     }
   },
@@ -213,5 +225,13 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-
+.user-info {
+  .van-cell {
+    &:after {
+      left: 0;
+      right: 0;
+      border-bottom: 0.02rem solid #4B5563;
+    }
+  }
+}
 </style>

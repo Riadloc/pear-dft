@@ -4,10 +4,8 @@
       <h3 class="text-white text-lg my-10">{{ pageTexts.welcome }}</h3>
       <van-button
         size="small"
-        type="primary"
-        plain
         round
-        class="absolute right-4 top-4"
+        class="absolute right-4 top-4 pear-plain-button"
         to="/login"
       >登 录</van-button>
     </template>
@@ -29,10 +27,10 @@
           :rules="[{ required: true, message: '请填写手机号' }, { pattern: /^\d{11}$/, message: '手机号格式不正确' }]"
         />
       </van-cell-group>
-      <van-cell-group :border="false" size="large">
+      <van-cell-group :border="false" size="large" class="relative">
         <template #title>
           <div class="text-white flex items-center mt-4">
-            <span class="text-md">手机验证码</span>
+            <span class="text-md">验证码</span>
           </div>
         </template>
         <van-field
@@ -41,18 +39,15 @@
           name="code"
           placeholder="请填写验证码"
           :rules="[{ required: true, message: '请填写验证码' }, { pattern: /^\d{4}$/, message: '验证码不正确' }]"
+        />
+        <div
+          :class="['text-button', { 'opacity-50': sendSmsDisabled }]"
         >
-          <template #button>
-            <van-button size="mini" type="primary" :disabled="countDownTime > 0 || !phone" @click="sendCode">
-              <div class="flex items-center">
-                <template v-if="countDownTime">
-                  <van-count-down :time="countDownTime" format="ss秒" class="count-down" @change="changeCountDownTime" @finish="onCountDownFinished" />后重发
-                </template>
-                <span v-else>发送验证码</span>
-              </div>
-            </van-button>
+          <template v-if="countDownTime">
+            <van-count-down :time="countDownTime" format="ss秒" class="count-down" @finish="onCountDownFinished" />后重发
           </template>
-        </van-field>
+          <span v-else @click="() => { if (!sendSmsDisabled) { showCaptch = true } }">发送验证码</span>
+        </div>
       </van-cell-group>
       <van-cell-group
         :border="false"
@@ -66,8 +61,10 @@
         <van-field
           class="rounded"
           v-model="password"
-          type="password"
-          name="password"
+          :type="showPlainPsw1 ? 'text' : 'password'"
+          name="password1"
+          :right-icon="showPlainPsw1 ? 'eye-o' : 'closed-eye'"
+          @click-right-icon="showPlainPsw1 = !showPlainPsw1"
           placeholder="请填写密码"
           :rules="[{ required: true, message: '请填写密码' }, { validator: validatePassword }]"
         />
@@ -84,8 +81,10 @@
         <van-field
           class="rounded"
           v-model="password2"
-          type="password"
-          name="password-2"
+          :type="showPlainPsw2 ? 'text' : 'password'"
+          name="password2"
+          :right-icon="showPlainPsw2 ? 'eye-o' : 'closed-eye'"
+          @click-right-icon="showPlainPsw2 = !showPlainPsw2"
           placeholder="请再次填写密码"
           :rules="[
             { required: true, message: '请再次填写密码' },
@@ -94,27 +93,9 @@
           ]"
         />
       </van-cell-group>
-      <van-cell-group :border="false" size="large">
-        <template #title>
-          <div class="text-white flex items-center mt-4">
-            <span class="text-md">图形验证码</span>
-          </div>
-        </template>
-        <van-field
-          class="rounded"
-          v-model="captchaCode"
-          name="captchaCode"
-          placeholder="请填写验证码"
-          :rules="[{ required: true, message: '请填写验证码' }, { pattern: /^\w{4}$/, message: '验证码不正确' }]"
-        >
-          <template #button>
-            <div @click="runCaptchaSvg" v-html="captchaSvg" class="bg-white w-36 h-12"></div>
-          </template>
-        </van-field>
-      </van-cell-group>
       <div class="mt-10">
         <div class="flex">
-          <van-button round block plain type="primary" native-type="submit" :loading="btnLoading">
+          <van-button round block class="pear-color-button" native-type="submit" :loading="btnLoading">
             {{ pageTexts.submit }}
           </van-button>
         </div>
@@ -122,6 +103,17 @@
       </div>
     </van-form>
     <pear-spinner :show="smsLoading" />
+    <van-dialog v-model:show="showCaptch" title="图形验证码" show-cancel-button :before-close="beforeClose">
+      <div class="p-4 text-center flex flex-col justify-center items-center">
+        <div @click="runCaptchaSvg" v-html="captchaSvg" class="bg-white w-36 h-12 mb-4"></div>
+        <van-field
+          class="rounded"
+          v-model="captchaCode"
+          name="captchaCode"
+          placeholder="请填写验证码"
+        />
+      </div>
+    </van-dialog>
   </div>
 </template>
 
@@ -129,8 +121,7 @@
 import { computed, defineComponent, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useRequest } from 'vue-request'
-import PearSpinner from '@/components/PearSpinner.vue'
-import { postSignup, postSendSms, updateUserInfo, getCaptchaSvg } from '@/services/user.service'
+import { postSignup, postSendSms, updateUserInfo, getCaptchaSvg, validateCaptcha } from '@/services/user.service'
 import { WEB_NAME } from '@/assets/config'
 import { HTTP_CODE } from '@/constants/enums'
 import { validatePassword } from '@/constants/utils'
@@ -158,7 +149,6 @@ const PageTypeTexts = {
 }
 
 export default defineComponent({
-  components: { PearSpinner },
   data() {
     return {
       WEB_NAME
@@ -171,6 +161,24 @@ export default defineComponent({
 
     const type: PageTypes = Number(route.params.type) || PageTypes.SIGN_UP
     const isSignup = computed(() => type === PageTypes.SIGN_UP)
+
+    const showPlainPsw1 = ref(false)
+    const showPlainPsw2 = ref(false)
+
+    const showCaptch = ref(false)
+    const beforeClose = async (action: string) => {
+      if (action === 'confirm') {
+        const res: any = await validateCaptcha(captchaCode.value)
+        if (res.code === HTTP_CODE.ERROR) {
+          Toast.fail(res.msg)
+        } else {
+          sendCode()
+          return true
+        }
+        return false
+      }
+      return true
+    }
 
     const phone = ref('')
     const code = ref('')
@@ -245,6 +253,7 @@ export default defineComponent({
       }
     })
 
+    const sendSmsDisabled = computed(() => countDownTime.value > 0 || !phone.value)
     const countDownTime = ref(0)
     const onCountDownFinished = () => {
       countDownTime.value = 0
@@ -295,7 +304,14 @@ export default defineComponent({
       btnLoading,
       captchaSvg,
 
+      showPlainPsw1,
+      showPlainPsw2,
+
+      showCaptch,
+      beforeClose,
+
       smsLoading,
+      sendSmsDisabled,
       countDownTime,
       onCountDownFinished,
       changeCountDownTime,
@@ -315,9 +331,18 @@ export default defineComponent({
 <style lang="less" scoped>
 .psignup {
   padding: 20px;
+  background-image: url(/escheresque-dark.png);
+  min-height: 100vh;
   .count-down {
     color: inherit!important;
     font-size: inherit!important;
+  }
+
+  .text-button {
+    @apply flex items-center text-white absolute -bottom-6 right-0 text-xs p-1;
+  }
+  .van-cell:after {
+    display: none;
   }
 }
 </style>

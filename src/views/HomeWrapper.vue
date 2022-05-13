@@ -11,7 +11,7 @@
       route
       active-color="#fff"
       :border="false"
-      class="bg-card py-1"
+      class="tabbar bg-card py-1"
       v-model="active"
       @change="onChange"
     >
@@ -20,6 +20,12 @@
           <i class="iconfont icon-huaban"></i>
         </template>
         首页
+      </van-tabbar-item>
+      <van-tabbar-item to="/market">
+        <template #icon>
+          <i class="iconfont icon-huabanfuben4"></i>
+        </template>
+        市场
       </van-tabbar-item>
       <van-tabbar-item to="/collect" icon="bag">
         <template #icon>
@@ -58,13 +64,18 @@ export default defineComponent({
   height: 100vh;
   overflow: hidden;
   &__content {
-    height: calc(100vh - var(--van-tabbar-height) - 0.5rem);
+    height: calc(100vh - 0.5rem);
+    padding-bottom: var(--van-tabbar-height);
     overflow-y: auto;
+  }
+  .tabbar {
+    background: linear-gradient(180deg,hsla(0,0%,0%,.70),hsla(0,0%,0%,.80) 24%,hsla(0,0%,0%,.90) 44%,#000);
+    backdrop-filter: blur(0.25rem);
   }
 }
 .van-tabbar-item {
   &--active {
-    @apply bg-card !important;
+    @apply bg-transparent !important;
     .iconfont {
       filter: none!important;
     }

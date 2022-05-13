@@ -7,9 +7,9 @@
       :size="coverSizeClass"
       class="rounded-3xl overflow-hidden"
     />
-    <div class="py-1 pb-3 px-4 relative">
+    <div class="py-3 px-4 relative">
       <div>
-        <span class="text-lg text-white font-semibold">{{ name }}</span>
+        <span class="text-md text-white font-semibold">{{ name }}</span>
       </div>
       <div class="tag rounded-sm inline-flex flex-row my-1.5 overflow-hidden" v-if="amount">
         <span v-if="limit" class="text-gray-800 text-xs bg-amber-200 text-center px-2">限量</span>
@@ -18,7 +18,7 @@
       <div class="flex flex-row justify-between">
         <div class="text-gray-300 text-xs">{{ owner }}</div>
       </div>
-      <div class="text-white text-2xl absolute bottom-6 right-4">￥{{ price }}</div>
+      <div class="text-white text-2xl absolute bottom-6 right-4 align-bottom"><span class="text-base">￥</span>{{ price }}</div>
     </div>
     <div class="absolute left-4 top-4 bg-black bg-opacity-80 px-2 py-1 rounded-full leading-4" v-if="isSoldOut === 1">
       <span class="text-gray-400 text-xs">已售罄</span>
@@ -65,12 +65,9 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="ts">
-  //
-</style>
 <style lang="less" scoped>
   .card {
-    background-image: url(/escheresque-dark.png);
+    background-image: url(/az-subtle.png);
     .card-image {
       width: 100%;
     }

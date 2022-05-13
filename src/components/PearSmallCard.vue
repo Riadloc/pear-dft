@@ -1,23 +1,19 @@
 <template>
-  <div :class="['card', 'overflow-hidden', 'bg-card', round && 'rounded-2xl']">
+  <div :class="['card', 'overflow-hidden', 'bg-card', round && 'rounded-2xl', 'relative']">
     <pear-image
       :thumbnail="50"
       :src="cover"
       :alt="`${name}`"
-      :class="[round && 'rounded-2xl', 'overflow-hidden']"
-      size="card-small"
+      :class="[round && 'rounded-2xl', 'overflow-hidden', 'w-full']"
     />
     <div class="p-2 relative">
-      <div class="flex flex-col">
-        <!-- <span class="text-gray-800 text-sm bg-amber-200 rounded">dwheuiwhi</span> -->
-        <span class="text-md text-white">{{ name }}</span>
-        <div class="tag inline-flex flex-row my-1 overflow-hidden">
-          <p class="text-gray-800 text-xs bg-amber-200 text-center px-2 rounded-l">编号</p>
-          <p class="text-amber-200 text-xs bg-gray-600 text-center px-2 rounded-r">{{ serial }}</p>
-        </div>
-        <span class="text-gray-300">￥{{ price }}</span>
+      <div class="flex flex-col w-8/12">
+        <span class="text-base text-white">{{ name }}</span>
+        <span class="text-gray-300 text-xs">{{ owner }}</span>
       </div>
+      <span class="absolute bottom-2 right-2 text-yellow-200 text-md align-bottom"><span class="text-xs">￥</span>{{ price }}</span>
     </div>
+    <p class="serial text-white text-xs bg-black bg-opacity-20 text-center px-2 rounded-full absolute right-2 top-2">{{ serial }}</p>
     <slot name="actions"></slot>
   </div>
 </template>
@@ -42,12 +38,11 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="ts">
-  //
-</style>
 <style lang="less" scoped>
   .card {
-    background-image: url(/escheresque-dark.png);
-    //
+    background-image: url(/black-twill.png);
+    .serial {
+      border: 0.0625rem solid hsla(0,0%,100%,.6);
+    }
   }
 </style>

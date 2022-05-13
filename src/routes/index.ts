@@ -6,10 +6,12 @@ const HomeWrapper = () => import('@/views/HomeWrapper.vue')
 const MainHome = () => import('@/views/MainHome.vue')
 const MyZone = () => import('@/views/MainMyZone.vue')
 const Collect = () => import('@/views/MainCollect.vue')
+const Market = () => import('@/views/MainMarket.vue')
 const Login = () => import('@/views/PLogin.vue')
 const Signup = () => import('@/views/PSignup.vue')
 const Detail = () => import('@/views/PDetail.vue')
 const OrderList = () => import('@/views/OrderList.vue')
+const OrderDetail = () => import('@/views/OrderDetail.vue')
 const ContactUs = () => import('@/views/ContactUs.vue')
 const CustomSetting = () => import('@/views/CustomSetting.vue')
 const PayPage = () => import('@/views/PayPage.vue')
@@ -18,6 +20,9 @@ const InviteFriends = () => import('@/views/InviteFriends.vue')
 const MyInvitation = () => import('@/views/MyInvitation.vue')
 const AuthorizedIdentity = () => import('@/views/AuthorizedIdentity.vue')
 const MailBind = () => import('@/views/MailBind.vue')
+const MyWallet = () => import('@/views/MyWallet.vue')
+const BankCardBind = () => import('@/views/BankCardBind.vue')
+const TopUp = () => import('@/views/TopUp.vue')
 
 const routes = [
   {
@@ -32,6 +37,11 @@ const routes = [
         meta: {
           requiresAuth: false
         }
+      },
+      {
+        path: 'market',
+        name: 'Market',
+        component: Market
       },
       {
         path: 'collect',
@@ -68,6 +78,11 @@ const routes = [
   {
     path: '/orderList',
     component: OrderList
+  },
+  {
+    path: '/orderDetail',
+    name: 'OrderDetail',
+    component: OrderDetail
   },
   {
     path: '/contact',
@@ -107,6 +122,21 @@ const routes = [
     path: '/email',
     name: 'MailBind',
     component: MailBind
+  },
+  {
+    path: '/wallet',
+    name: 'MyWallet',
+    component: MyWallet
+  },
+  {
+    path: '/bankCardBind',
+    name: 'BankCardBind',
+    component: BankCardBind
+  },
+  {
+    path: '/topUp',
+    name: 'TopUp',
+    component: TopUp
   }
 ]
 

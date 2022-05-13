@@ -14,17 +14,15 @@
         v-for="item in goods"
         @click="() => goDetail(item)"
         :key="item.name"
-        class="mb-4 mx-2"
+        class="mb-4 mx-2 collect-card"
         :cover="item.cover"
         round
         limit
         :name="item.parentGood.name"
         :price="item.price"
-        :serial="item.serial"
+        :serial="`${item.serial}/${item.parentGood.copies}`"
       />
     </van-list>
-    <!-- <div class="collect-list flex flex-wrap justify-between mt-8">
-    </div> -->
   </div>
 </template>
 
@@ -72,7 +70,6 @@ export default defineComponent({
       router.push({ name: 'Detail', params: { id: item.goodNo } })
     }
 
-    console.log(goods)
     return {
       goods,
       count,
@@ -86,5 +83,9 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-
+.collect-card {
+  flex-basis: 46%;
+  margin-left: 2%;
+  margin-right: 2%;
+}
 </style>

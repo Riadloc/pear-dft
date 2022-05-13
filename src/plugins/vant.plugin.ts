@@ -31,6 +31,7 @@ import {
   Progress,
   Overlay,
   ShareSheet,
+  Stepper,
   Image as VanImage
 } from 'vant'
 
@@ -67,6 +68,7 @@ export default {
       .use(NoticeBar)
       .use(Overlay)
       .use(Popover)
+      .use(Stepper)
       .use(Progress)
       .use(ShareSheet)
     app.config.globalProperties.$back = history.back
