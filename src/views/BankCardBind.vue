@@ -29,7 +29,7 @@
     <van-number-keyboard
       v-model="cardNo"
       :show="showBankCardKeyboard"
-      :maxlength="18"
+      :maxlength="20"
       @blur="showBankCardKeyboard = false"
     />
     <pear-spinner :show="loading" />
