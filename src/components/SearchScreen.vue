@@ -23,7 +23,7 @@
 <script lang="ts">
 import { HTTP_CODE } from '@/constants/enums'
 import { getMarketGoodList } from '@/services/goods.service'
-import { throttle } from 'lodash'
+import { throttle } from 'lodash-es'
 import { Toast } from 'vant'
 import { defineComponent, ref, watch } from 'vue'
 
