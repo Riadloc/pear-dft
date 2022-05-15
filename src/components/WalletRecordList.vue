@@ -12,6 +12,7 @@
         <span class="cell-td basis-1/4">状态</span>
         <span class="cell-td basis-1/4">时间</span>
         <span class="cell-td basis-1/4" v-if="type === 1">操作</span>
+        <span class="cell-td basis-1/4" v-else>备注</span>
       </div>
       <div class="cell flex text-xs" v-for="item in dataList" :key="item.id">
         <span class="cell-td basis-1/4">{{ item.change }}</span>
@@ -19,6 +20,9 @@
         <span class="cell-td basis-1/4">{{ dateformat(item.createdAt) }}</span>
         <span class="cell-td basis-1/4" v-if="type === 1">
           <span @click="() => onPay(item)" v-if="item.status === 0">继续支付</span>
+        </span>
+        <span class="cell-td basis-1/4">
+          <span>{{ item.payInfo?.remark || '' }}</span>
         </span>
       </div>
     </template>
