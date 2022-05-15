@@ -1,25 +1,29 @@
 <template>
-  <div class="top-up pt-16 p-6">
-    <pear-navbar title="充值" fixed left-arrow />
+  <div class="draw-cash pt-16 p-6">
+    <pear-navbar title="提现" fixed left-arrow />
+    <p class="text-gray-400 mt-4 mb-4">当前余额：<span class="text-red-400"><span class="text-sm">￥</span>{{ walletData.balance }}</span></p>
     <van-form>
-      <van-field
-        readonly
-        @touchstart.stop="show = true"
-        :border="false"
-        v-model="amount"
-        name="amount"
-        right-icon="jpy-light"
-        icon-prefix="ph:currency"
-        class="mb-4 rounded"
-        placeholder="请输入金额"
-      />
+      <div class="relative">
+        <van-field
+          readonly
+          @touchstart.stop="show = true"
+          :border="false"
+          v-model="amount"
+          name="amount"
+          right-icon="jpy-light"
+          icon-prefix="ph:currency"
+          class="mb-4 rounded"
+          placeholder="请输入提现金额"
+        />
+        <span class="text-xs text-gray-300 absolute -bottom-5 right-0" @click="onFull">全部提现</span>
+      </div>
     </van-form>
     <!-- <div>
       <p>选择支付方式</p>
     </div> -->
     <div class="mt-10">
       <van-button round block class="pear-plain-button" native-type="submit" @click="onBeforeSubmit">
-        立即充值
+        立即提现
       </van-button>
     </div>
     <van-number-keyboard
@@ -38,8 +42,10 @@
 
 <script lang="ts">
 import { HTTP_CODE } from '@/constants/enums'
-import { isPrice, openLink } from '@/constants/utils'
-import { topUpService } from '@/services/wallet.service'
+import { isPrice } from '@/constants/utils'
+import { onDrawcash } from '@/services/wallet.service'
+import { useUserStore } from '@/stores/user.store'
+import { storeToRefs } from 'pinia'
 import { Dialog, Toast } from 'vant'
 import { defineComponent, ref, onMounted, onUnmounted, reactive } from 'vue'
 import { useRequest } from 'vue-request'
@@ -47,6 +53,8 @@ import { useRouter } from 'vue-router'
 export default defineComponent({
   setup() {
     const router = useRouter()
+    const store = useUserStore()
+    const { walletData } = storeToRefs(store)
 
     const amount = ref('')
     const show = ref(false)
@@ -55,10 +63,12 @@ export default defineComponent({
       url: '',
       orderId: ''
     })
-
+    const onFull = () => {
+      amount.value = `${walletData.value.balance}`
+    }
     const onValidOk = () => {
       showCaptch.value = false
-      runTopUp({
+      runSubmit({
         price: amount.value
       })
     }
@@ -71,13 +81,13 @@ export default defineComponent({
         Toast.fail('不正确价格格式')
         return
       }
-      if (Number(amount.value) > 30) {
+      if (Number(amount.value) > walletData.value.balance) {
         Toast.fail('取现金额不能超过余额')
         return
       }
       showCaptch.value = true
     }
-    const { loading, run: runTopUp } = useRequest(topUpService, {
+    const { loading, run: runSubmit } = useRequest(onDrawcash, {
       manual: true,
       onSuccess(res: any) {
         if (res.code === HTTP_CODE.ERROR) {
@@ -86,10 +96,11 @@ export default defineComponent({
           })
           return
         }
-        const { url, orderId } = res.data
-        payInfo.url = url
-        payInfo.orderId = orderId
-        openLink(url)
+        Dialog.alert({
+          message: '申请提现成功，预计T+1日内到账'
+        }).then(() => {
+          router.back()
+        })
       }
     })
 
@@ -112,11 +123,13 @@ export default defineComponent({
     return {
       show,
       amount,
-      onBeforeSubmit,
+      onFull,
+      loading,
+      walletData,
+
       showCaptch,
       onValidOk,
-
-      loading
+      onBeforeSubmit
     }
   }
 })

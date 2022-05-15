@@ -16,17 +16,25 @@
           round
           limit
           :name="data.name"
-          :price="data.price"
-          :amount="data.copies"
+          :price="fromView === 'market' ? data.marketPrice : data.price"
+          :amount="`${data.serial} / ${data.copies}`"
           :owner="data.user?.nickname"
-          :is-sold-out="data.isSoldOut"
+          is-flux
         >
-          <template #actions v-if="showPayButton">
+          <template #actions>
             <div class="flex gap-4 px-4 mb-4">
-              <van-button class="pear-plain-button" round block disabled v-if="data.isSoldOut === 1">已售罄</van-button>
-              <van-button type="success" round block disabled v-else-if="!data.onShelf">敬请期待</van-button>
-              <van-button type="warning" round block @click="onCertify" v-else-if="store.userData.certified == 0">需要实名认证</van-button>
-              <van-button class="pear-color-button" round block @click="onPay" v-else-if="data.onShelf && store.userData.certified == 1">购买</van-button>
+              <template v-if="data.ownerUuid === store.userData.id">
+                <template v-if="fromView === 'collect'">
+                  <van-button v-if="data.status === 0" class="pear-color-button" round block @click="onTransfer">转售</van-button>
+                  <van-button v-else type="warning" round block @click="onTakeOff">下架</van-button>
+                </template>
+              </template>
+              <template v-else-if="fromView === 'market'">
+                <van-button class="pear-plain-button" round block disabled v-if="data.status === 0">已售罄</van-button>
+                <van-button type="warning" round block @click="onCertify" v-else-if="store.userData.certified == 0">需要实名认证</van-button>
+                <van-button class="pear-color-button" round block @click="showCaptch = true" v-else>立即购买</van-button>
+              </template>
+              <!-- <van-button class="pear-color-button" round block @click="showCaptch = true">立即购买</van-button> -->
             </div>
           </template>
         </pear-card>
@@ -75,21 +83,22 @@
       </div>
       <div class="footer"></div>
     </div>
+    <pear-captcha :show="showCaptch" @cancel="showCaptch = false" @success="onValidOk" />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useRequest } from 'vue-request'
-import { getGoodDetail } from '@/services/goods.service'
+import { getFluxGoodDetail, putItOffMarket } from '@/services/goods.service'
 import { PearCard } from '@/components'
 import { WEB_NAME } from '@/assets/config'
-import { checkCanCreateOrder } from '@/services/payment.service'
-import { Dialog } from 'vant'
 import { useUserStore } from '@/stores/user.store'
-import { throttle } from 'lodash-es'
+import { createSecondaryPaymentOrder } from '@/services/payment.service'
 import { HTTP_CODE } from '@/constants/enums'
+import { Dialog, Toast } from 'vant'
+import { openLink } from '@/constants/utils'
 
 export default defineComponent({
   components: { PearCard },
@@ -97,16 +106,17 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const store = useUserStore()
-
     const onBack = () => router.back()
 
-    const goodNo = route.params.id as string
-    const { data } = useRequest(() => getGoodDetail({ goodNo }), {
+    const showCaptch = ref(false)
+    const { id: goodNo, from: fromView } = route.query
+    const { data, run: getDetail } = useRequest(() => getFluxGoodDetail({ goodNo }), {
       initialData: {
+        id: '',
         name: '',
         price: '',
         copies: 1,
-        onShelf: false,
+        onShelf: true,
         cover: '',
         isSoldOut: 1
       },
@@ -115,55 +125,79 @@ export default defineComponent({
       }
     })
 
-    const qrcode = ref('')
-    const onPay = throttle(async () => {
-      const { name, id: goodId, price } = data.value
-      const res = await checkCanCreateOrder({ goodId }) as any
-      if (res.code === HTTP_CODE.ERROR) {
-        Dialog.alert({
-          message: res.msg
-        })
-      } else {
-        router.push({
-          name: 'PayPage',
-          params: {
-            name,
-            goodId,
-            price
-          }
-        })
+    const { run: createOrder } = useRequest(createSecondaryPaymentOrder, {
+      manual: true,
+      throttleInterval: 2000,
+      throttleOptions: { leading: true, trailing: false },
+      onSuccess(res: any) {
+        if (res.code === HTTP_CODE.ERROR) {
+          Dialog.alert({
+            message: res.msg
+          })
+          return
+        }
+        router.push({ name: 'OrderDetail', query: { id: res.data, isSecond: 1 } })
       }
-    }, 1000, {
-      leading: true,
-      trailing: false
     })
+
+    const qrcode = ref('')
+    const onTransfer = () => {
+      router.push({ name: 'PutOnMarket', query: { no: goodNo } })
+    }
+    const onBindBank = () => {
+      router.push('/bankCardBind')
+    }
     const onCertify = () => {
       router.push('/certify')
+    }
+    const onTakeOff = () => {
+      Dialog.confirm({
+        message: '确认下架藏品？'
+      })
+        .then(async () => {
+          const res: any = await putItOffMarket({ goodId: data.value.id })
+          if (res.code === HTTP_CODE.ERROR) {
+            Dialog.alert({
+              message: res.msg
+            })
+            return
+          }
+          getDetail()
+          Toast.success('下架成功！')
+        })
+    }
+    const onValidOk = () => {
+      createOrder({
+        goodId: data.value.id
+      })
     }
 
     const formatHex = (value = '') => {
       return value.slice(0, 6) + '...' + value.slice(-6)
     }
     const goContract = () => {
-      window.open(`https://polygonscan.com/address/${data.value.contract}`)
+      openLink(`https://polygonscan.com/address/${data.value.contract}`)
     }
     const goTxHash = () => {
-      window.open(`https://polygonscan.com/tx/${data.value.hash}`)
+      openLink(`https://polygonscan.com/tx/${data.value.hash}`)
     }
 
-    const showPayButton = computed(() => !goodNo.startsWith('F'))
     return {
       qrcode,
       onBack,
-      onPay,
+      onTransfer,
+      onBindBank,
       onCertify,
+      onTakeOff,
       WEB_NAME,
       data,
-      showPayButton,
       store,
       goContract,
       goTxHash,
-      formatHex
+      formatHex,
+      fromView,
+      showCaptch,
+      onValidOk
     }
   }
 })

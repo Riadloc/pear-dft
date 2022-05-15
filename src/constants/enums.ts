@@ -23,3 +23,16 @@ export enum OrderStatus {
   /** 转卖中 */
   RESELL,
 }
+
+export enum OrderEnum {
+  /** 正序 */
+  ASC,
+  /** 倒序 */
+  DESC
+}
+
+export enum WalletRecordType {
+  TRADE,
+  TOP_UP,
+  DRAW_CASH,
+}

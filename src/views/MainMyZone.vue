@@ -22,14 +22,14 @@
       </div>
     </div>
     <div class="my-menu mt-2">
-      <div class="wallet flex flex-row justify-between items-center bg-card mb-5 p-3 rounded-md" @click="goWallet">
+      <div class="wallet flex flex-row justify-between items-center bg-card mb-3 p-3 rounded-md" @click="goWallet">
         <div class="flex items-center">
           <!-- <div>
             <i class="iconfont icon-qianbao text-4xl"></i>
           </div> -->
           <div class="text-white ml-3">
             <p class="text-gray-300 text-xs">账户余额</p>
-            <p class="text-lg align-bottom"><span class="text-sm">￥</span>0</p>
+            <p class="text-lg align-bottom"><span class="text-sm">￥</span>{{ walletData.balance }}</p>
           </div>
         </div>
         <div>
@@ -120,7 +120,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const store = useUserStore()
-    const { userData } = storeToRefs(store)
+    const { userData, walletData } = storeToRefs(store)
     const goUserPage = () => {
       router.push('/user')
     }
@@ -130,6 +130,7 @@ export default defineComponent({
 
     return {
       userData,
+      walletData,
       goUserPage,
       goWallet
     }

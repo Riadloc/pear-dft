@@ -28,7 +28,7 @@
             <h4>{{ item.name }}</h4>
             <span class="font-bold text-amber-200 text-lg">￥{{ item.good.price }}</span>
           </div>
-          <span class="leading-7">卖家: 梨数字官方</span>
+          <!-- <span class="leading-7">卖家: 梨数字官方</span> -->
           <span class="leading-7 whitespace-nowrap">单据: {{ item.orderNo }}</span>
         </div>
       </div>
@@ -40,7 +40,6 @@
         </span>
         <div class="leading-4">
           <van-button v-if="item.countDownTime > 0" round plain size="mini" class="!text-gray-300" @click="onSelect(item, 0)">继续支付</van-button>
-          <van-button round plain size="mini" class="!text-gray-300" @click="onSelect(item, 2)">刷新状态</van-button>
           <van-button round plain size="mini" class="!text-gray-300" @click="onSelect(item, 1)">取消订单</van-button>
         </div>
       </div>
@@ -56,7 +55,7 @@ import { HTTP_CODE, OrderStatus } from '@/constants/enums'
 import { getOrderList } from '@/services/order.service'
 import { useRouter } from 'vue-router'
 import { Dialog, Toast } from 'vant'
-import { cancelPaymentOrder, checkPaymentOrder } from '@/services/payment.service'
+import { cancelPaymentOrder } from '@/services/payment.service'
 import dayjs from 'dayjs'
 
 export default defineComponent({
@@ -75,7 +74,7 @@ export default defineComponent({
   setup(props) {
     const router = useRouter()
     const finished = ref(false)
-    const pageSize = ref(10)
+    const pageSize = ref(20)
     const pageNo = ref(0)
     const { loadingMore: loading, data, dataList, refreshing, loadMore, refresh } = useLoadMore(() => getOrderList({
       pageSize: pageSize.value,
@@ -121,20 +120,12 @@ export default defineComponent({
     const count = computed(() => data.value?.count || 0)
 
     const purchase = (data: any) => {
-      router.push({
-        name: 'PayPage',
-        params: {
-          name: data.name,
-          goodId: data.good.goodId,
-          price: data.good.price,
-          orderId: data.id
-        }
-      })
+      router.push({ name: 'OrderDetail', query: { id: data.id, isSecond: data.soure } })
     }
     const cancel = (data: any) => {
       Dialog.confirm({
         title: '提示',
-        message: '取消会关闭这个支付订单，确认取消本次购买？',
+        message: '取消会关闭这个支付订单，确认取消？',
         confirmButtonText: '确定取消',
         cancelButtonText: '再考虑下'
       }).then(() => {
@@ -163,29 +154,6 @@ export default defineComponent({
         purchase(item)
       } else if (index === 1) {
         cancel(item)
-      } else if (index === 2) {
-        const res: any = await checkPaymentOrder(item.orderNo)
-        if (res.code !== HTTP_CODE.ERROR) {
-          const { status } = res.data
-          console.log(status)
-          if (status === OrderStatus.WAIT) {
-            Toast('订单当前状态：待支付')
-          } else if (status === OrderStatus.TERMINATED || status === OrderStatus.CLOSED) {
-            Toast({
-              message: '订单当前状态：已关闭',
-              onClose: () => {
-                onRefresh()
-              }
-            })
-          } else if (status === OrderStatus.PURCHASED) {
-            Toast({
-              message: '订单当前状态：已支付',
-              onClose: () => {
-                onRefresh()
-              }
-            })
-          }
-        }
       }
     }
 

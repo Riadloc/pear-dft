@@ -11,21 +11,26 @@
       <div>
         <span class="text-md text-white font-semibold">{{ name }}</span>
       </div>
-      <div class="tag rounded-sm inline-flex flex-row my-1.5 overflow-hidden" v-if="amount">
-        <span v-if="limit" class="text-gray-800 text-xs bg-amber-200 text-center px-2">限量</span>
-        <span class="text-xs text-center px-2 text-amber-200 bg-gray-600">{{ amount }}份</span>
+      <div class="tag rounded-sm inline-flex flex-row my-1.5 overflow-hidden">
+        <span class="text-xs text-center px-2 text-amber-200 bg-gray-600" v-if="isFlux">{{ amount }}</span>
+        <template v-else>
+          <span v-if="limit" class="text-gray-800 text-xs bg-amber-200 text-center px-2">限量</span>
+          <span class="text-xs text-center px-2 text-amber-200 bg-gray-600">{{ amount }}份</span>
+        </template>
       </div>
       <div class="flex flex-row justify-between">
         <div class="text-gray-300 text-xs">{{ owner }}</div>
       </div>
       <div class="text-white text-2xl absolute bottom-6 right-4 align-bottom"><span class="text-base">￥</span>{{ price }}</div>
     </div>
-    <div class="absolute left-4 top-4 bg-black bg-opacity-80 px-2 py-1 rounded-full leading-4" v-if="isSoldOut === 1">
-      <span class="text-gray-400 text-xs">已售罄</span>
-    </div>
-    <div class="absolute left-4 top-4 bg-black bg-opacity-80 px-2 py-1 rounded-full leading-4" v-else-if="!data?.onShelf">
-      <span class="text-green-500 text-xs">{{ formatDate(data?.shelfTime as Date) }} 开售</span>
-    </div>
+    <template v-if="!isFlux">
+      <div class="absolute left-4 top-4 bg-black bg-opacity-80 px-2 py-1 rounded-full leading-4" v-if="isSoldOut === 1">
+        <span class="text-gray-400 text-xs">已售罄</span>
+      </div>
+      <div class="absolute left-4 top-4 bg-black bg-opacity-80 px-2 py-1 rounded-full leading-4" v-else-if="!data?.onShelf">
+        <span class="text-green-500 text-xs">{{ formatDate(data?.shelfTime as Date) }} 开售</span>
+      </div>
+    </template>
     <slot name="actions"></slot>
   </div>
 </template>
@@ -49,11 +54,15 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    amount: Number,
+    amount: [Number, String],
     owner: String,
     price: String,
     coverSizeClass: String,
     isSoldOut: Number,
+    isFlux: {
+      type: Boolean,
+      default: false
+    },
     data: {
       type: Object as PropType<Data>
     }

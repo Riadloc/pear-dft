@@ -240,7 +240,7 @@ export default defineComponent({
       }
     })
     const btnLoading = computed(() => btnLoading1.value && btnLoading2.value)
-    const captchaSvg = ref(';')
+    const captchaSvg = ref('')
     const { run: runCaptchaSvg } = useRequest<any>(getCaptchaSvg, {
       throttleInterval: 2000,
       throttleOptions: { leading: true, trailing: false },

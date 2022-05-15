@@ -9,7 +9,7 @@ const Collect = () => import('@/views/MainCollect.vue')
 const Market = () => import('@/views/MainMarket.vue')
 const Login = () => import('@/views/PLogin.vue')
 const Signup = () => import('@/views/PSignup.vue')
-const Detail = () => import('@/views/PDetail.vue')
+const Detail = () => import('@/views/MajorDetail.vue')
 const OrderList = () => import('@/views/OrderList.vue')
 const OrderDetail = () => import('@/views/OrderDetail.vue')
 const ContactUs = () => import('@/views/ContactUs.vue')
@@ -23,6 +23,9 @@ const MailBind = () => import('@/views/MailBind.vue')
 const MyWallet = () => import('@/views/MyWallet.vue')
 const BankCardBind = () => import('@/views/BankCardBind.vue')
 const TopUp = () => import('@/views/TopUp.vue')
+const DrawCash = () => import('@/views/DrawCash.vue')
+const PutOnMarket = () => import('@/views/PutOnMarket.vue')
+const SecondaryDetail = () => import('@/views/SecondaryDetail.vue')
 
 const routes = [
   {
@@ -71,7 +74,7 @@ const routes = [
     }
   },
   {
-    path: '/detail/:id',
+    path: '/detail',
     name: 'Detail',
     component: Detail
   },
@@ -137,6 +140,21 @@ const routes = [
     path: '/topUp',
     name: 'TopUp',
     component: TopUp
+  },
+  {
+    path: '/drawCash',
+    name: 'DrawCash',
+    component: DrawCash
+  },
+  {
+    path: '/putOnMarket',
+    name: 'PutOnMarket',
+    component: PutOnMarket
+  },
+  {
+    path: '/secondaryDetail',
+    name: 'SecondaryDetail',
+    component: SecondaryDetail
   }
 ]
 
@@ -148,24 +166,27 @@ const router = VueRouter.createRouter({
 router.beforeEach(async (to) => {
   const store = useUserStore()
   const { meta } = to
-  if (meta.requiresAuth !== false) {
-    const cookies = Cookie.parse(document.cookie)
-    const isCookieExpired = !(cookies && cookies['connect.sid'])
-    const userId = localStorage.getItem('user.id')
-    if (userId) {
-      console.log(isCookieExpired, store.isLoggedIn)
-      if (isCookieExpired && !store.isLoggedIn) {
-        const res = await store.getUserInfo(userId)
-        if (!res) {
-          return '/login'
-        }
-        return true
+  const cookies = Cookie.parse(document.cookie)
+  const isCookieExpired = !(cookies && cookies['connect.sid'])
+  const userId = localStorage.getItem('user.id')
+  if (userId) {
+    console.log(isCookieExpired, store.isLoggedIn)
+    if (isCookieExpired && !store.isLoggedIn) {
+      const res = await store.getUserInfo(userId)
+      if (!res) {
+        return '/login'
       }
       return true
-    } else if (store.isLoggedIn && store.userData.id) {
-      localStorage.setItem('user.id', `${store.userData.userId}`)
-      return true
     }
+    if (!store.isWalletFetched) {
+      store.getWalletInfo()
+    }
+    return true
+  } else if (store.isLoggedIn && store.userData.id) {
+    localStorage.setItem('user.id', `${store.userData.userId}`)
+    return true
+  }
+  if (meta.requiresAuth !== false) {
     return '/login'
   }
   return true

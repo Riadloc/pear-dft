@@ -186,7 +186,7 @@ export default defineComponent({
         }
       }
     })
-    const captchaSvg = ref(';')
+    const captchaSvg = ref('')
     const { run: runCaptchaSvg } = useRequest<any>(getCaptchaSvg, {
       throttleInterval: 2000,
       throttleOptions: { leading: true, trailing: false },

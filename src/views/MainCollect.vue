@@ -21,6 +21,7 @@
         :name="item.parentGood.name"
         :price="item.price"
         :serial="`${item.serial}/${item.parentGood.copies}`"
+        :is-selling="item.status !== 0"
       />
     </van-list>
   </div>
@@ -39,7 +40,7 @@ export default defineComponent({
     const router = useRouter()
 
     const finished = ref(false)
-    const pageSize = ref(10)
+    const pageSize = ref(20)
     const pageNo = ref(0)
     const { loadingMore: loading, data, dataList, loadMore } = useLoadMore(() => getMyGoodList({
       pageSize: pageSize.value,
@@ -67,7 +68,7 @@ export default defineComponent({
     const count = computed(() => data.value?.count || 0)
 
     const goDetail = (item: any) => {
-      router.push({ name: 'Detail', params: { id: item.goodNo } })
+      router.push({ name: 'SecondaryDetail', query: { id: item.goodNo, from: 'collect' } })
     }
 
     return {

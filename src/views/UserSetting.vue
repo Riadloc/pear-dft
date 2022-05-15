@@ -34,6 +34,26 @@
         round
         :border="false"
         title-class="text-gray-100"
+        class="rounded bg-card"
+        :is-link="!userData.isBindBank"
+        :to="userData.isBindBank ? '' : 'bankCardBind'"
+      >
+        <template #title>
+          <div class="flex items-center">
+            <pear-icon set="ph" name="cardholder-light" size="1.3rem" />
+            <span class="ml-2">银行卡管理</span>
+          </div>
+        </template>
+        <template #value>
+          <!-- <span v-if="userData.certified">已认证</span> -->
+          <span v-if="userData.isBindBank">已绑定</span>
+          <span v-else>未绑定</span>
+        </template>
+      </van-cell>
+      <van-cell
+        round
+        :border="false"
+        title-class="text-gray-100"
         class="mb-3 rounded bg-card"
         :is-link="!userData.certified"
         :to="userData.certified ? '' : '/certify'"

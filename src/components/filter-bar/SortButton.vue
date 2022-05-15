@@ -6,13 +6,13 @@
         set="ph"
         name="caret-up-fill"
         size="0.5rem"
-        :class="['-mb-0.5', { 'text-green-500': active && order === Ordernum.ASC }]"
+        :class="['-mb-0.5', { 'text-green-500': active && order === OrderEnum.ASC }]"
       />
       <pear-icon
         set="ph"
         name="caret-down-fill"
         size="0.5rem"
-        :class="{ 'text-green-500': active && order === Ordernum.DESC }"
+        :class="{ 'text-green-500': active && order === OrderEnum.DESC }"
       />
     </div>
   </div>
@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { Ordernum } from './constants'
+import { OrderEnum } from '@/constants/enums'
 
 export default defineComponent({
   name: 'sort-button',
@@ -34,16 +34,16 @@ export default defineComponent({
     id: [String, Number]
   },
   setup(props, context) {
-    const order = ref<Ordernum>(Ordernum.ASC)
+    const order = ref<OrderEnum>(OrderEnum.ASC)
 
     const onClick = () => {
-      order.value = order.value === Ordernum.ASC ? Ordernum.DESC : Ordernum.ASC
+      order.value = order.value === OrderEnum.ASC ? OrderEnum.DESC : OrderEnum.ASC
       context.emit('change', props.id, order.value)
     }
 
     return {
       order,
-      Ordernum,
+      OrderEnum,
       onClick
     }
   }

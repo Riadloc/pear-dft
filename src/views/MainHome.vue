@@ -73,11 +73,11 @@ export default defineComponent({
     const router = useRouter()
     const store = useUserStore()
     const goToDetail = (good: any) => {
-      router.push({ name: 'Detail', params: { id: good.goodNo } })
+      router.push({ name: 'Detail', query: { id: good.goodNo } })
     }
 
     const finished = ref(false)
-    const pageSize = ref(10)
+    const pageSize = ref(20)
     const pageNo = ref(0)
     const { loadingMore: loading, dataList, refreshing, loadMore, refresh } = useLoadMore(() => getGoodsList({
       pageSize: pageSize.value,

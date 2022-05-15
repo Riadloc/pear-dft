@@ -12,6 +12,7 @@
       <filter-bar
         class="px-4"
         :options="options"
+        @change="onFilterChange"
       />
     </div>
     <div class="px-2">
@@ -25,14 +26,15 @@
         <pear-small-card
           v-for="item in goods"
           :key="item.name"
+          @click="() => goDetail(item)"
           class="market-card mb-4 mx-2 flex-grow-0 flex-shrink-0"
           :cover="item.cover"
           round
           limit
-          :name="item.parentGood.name"
-          :price="item.price"
-          :owner="item.user.nickname"
-          :serial="`${item.serial}/${item.parentGood.copies}`"
+          :name="item.parentGood?.name"
+          :price="item.marketPrice"
+          :owner="item.user?.nickname"
+          :serial="`${item.serial}/${item.parentGood?.copies}`"
         />
       </van-list>
     </div>
@@ -45,46 +47,61 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, reactive, ref } from 'vue'
 import { FilterBar, PearSmallCard, SearchScreen } from '@/components'
 import { useLoadMore } from 'vue-request'
-import { getMyGoodList } from '@/services/goods.service'
+import { getMarketGoodList } from '@/services/goods.service'
+import { OrderEnum } from '@/constants/enums'
+import { useRouter } from 'vue-router'
+const options = [
+  {
+    id: 'date',
+    name: '时间'
+  },
+  {
+    id: 'price',
+    name: '价格'
+  }
+]
 
 export default defineComponent({
   components: { FilterBar, PearSmallCard, SearchScreen },
   setup() {
-    const showSearchScreen = ref(false)
+    const router = useRouter()
 
+    const showSearchScreen = ref(false)
     const query = ref('')
+    const sortObj = reactive({
+      id: '',
+      value: OrderEnum.DESC
+    })
     const onKeyworkSelected = (value: string) => {
-      console.log(value)
       query.value = value
+      onRefresh()
     }
-    const options = ref([
-      {
-        id: 'date',
-        name: '时间'
-      },
-      {
-        id: 'price',
-        name: '价格'
-      }
-    ])
+    const onFilterChange = (data: { id: string, value: OrderEnum }) => {
+      sortObj.id = `${data.id}Sort`
+      sortObj.value = data.value
+      onRefresh()
+    }
 
     const finished = ref(false)
-    const pageSize = ref(10)
+    const pageSize = ref(20)
     const pageNo = ref(0)
-    const { loadingMore: loading, data, dataList, loadMore } = useLoadMore(() => getMyGoodList({
+    const { loadingMore, data, dataList, loadMore, refresh, refreshing } = useLoadMore(() => getMarketGoodList({
       pageSize: pageSize.value,
-      pageNo: pageNo.value
+      pageNo: pageNo.value,
+      keyword: query.value,
+      ...(sortObj.id
+        ? {
+            [sortObj.id]: sortObj.value
+          }
+        : {})
     }), {
       manual: true,
-      listKey: 'list',
-      formatResult(data: any) {
-        return data.data
-      },
-      onSuccess(data) {
-        if (data.list.length < pageSize.value) {
+      listKey: 'data',
+      onSuccess(res: any) {
+        if (res.data.length < pageSize.value) {
           finished.value = true
         }
       },
@@ -96,19 +113,35 @@ export default defineComponent({
       pageNo.value = pageNo.value + 1
       loadMore()
     }
+    const onRefresh = () => {
+      pageNo.value = 1
+      refresh()
+      // setTimeout(() => {
+      //   finished.value = false
+      // }, 500)
+    }
     const goods = computed(() => dataList.value || [])
     const count = computed(() => data.value?.count || 0)
+    const loading = computed(() => refreshing.value || loadingMore.value)
+
+    const goDetail = (item: any) => {
+      router.push({ name: 'SecondaryDetail', query: { id: item.goodNo, from: 'market' } })
+    }
 
     return {
       options,
       query,
       onKeyworkSelected,
+      onFilterChange,
       goods,
       count,
       finished,
       loading,
       onLoad,
-      showSearchScreen
+      onRefresh,
+      showSearchScreen,
+
+      goDetail
     }
   }
 })

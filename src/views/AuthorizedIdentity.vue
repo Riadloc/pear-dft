@@ -1,11 +1,13 @@
 
 <template>
-  <div class="authorized-identity pt-20">
+  <div class="authorized-identity pt-12">
     <van-nav-bar :border="false" left-arrow @click-left="back" fixed />
-    <van-notice-bar wrapable :scrollable="false">一分钟内只能请求认证一次，一天内最多请求三次</van-notice-bar>
+    <van-notice-bar wrapable :scrollable="false">
+      <p>一分钟内只能请求认证一次，一天内最多认证三次</p>
+    </van-notice-bar>
     <div class="px-10 mt-6">
-      <h2 class="text-3xl font-semibold text-white">填写实名认证信息</h2>
-      <p class="text-sm text-gray-400 mt-4 mb-10">当前登录手机号：{{ phone }}</p>
+      <h2 class="text-2xl font-semibold text-white">填写实名认证信息</h2>
+      <p class="text-sm text-gray-400 mt-6 mb-10">当前登录手机号：{{ phone }}</p>
       <van-form @submit="onSubmit">
         <van-field
           v-model="realName"
@@ -24,7 +26,7 @@
           :rules="[{ required: true, message: '请输入身份证号' }, { pattern: /^[\d]{17}[\dxX]{1}$/, message: '格式不正确' }]"
         />
         <div class="mt-10">
-          <van-button round block type="primary" plain native-type="submit" :loading="loading">
+          <van-button round block class="pear-plain-button" native-type="submit" :loading="loading">
             提交认证
           </van-button>
         </div>

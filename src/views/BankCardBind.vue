@@ -1,7 +1,7 @@
 <template>
   <div class="bank-card-bind pt-16">
     <pear-navbar title="绑定银行卡" fixed left-arrow />
-    <van-form @submit="onSubmit" class="p-6">
+    <van-form @submit="onSubmit" class="p-6" validate-trigger="onSubmit">
       <van-field
         :border="false"
         readonly
@@ -10,23 +10,15 @@
         name="cardNo"
         class="mb-4 rounded"
         placeholder="银行卡号"
+        :rules="[{ required: true, message: '请填写银行卡号' }]"
       />
       <van-field
         :border="false"
-        v-model="phone"
-        name="phone"
+        v-model="realName"
+        name="realName"
         class="mb-4 rounded"
-        placeholder="开户手机号"
-      />
-      <van-field
-        readonly
-        @touchstart.stop="showIdCardKeyboard = true"
-        :border="false"
-        v-model="idCard"
-        name="idCard"
-        class="mb-4 rounded"
-        placeholder="请输入身份证号"
-        :rules="[{ required: true, message: '请输入身份证号' }, { pattern: /^[\d]{17}[\dxX]{1}$/, message: '格式不正确' }]"
+        placeholder="开户姓名"
+        :rules="[{ required: true, message: '请填写开户人' }]"
       />
       <div class="mt-10">
         <van-button round block class="pear-plain-button" native-type="submit">
@@ -35,40 +27,69 @@
       </div>
     </van-form>
     <van-number-keyboard
-      v-model="idCard"
-      :show="showIdCardKeyboard"
-      extra-key="X"
-      :maxlength="18"
-      @blur="showIdCardKeyboard = false"
-    />
-    <van-number-keyboard
       v-model="cardNo"
       :show="showBankCardKeyboard"
       :maxlength="18"
       @blur="showBankCardKeyboard = false"
     />
+    <pear-spinner :show="loading" />
   </div>
 </template>
 
 <script lang="ts">
+import { HTTP_CODE } from '@/constants/enums'
+import { checkBankCardStat, onBankBind } from '@/services/wallet.service'
+import { useUserStore } from '@/stores/user.store'
+import { Dialog, Toast } from 'vant'
 import { defineComponent, ref } from 'vue'
+import { useRequest } from 'vue-request'
+import { useRouter } from 'vue-router'
 export default defineComponent({
   setup() {
-    const showIdCardKeyboard = ref(false)
+    const router = useRouter()
+    const userStore = useUserStore()
+
     const showBankCardKeyboard = ref(false)
     const cardNo = ref('')
-    const phone = ref('')
-    const idCard = ref('')
-    const onSubmit = () => {
-      //
+    const realName = ref('')
+    const onSubmit = (values: any) => {
+      checkBankCardStat(values.cardNo)
+        .then((res: any) => {
+          if (!res.validated) {
+            Toast.fail('错误或不支持的卡号')
+            return
+          }
+          if (res.cardType !== 'DC') {
+            Toast.fail('支持储蓄银行卡')
+            return
+          }
+          runBankBind({
+            bankNo: cardNo.value,
+            realName: realName.value
+          })
+        })
     }
+    const { loading, run: runBankBind } = useRequest(onBankBind, {
+      manual: true,
+      onSuccess(res: any) {
+        if (res.code === HTTP_CODE.ERROR) {
+          Dialog.alert({
+            message: res.msg
+          })
+          return
+        }
+        userStore.getUserInfo(`${userStore.userData.userId}`)
+        Toast.success('绑定成功')
+        router.back()
+      }
+    })
+
     return {
-      showIdCardKeyboard,
       showBankCardKeyboard,
       cardNo,
-      phone,
-      idCard,
-      onSubmit
+      realName,
+      onSubmit,
+      loading
     }
   }
 })

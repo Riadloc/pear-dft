@@ -5,8 +5,10 @@ import PearIcon from './PearIcon.vue'
 import PearImage from './PearImage.vue'
 import NavBar from './NavBar.vue'
 import PearSpinner from './PearSpinner.vue'
+import PearCaptcha from './PearCaptcha.vue'
 import SearchScreen from './SearchScreen.vue'
 import FilterBar from './filter-bar'
+import WalletRecordList from './WalletRecordList.vue'
 
 export {
   PearIcon,
@@ -15,7 +17,8 @@ export {
   NavBar,
   FilterBar,
   PearSpinner,
-  SearchScreen
+  SearchScreen,
+  WalletRecordList
 }
 
 export default {
@@ -25,5 +28,6 @@ export default {
       .component('pear-navbar', NavBar)
       .component('pear-image', PearImage)
       .component('pear-spinner', PearSpinner)
+      .component('pear-captcha', PearCaptcha)
   }
 }

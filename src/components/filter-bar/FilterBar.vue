@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts">
+import { OrderEnum } from '@/constants/enums'
 import { defineComponent, PropType, ref } from 'vue'
-import { Ordernum } from './constants'
 import SortButton from './SortButton.vue'
 
 interface Option {
@@ -33,12 +33,13 @@ export default defineComponent({
   props: {
     options: Array as PropType<Option[]>
   },
+  emits: ['change'],
   setup(props, context) {
     const activeId = ref<State['activeId']>(undefined)
-    const onChange = (id: Option['id'], value: Ordernum) => {
+    const onChange = (id: Option['id'], value: OrderEnum) => {
       console.log(id)
       activeId.value = id
-      context.emit('onChange', {
+      context.emit('change', {
         id,
         value
       })

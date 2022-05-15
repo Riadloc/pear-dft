@@ -79,6 +79,12 @@ body {
   color: #171b2e;
   border: none;
 }
+
+.pear-gray-button {
+  background: #eaeaea;
+  color: #333;
+  border: none;
+}
 /* .pear-plain-button::before {
   display: none!important;
 } */
