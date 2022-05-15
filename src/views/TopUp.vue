@@ -71,10 +71,6 @@ export default defineComponent({
         Toast.fail('不正确价格格式')
         return
       }
-      if (Number(amount.value) > 30) {
-        Toast.fail('取现金额不能超过余额')
-        return
-      }
       showCaptch.value = true
     }
     const { loading, run: runTopUp } = useRequest(topUpService, {
