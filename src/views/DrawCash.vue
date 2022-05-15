@@ -18,13 +18,13 @@
         <span class="text-xs text-gray-300 absolute -bottom-5 right-0" @click="onFull">全部提现</span>
       </div>
     </van-form>
-    <!-- <div>
-      <p>选择支付方式</p>
-    </div> -->
     <div class="mt-10">
       <van-button round block class="pear-plain-button" native-type="submit" @click="onBeforeSubmit">
         立即提现
       </van-button>
+    </div>
+    <div class="text-white mt-2 text-xs">
+      <p class="text-gray-300">提现手续费预计1%（第三方支付渠道收取）</p>
     </div>
     <van-number-keyboard
       v-model="amount"
