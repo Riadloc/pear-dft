@@ -125,7 +125,7 @@
         title-class="text-gray-100"
         class="mb-3 rounded bg-card"
         is-link
-        :to="{ name: 'Signup', params: { type: 1 } }"
+        :to="{ name: 'Signup', query: { type: 1 } }"
       >
         <template #title>
           <div class="flex items-center">

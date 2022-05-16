@@ -25,7 +25,11 @@ export function getUserInfo(userId: string) {
 }
 
 export function updateUserInfo(userId: string | number, data: any) {
-  return request.put(`/user/${userId}`, data)
+  return request.put(`/user/info/${userId}`, data)
+}
+
+export function forgotPassword(data: any) {
+  return request.put('/user/password', data)
 }
 
 export function getMyInvitaions() {

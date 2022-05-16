@@ -3,6 +3,7 @@
     <pear-navbar title="我的邀请" left-arrow />
     <div class="bg-card p-4">
       <p class="text-white">我的邀请人数</p>
+      <p class="text-gray-300 text-xs">仅记录已实名且绑定了银行卡的注册用户</p>
       <p class="text-white text-3xl mt-2">{{ list?.length || 0 }}</p>
     </div>
     <div class="bg-card mt-2">

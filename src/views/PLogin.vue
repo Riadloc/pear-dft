@@ -1,6 +1,9 @@
 <template>
   <div class="plogin">
     <h3 class="text-white text-lg my-10">欢迎登录 {{ WEB_NAME }}</h3>
+    <van-notice-bar wrapable :scrollable="false" class="mb-4">
+      <p>由于系统问题，部分用户的密码会登录错误。如遇到这类问题，请点击忘记密码进行修改</p>
+    </van-notice-bar>
     <van-button size="small" round class="absolute right-4 top-4 pear-plain-button" to="/signup">注 册</van-button>
     <van-form @submit="onSubmit" validate-trigger="onSubmit">
       <van-cell-group :border="false" size="large">
@@ -50,6 +53,7 @@
       <van-cell-group
         :border="false"
         size="large"
+        class="relative"
         v-else
       >
         <template #title>
@@ -67,6 +71,11 @@
           placeholder="请填写密码"
           :rules="[{ required: true, message: '请填写密码' }, { validator: validatePassword }]"
         />
+        <div
+          :class="['text-button', { 'opacity-50': sendSmsDisabled }]"
+          >
+            <span @click="onForget">忘记密码？</span>
+        </div>
       </van-cell-group>
       <div class="mt-10">
         <van-button round block class="pear-color-button" native-type="submit" :loading="btnLoading">
@@ -127,7 +136,6 @@ export default defineComponent({
       throttleInterval: 2000,
       throttleOptions: { leading: true, trailing: false },
       onSuccess(data) {
-        console.log(data)
         if (data.code === HTTP_CODE.ERROR) {
           Toast.fail(data.msg)
         } else {
@@ -138,6 +146,10 @@ export default defineComponent({
         }
       }
     })
+
+    const onForget = () => {
+      router.push({ name: 'Signup', query: { type: 2 } })
+    }
 
     const sendSmsDisabled = computed(() => countDownTime.value > 0 || !phone.value)
     const countDownTime = ref(0)
@@ -199,6 +211,7 @@ export default defineComponent({
       onValidOk,
 
       showPlainPsw,
+      onForget,
 
       showCaptch,
       smsLoading,

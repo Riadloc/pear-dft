@@ -111,7 +111,7 @@
 import { computed, defineComponent, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useRequest } from 'vue-request'
-import { postSignup, postSendSms, updateUserInfo } from '@/services/user.service'
+import { postSignup, postSendSms, updateUserInfo, forgotPassword } from '@/services/user.service'
 import { WEB_NAME } from '@/assets/config'
 import { HTTP_CODE } from '@/constants/enums'
 import { validatePassword } from '@/constants/utils'
@@ -122,6 +122,7 @@ const ONE_MINUTE = 60 * 1000
 enum PageTypes {
   SIGN_UP,
   CHANGE_PASSWORD,
+  FORGET_PASSWORD
 }
 const PageTypeTexts = {
   [PageTypes.SIGN_UP]: {
@@ -131,6 +132,12 @@ const PageTypeTexts = {
     psw2: '重复密码'
   },
   [PageTypes.CHANGE_PASSWORD]: {
+    welcome: '密码修改',
+    submit: '提交',
+    psw1: '新密码',
+    psw2: '重复新密码'
+  },
+  [PageTypes.FORGET_PASSWORD]: {
     welcome: '密码修改',
     submit: '提交',
     psw1: '新密码',
@@ -149,7 +156,7 @@ export default defineComponent({
     const route = useRoute()
     const store = useUserStore()
 
-    const type: PageTypes = Number(route.params.type) || PageTypes.SIGN_UP
+    const type: PageTypes = Number(route.query.type) || PageTypes.SIGN_UP
     const isSignup = computed(() => type === PageTypes.SIGN_UP)
 
     const showPlainPsw1 = ref(false)
@@ -175,7 +182,7 @@ export default defineComponent({
           code: values.code,
           inviteCode
         })
-      } else {
+      } else if (type === PageTypes.CHANGE_PASSWORD) {
         if (values.phone !== store.userData.phone) {
           Toast('手机号与登录账号不一致！')
           return
@@ -183,6 +190,10 @@ export default defineComponent({
         runChangePsw(store.userData.userId, {
           ...values,
           code: values.code
+        })
+      } else if (type === PageTypes.FORGET_PASSWORD) {
+        runForgotPsw({
+          ...values
         })
       }
     }
@@ -204,6 +215,8 @@ export default defineComponent({
     })
     const { loading: btnLoading2, run: runChangePsw } = useRequest<any>(updateUserInfo, {
       manual: true,
+      throttleInterval: 2000,
+      throttleOptions: { leading: true, trailing: false },
       onSuccess(data) {
         if (data.code === HTTP_CODE.ERROR) {
           Toast({ type: 'fail', message: data.msg })
@@ -220,7 +233,27 @@ export default defineComponent({
         }
       }
     })
-    const btnLoading = computed(() => btnLoading1.value && btnLoading2.value)
+    const { loading: btnLoading3, run: runForgotPsw } = useRequest<any>(forgotPassword, {
+      manual: true,
+      throttleInterval: 2000,
+      throttleOptions: { leading: true, trailing: false },
+      onSuccess(data) {
+        if (data.code === HTTP_CODE.ERROR) {
+          Toast({ type: 'fail', message: data.msg })
+        } else {
+          Toast({
+            type: 'success',
+            message: '修改成功',
+            onClose: () => {
+              localStorage.removeItem('user.id')
+              store.$reset()
+              router.replace('/login')
+            }
+          })
+        }
+      }
+    })
+    const btnLoading = computed(() => btnLoading1.value || btnLoading2.value || btnLoading3.value)
 
     const sendSmsDisabled = computed(() => countDownTime.value > 0 || !phone.value)
     const countDownTime = ref(0)
