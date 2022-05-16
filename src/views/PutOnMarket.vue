@@ -3,7 +3,7 @@
     <pear-navbar title="转售" fixed left-arrow />
     <div class="bg-card flex rounded-lg overflow-hidden p-3 mb-6">
       <pear-image
-        :src="'https://pearmeta-1253493520.file.myqcloud.com/sidameinvwangzhaojun.jpeg_1izb675yjpoi'"
+        :src="detailData.cover"
         width="100%"
         size="h-20 w-20"
         class="overflow-hidden rounded-lg"
