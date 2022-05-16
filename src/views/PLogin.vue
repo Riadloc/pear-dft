@@ -75,7 +75,7 @@
       </div>
     </van-form>
     <pear-spinner :show="smsLoading" />
-    <yidun-captcha v-model:show="showCaptch" @success="onValidOk"/>
+    <yidun-captcha :be-validate="false" v-model:show="showCaptch" @success="onValidOk"/>
   </div>
 </template>
 
@@ -85,7 +85,7 @@ import { useRouter } from 'vue-router'
 import { Notify, Toast } from 'vant'
 import { useRequest } from 'vue-request'
 import { useUserStore } from '@/stores/user.store'
-import { getCaptchaSvg, postLogin, postSendSms } from '@/services/user.service'
+import { postLogin, postSendSms } from '@/services/user.service'
 import { validatePassword } from '@/constants/utils'
 import { WEB_NAME } from '@/assets/config'
 import { HTTP_CODE } from '@/constants/enums'
@@ -106,9 +106,9 @@ export default defineComponent({
     const store = useUserStore()
 
     const showCaptch = ref(false)
-    const onValidOk = async () => {
+    const onValidOk = async (code: string) => {
       showCaptch.value = false
-      sendCode()
+      sendCode(code)
     }
 
     const showPlainPsw = ref(false)
@@ -144,9 +144,10 @@ export default defineComponent({
     const onCountDownFinished = () => {
       countDownTime.value = 0
     }
-    const sendCode = () => {
+    const sendCode = (code: string) => {
       runSendSms({
-        phone: phone.value
+        phone: phone.value,
+        code
       })
     }
     const { loading: smsLoading, run: runSendSms } = useRequest<any>(postSendSms, {
@@ -164,18 +165,6 @@ export default defineComponent({
           } else {
             countDownTime.value = ONE_MINUTE
           }
-        }
-      }
-    })
-    const captchaSvg = ref('')
-    const { run: runCaptchaSvg } = useRequest<any>(getCaptchaSvg, {
-      throttleInterval: 2000,
-      throttleOptions: { leading: true, trailing: false },
-      onSuccess(data) {
-        if (data.code === HTTP_CODE.ERROR) {
-          Toast({ type: 'fail', message: data.msg })
-        } else {
-          captchaSvg.value = data.data
         }
       }
     })
@@ -217,8 +206,6 @@ export default defineComponent({
       countDownTime,
       onCountDownFinished,
       sendCode,
-      runCaptchaSvg,
-      captchaSvg,
 
       loginType,
       loginTypeName,

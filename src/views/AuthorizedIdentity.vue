@@ -38,7 +38,7 @@
         :maxlength="18"
         @blur="show = false"
       />
-      <yidun-captcha v-model:show="showCaptch" @success="onValidOk"/>
+      <yidun-captcha :be-validate="false" v-model:show="showCaptch" @success="onValidOk"/>
     </div>
   </div>
 </template>
@@ -67,11 +67,12 @@ export default defineComponent({
     const back = () => {
       router.back()
     }
-    const onValidOk = async () => {
+    const onValidOk = async (code: string) => {
       showCaptch.value = false
       run({
         realName: realName.value,
-        idCard: idCard.value
+        idCard: idCard.value,
+        code
       })
     }
 

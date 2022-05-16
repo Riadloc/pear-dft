@@ -16,7 +16,11 @@ import { useRequest } from 'vue-request'
 
 export default defineComponent({
   props: {
-    show: Boolean
+    show: Boolean,
+    beValidate: {
+      type: Boolean,
+      default: true
+    }
   },
   setup(props, context) {
     const captchaIns = ref<any>();
@@ -27,7 +31,11 @@ export default defineComponent({
       mode: 'popup',
       onVerify: async (err: any, data: any) => {
         if (err) return
-        runValidate(data.validate)
+        if (props.beValidate) {
+          runValidate(data.validate)
+        } else {
+          context.emit('success', data.validate)
+        }
       },
       onClose: () => {
         // captchaIns.value?.close()
@@ -35,6 +43,9 @@ export default defineComponent({
       }
     }, function onload(instance: any) {
       captchaIns.value = instance
+      if (props.show) {
+        captchaIns.value?.popUp()
+      }
     }, function onerror(err: any) {
       console.warn(err)
     })

@@ -103,7 +103,7 @@
       </div>
     </van-form>
     <pear-spinner :show="smsLoading" />
-    <yidun-captcha v-model:show="showCaptch" @success="onValidOk"/>
+    <yidun-captcha :be-validate="false" v-model:show="showCaptch" @success="onValidOk"/>
   </div>
 </template>
 
@@ -111,7 +111,7 @@
 import { computed, defineComponent, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useRequest } from 'vue-request'
-import { postSignup, postSendSms, updateUserInfo, getCaptchaSvg } from '@/services/user.service'
+import { postSignup, postSendSms, updateUserInfo } from '@/services/user.service'
 import { WEB_NAME } from '@/assets/config'
 import { HTTP_CODE } from '@/constants/enums'
 import { validatePassword } from '@/constants/utils'
@@ -156,9 +156,9 @@ export default defineComponent({
     const showPlainPsw2 = ref(false)
 
     const showCaptch = ref(false)
-    const onValidOk = () => {
+    const onValidOk = async (code: string) => {
       showCaptch.value = false
-      sendCode()
+      sendCode(code)
     }
 
     const phone = ref('')
@@ -221,18 +221,6 @@ export default defineComponent({
       }
     })
     const btnLoading = computed(() => btnLoading1.value && btnLoading2.value)
-    const captchaSvg = ref('')
-    const { run: runCaptchaSvg } = useRequest<any>(getCaptchaSvg, {
-      throttleInterval: 2000,
-      throttleOptions: { leading: true, trailing: false },
-      onSuccess(data) {
-        if (data.code === HTTP_CODE.ERROR) {
-          Toast({ type: 'success', message: data.msg })
-        } else {
-          captchaSvg.value = data.data
-        }
-      }
-    })
 
     const sendSmsDisabled = computed(() => countDownTime.value > 0 || !phone.value)
     const countDownTime = ref(0)
@@ -242,9 +230,10 @@ export default defineComponent({
     const changeCountDownTime = () => {
       //
     }
-    const sendCode = () => {
+    const sendCode = (code: string) => {
       runSendSms({
-        phone: phone.value
+        phone: phone.value,
+        code
       })
     }
     const { loading: smsLoading, run: runSendSms } = useRequest<any>(postSendSms, {
@@ -283,7 +272,6 @@ export default defineComponent({
       password2,
       onSubmit,
       btnLoading,
-      captchaSvg,
 
       showPlainPsw1,
       showPlainPsw2,
@@ -297,7 +285,6 @@ export default defineComponent({
       onCountDownFinished,
       changeCountDownTime,
       sendCode,
-      runCaptchaSvg,
 
       validatePassword,
       validatePasswordIsMatch,
