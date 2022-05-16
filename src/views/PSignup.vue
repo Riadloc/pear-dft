@@ -62,7 +62,7 @@
           class="rounded"
           v-model="password"
           :type="showPlainPsw1 ? 'text' : 'password'"
-          name="password1"
+          name="password"
           :right-icon="showPlainPsw1 ? 'eye-o' : 'closed-eye'"
           @click-right-icon="showPlainPsw1 = !showPlainPsw1"
           placeholder="请填写密码"
