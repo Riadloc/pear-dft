@@ -75,17 +75,7 @@
       </div>
     </van-form>
     <pear-spinner :show="smsLoading" />
-    <van-dialog v-model:show="showCaptch" title="图形验证码" show-cancel-button :before-close="beforeClose">
-      <div class="p-4 text-center flex flex-col justify-center items-center">
-        <div @click="runCaptchaSvg" v-html="captchaSvg" class="bg-white w-36 h-12 mb-4"></div>
-        <van-field
-          class="rounded"
-          v-model="captchaCode"
-          name="captchaCode"
-          placeholder="请填写验证码"
-        />
-      </div>
-    </van-dialog>
+    <pear-captcha :show="showCaptch" @cancel="showCaptch = false" @success="onValidOk" />
   </div>
 </template>
 
@@ -95,7 +85,7 @@ import { useRouter } from 'vue-router'
 import { Notify, Toast } from 'vant'
 import { useRequest } from 'vue-request'
 import { useUserStore } from '@/stores/user.store'
-import { getCaptchaSvg, postLogin, postSendSms, validateCaptcha } from '@/services/user.service'
+import { getCaptchaSvg, postLogin, postSendSms } from '@/services/user.service'
 import { validatePassword } from '@/constants/utils'
 import { WEB_NAME } from '@/assets/config'
 import { HTTP_CODE } from '@/constants/enums'
@@ -116,18 +106,9 @@ export default defineComponent({
     const store = useUserStore()
 
     const showCaptch = ref(false)
-    const beforeClose = async (action: string) => {
-      if (action === 'confirm') {
-        const res: any = await validateCaptcha(captchaCode.value)
-        if (res.code === HTTP_CODE.ERROR) {
-          Toast.fail(res.msg)
-        } else {
-          sendCode()
-          return true
-        }
-        return false
-      }
-      return true
+    const onValidOk = async () => {
+      showCaptch.value = false
+      sendCode()
     }
 
     const showPlainPsw = ref(false)
@@ -226,7 +207,7 @@ export default defineComponent({
       captchaCode,
       btnLoading,
       onSubmit,
-      beforeClose,
+      onValidOk,
 
       showPlainPsw,
 

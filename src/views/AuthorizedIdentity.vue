@@ -38,6 +38,7 @@
         :maxlength="18"
         @blur="show = false"
       />
+      <pear-captcha :show="showCaptch" @cancel="showCaptch = false" @success="onValidOk" />
     </div>
   </div>
 </template>
@@ -55,6 +56,7 @@ import { HTTP_CODE } from '@/constants/enums'
 export default defineComponent({
   setup() {
     const show = ref(false)
+    const showCaptch = ref(false)
     const realName = ref('')
     const idCard = ref('')
 
@@ -64,6 +66,13 @@ export default defineComponent({
 
     const back = () => {
       router.back()
+    }
+    const onValidOk = async () => {
+      showCaptch.value = false
+      run({
+        realName: realName.value,
+        idCard: idCard.value
+      })
     }
 
     const { loading, run } = useRequest(certifyUser, {
@@ -97,7 +106,7 @@ export default defineComponent({
         })
         return
       }
-      run(values)
+      showCaptch.value = true
     }
     onMounted(() => {
       if (store.userData.certified) {
@@ -111,6 +120,9 @@ export default defineComponent({
     })
 
     return {
+      showCaptch,
+      onValidOk,
+
       realName,
       idCard,
       loading,

@@ -16,7 +16,7 @@
     </div>
     <div class="bg-card flex rounded-lg overflow-hidden p-3 mb-6">
       <pear-image
-        :src="'https://pearmeta-1253493520.file.myqcloud.com/sidameinvwangzhaojun.jpeg_1izb675yjpoi'"
+        :src="detailData.cover"
         width="100%"
         size="h-20 w-20"
         class="overflow-hidden rounded-lg"
@@ -73,7 +73,8 @@ export default defineComponent({
     const { data: detailData, loading } = useRequest(() => getOrderDetail({ orderId: id }), {
       initialData: {
         user: {},
-        price: '0'
+        price: '0',
+        cover: ''
       },
       formatResult(res: any) {
         return res.data

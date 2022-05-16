@@ -95,19 +95,23 @@ export default defineComponent({
       })
     }
     const onBeforeSubmit = () => {
-      if (Number(price.value) <= 0) {
-        Toast.fail('不能等于0')
-        return
-      }
-      if (!isPrice(price.value)) {
-        Toast.fail('不正确价格格式')
-        return
-      }
-      if (Number(price.value) >= 100000) {
-        Toast.fail('金额不能大于10万')
-        return
-      }
-      showCaptch.value = true
+      Dialog.alert({
+        message: '功能正在维护中，暂时关闭'
+      })
+
+      // if (Number(price.value) <= 0) {
+      //   Toast.fail('不能等于0')
+      //   return
+      // }
+      // if (!isPrice(price.value)) {
+      //   Toast.fail('不正确价格格式')
+      //   return
+      // }
+      // if (Number(price.value) >= 100000) {
+      //   Toast.fail('金额不能大于10万')
+      //   return
+      // }
+      // showCaptch.value = true
     }
     const { loading, run: runSubmit } = useRequest(putItOnMarket, {
       manual: true,
