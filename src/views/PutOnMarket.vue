@@ -43,7 +43,7 @@
     <div class="flex mt-10">
       <van-button block class="rounded-lg pear-color-button" :loading="loading" @click="onBeforeSubmit">立即转售</van-button>
     </div>
-    <pear-captcha :show="showCaptch" @cancel="showCaptch = false" @success="onValidOk" />
+    <yidun-captcha v-model:show="showCaptch" @success="onValidOk"/>
   </div>
 </template>
 

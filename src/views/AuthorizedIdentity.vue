@@ -38,7 +38,7 @@
         :maxlength="18"
         @blur="show = false"
       />
-      <pear-captcha :show="showCaptch" @cancel="showCaptch = false" @success="onValidOk" />
+      <yidun-captcha v-model:show="showCaptch" @success="onValidOk"/>
     </div>
   </div>
 </template>

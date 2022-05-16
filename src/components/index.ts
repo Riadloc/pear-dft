@@ -9,6 +9,7 @@ import PearCaptcha from './PearCaptcha.vue'
 import SearchScreen from './SearchScreen.vue'
 import FilterBar from './filter-bar'
 import WalletRecordList from './WalletRecordList.vue'
+import YidunCaptcha from './YidunCaptcha.vue'
 
 export {
   PearIcon,
@@ -29,5 +30,6 @@ export default {
       .component('pear-image', PearImage)
       .component('pear-spinner', PearSpinner)
       .component('pear-captcha', PearCaptcha)
+      .component('yidun-captcha', YidunCaptcha)
   }
 }

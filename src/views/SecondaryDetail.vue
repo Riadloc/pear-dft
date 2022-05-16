@@ -83,7 +83,7 @@
       </div>
       <div class="footer"></div>
     </div>
-    <pear-captcha :show="showCaptch" @cancel="showCaptch = false" @success="onValidOk" />
+    <yidun-captcha v-model:show="showCaptch" @success="onValidOk"/>
   </div>
 </template>
 

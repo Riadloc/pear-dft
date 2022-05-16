@@ -1,5 +1,5 @@
 <template>
-  <van-overlay :show="show" @click="onClick">
+  <van-overlay :show="show" @click="onClick" z-index="10000">
     <div class="flex h-full justify-center items-center">
       <van-loading type="spinner" size="3rem" @click.stop/>
     </div>

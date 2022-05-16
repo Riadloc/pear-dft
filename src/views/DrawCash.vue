@@ -36,7 +36,7 @@
       @blur="show = false"
     />
     <pear-spinner :show="loading" />
-    <pear-captcha :show="showCaptch" @cancel="showCaptch = false" @success="onValidOk" />
+    <yidun-captcha v-model:show="showCaptch" @success="onValidOk"/>
   </div>
 </template>
 
