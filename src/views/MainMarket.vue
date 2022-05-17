@@ -35,6 +35,7 @@
           :price="item.marketPrice"
           :owner="item.user?.nickname"
           :serial="`${item.serial}/${item.parentGood?.copies}`"
+          :is-purchasing="item.status === 2"
         />
       </van-list>
     </div>

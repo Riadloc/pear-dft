@@ -14,8 +14,9 @@
       <span class="absolute bottom-2 right-2 text-yellow-200 text-md align-bottom"><span class="text-xs">￥</span>{{ price }}</span>
     </div>
     <p class="serial text-white text-xs bg-black bg-opacity-20 text-center px-2 rounded-full absolute right-2 top-2">{{ serial }}</p>
-    <div class="absolute left-2 top-2 bg-black bg-opacity-80 px-2 rounded-full leading-4" v-if="isSelling">
-      <span class="text-green-500 text-xs">转售中</span>
+    <div class="absolute left-2 top-2 bg-black bg-opacity-80 px-2 rounded-full leading-4" v-if="isSelling || isPurchasing">
+      <span class="text-green-500 text-xs" v-if="isSelling">转售中</span>
+      <span class="text-green-500 text-xs" v-else-if="isPurchasing">支付中</span>
     </div>
     <slot name="actions"></slot>
   </div>
@@ -38,7 +39,8 @@ export default defineComponent({
     owner: String,
     price: String,
     serial: String,
-    isSelling: Boolean
+    isSelling: Boolean,
+    isPurchasing: Boolean
   }
 })
 </script>

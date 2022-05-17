@@ -73,7 +73,8 @@ export default defineComponent({
       })
     }
     const onBeforeSubmit = () => {
-      if (Number(amount.value) <= 0) {
+      const value = Number(amount.value)
+      if (value <= 0) {
         Toast.fail('不能等于0')
         return
       }
@@ -81,9 +82,12 @@ export default defineComponent({
         Toast.fail('不正确价格格式')
         return
       }
-      if (Number(amount.value) > walletData.value.balance) {
+      if (value > walletData.value.balance) {
         Toast.fail('取现金额不能超过余额')
         return
+      }
+      if (value < 10) {
+        Toast.fail('取现金额不能小于10元')
       }
       showCaptch.value = true
     }
