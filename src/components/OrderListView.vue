@@ -26,9 +26,9 @@
         <div class="flex flex-col pl-4 justify-center flex-1 text-sm">
           <div class="flex justify-between items-center leading-7">
             <h4>{{ item.name }}</h4>
-            <span class="font-bold text-amber-200 text-lg">￥{{ item.good.price }}</span>
+            <span class="font-bold text-amber-200 text-lg">￥{{ item.price }}</span>
           </div>
-          <!-- <span class="leading-7">卖家: 梨数字官方</span> -->
+          <span class="leading-7">卖家: {{ item.seller }}</span>
           <span class="leading-7 whitespace-nowrap">单据: {{ item.orderNo }}</span>
         </div>
       </div>
