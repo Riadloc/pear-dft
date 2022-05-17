@@ -175,7 +175,7 @@ export default defineComponent({
   },
   methods: {
     formatDate(date: Date) {
-      return dayjs(date).format('YY-MM-DD HH:mm:ss')
+      return dayjs(date).add(8, 'hour').format('YY-MM-DD HH:mm:ss')
     }
   }
 })
