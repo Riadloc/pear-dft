@@ -90,7 +90,7 @@ export default defineComponent({
         Toast({
           message: '信息认证成功',
           onClose: () => {
-            store.getUserInfo(`${store.userData.userId}`)
+            store.getUserInfo()
             router.back()
           }
         })

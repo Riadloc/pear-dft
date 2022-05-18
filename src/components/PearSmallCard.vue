@@ -8,7 +8,7 @@
     />
     <div class="p-2 relative">
       <div class="flex flex-col w-8/12">
-        <span class="text-base text-white">{{ name }}</span>
+        <span class="text-sm text-white">{{ name }}</span>
         <span class="text-gray-300 text-xs">{{ owner }}</span>
       </div>
       <span class="absolute bottom-2 right-2 text-yellow-200 text-md align-bottom"><span class="text-xs">￥</span>{{ price }}</span>

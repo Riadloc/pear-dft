@@ -1,29 +1,33 @@
 <template>
-  <div class="collect p-4 px-2">
-    <div class="collect-header">
-      <h3 class="text-white text-xl">我的藏品</h3>
+  <div class="collect">
+    <van-sticky>
+      <div class="collect-header px-4 py-2 shadow-lg bg-paper">
+        <h3 class="text-white text-lg">我的藏品</h3>
+      </div>
+    </van-sticky>
+    <div class="py-4 px-2">
+      <van-list
+        v-model:loading="loading"
+        :finished="finished"
+        finished-text=""
+        @load="onLoad"
+        class="collect-list flex flex-wrap"
+      >
+        <pear-small-card
+          v-for="item in goods"
+          @click="() => goDetail(item)"
+          :key="item.name"
+          class="mb-4 mx-2 collect-card"
+          :cover="item.cover"
+          round
+          limit
+          :name="item.parentGood.name"
+          :price="item.price"
+          :serial="`${item.serial}/${item.parentGood.copies}`"
+          :is-selling="item.status !== 0"
+        />
+      </van-list>
     </div>
-    <van-list
-      v-model:loading="loading"
-      :finished="finished"
-      finished-text=""
-      @load="onLoad"
-      class="collect-list flex flex-wrap mt-8"
-    >
-      <pear-small-card
-        v-for="item in goods"
-        @click="() => goDetail(item)"
-        :key="item.name"
-        class="mb-4 mx-2 collect-card"
-        :cover="item.cover"
-        round
-        limit
-        :name="item.parentGood.name"
-        :price="item.price"
-        :serial="`${item.serial}/${item.parentGood.copies}`"
-        :is-selling="item.status !== 0"
-      />
-    </van-list>
   </div>
 </template>
 

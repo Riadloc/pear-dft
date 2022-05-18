@@ -207,8 +207,7 @@ export default defineComponent({
           Toast({ type: 'fail', message: data.msg })
         } else {
           Toast({ type: 'success', message: '注册成功' })
-          store.setUserInfo(data.data)
-          localStorage.setItem('user.id', `${data.data.userId}`)
+          store.getUserInfo()
           router.replace('/')
         }
       }
@@ -225,7 +224,6 @@ export default defineComponent({
             type: 'success',
             message: '修改成功',
             onClose: () => {
-              localStorage.removeItem('user.id')
               store.$reset()
               router.replace('/login')
             }
@@ -245,7 +243,6 @@ export default defineComponent({
             type: 'success',
             message: '修改成功',
             onClose: () => {
-              localStorage.removeItem('user.id')
               store.$reset()
               router.replace('/login')
             }

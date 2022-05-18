@@ -11,6 +11,7 @@ interface UserData {
   certified: 0 | 1;
   metaAccount: string,
   isBindBank: boolean;
+  isBindPayPassword: boolean;
 }
 
 export const useUserStore = defineStore('user', {
@@ -26,7 +27,8 @@ export const useUserStore = defineStore('user', {
         email: '',
         certified: 0,
         metaAccount: '',
-        isBindBank: false
+        isBindBank: false,
+        isBindPayPassword: false
       },
       walletData: {
         balance: 0
@@ -34,9 +36,9 @@ export const useUserStore = defineStore('user', {
     }
   },
   actions: {
-    async getUserInfo(id: string) {
+    async getUserInfo() {
       try {
-        const { data } = await getUserInfo(id)
+        const { data } = await getUserInfo()
         this.userData = data
         this.isLoggedIn = true
         return true

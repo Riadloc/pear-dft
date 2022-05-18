@@ -16,12 +16,8 @@ export function certifyUser(data: any) {
   return request.post('/user/certify', data)
 }
 
-export function getUserInfo(userId: string) {
-  return request.get('/user', {
-    params: {
-      userId
-    }
-  })
+export function getUserInfo() {
+  return request.get('/user')
 }
 
 export function updateUserInfo(userId: string | number, data: any) {
@@ -50,4 +46,12 @@ export function sendEmailCode(data: any) {
 
 export function verifyEmailCode(data: any) {
   return request.post('/user/mail/verify', data)
+}
+
+export function setPayPassword(data: any) {
+  return request.post('/user/paysafety/set', data)
+}
+
+export function checkPayPassword(params: any) {
+  return request.get('/user/paysafety/check', { params })
 }

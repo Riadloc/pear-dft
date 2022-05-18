@@ -1,24 +1,27 @@
 <template>
   <div class="bank-card-bind pt-16">
-    <pear-navbar title="绑定银行卡" fixed left-arrow />
+    <pear-navbar title="支付密码" fixed left-arrow />
     <van-form @submit="onSubmit" class="p-6" validate-trigger="onSubmit">
       <van-field
         :border="false"
         readonly
         @touchstart.stop="showBankCardKeyboard = true"
-        v-model="cardNo"
-        name="cardNo"
+        v-model="payKey"
+        name="payKey"
         class="mb-4 rounded"
-        placeholder="储蓄银行卡卡号"
-        :rules="[{ required: true, message: '请填写储蓄银行卡卡号' }]"
+        placeholder="支付密码"
+        :rules="[{ required: true, message: '请填写支付密码' }, { pattern: /^\d{6}$/, message: '请输入6位的数字密码' }]"
       />
       <van-field
         :border="false"
-        v-model="realName"
-        name="realName"
+        v-model="password"
+        name="password"
+        :type="showPlainPsw ? 'text' : 'password'"
+        :right-icon="showPlainPsw ? 'eye-o' : 'closed-eye'"
+        @click-right-icon="showPlainPsw = !showPlainPsw"
         class="mb-4 rounded"
-        placeholder="开户人姓名（不是支行名称)"
-        :rules="[{ required: true, message: '请填写开户人' }]"
+        placeholder="登录密码"
+        :rules="[{ required: true, message: '请填写登录密码' }]"
       />
       <div class="mt-10">
         <van-button round block class="pear-plain-button" native-type="submit">
@@ -27,18 +30,20 @@
       </div>
     </van-form>
     <van-number-keyboard
-      v-model="cardNo"
+      v-model="payKey"
       :show="showBankCardKeyboard"
       :maxlength="20"
       @blur="showBankCardKeyboard = false"
     />
     <pear-spinner :show="loading" />
+    <yidun-captcha :be-validate="false" v-model:show="showCaptch" @success="onValidOk"/>
   </div>
 </template>
 
 <script lang="ts">
+import { SIMPLE_PASSWORD } from '@/constants/constants'
 import { HTTP_CODE } from '@/constants/enums'
-import { checkBankCardStat, onBankBind } from '@/services/wallet.service'
+import { setPayPassword } from '@/services/user.service'
 import { useUserStore } from '@/stores/user.store'
 import { Dialog, Toast } from 'vant'
 import { defineComponent, ref } from 'vue'
@@ -49,28 +54,33 @@ export default defineComponent({
     const router = useRouter()
     const userStore = useUserStore()
 
+    const showCaptch = ref(false)
     const showBankCardKeyboard = ref(false)
-    const cardNo = ref('')
-    const realName = ref('')
+    const showPlainPsw = ref(false)
+    const payKey = ref('')
+    const password = ref('')
     const onSubmit = (values: any) => {
-      checkBankCardStat(values.cardNo)
-        .then((res: any) => {
-          if (!res.validated) {
-            Toast.fail('错误或不支持的卡号')
-            return
-          }
-          if (res.cardType !== 'DC') {
-            Toast.fail('支持储蓄银行卡')
-            return
-          }
-          runBankBind({
-            bankNo: cardNo.value,
-            realName: realName.value
-          })
-        })
+      if (!/^\d{6}$/.test(values.payKey)) {
+        Toast.fail('请输入6位数字密码')
+        return
+      }
+      if (SIMPLE_PASSWORD.includes(values.payKey)) {
+        Toast.fail('密码太过简单')
+        return
+      }
+      showCaptch.value = true
     }
-    const { loading, run: runBankBind } = useRequest(onBankBind, {
+    const onValidOk = () => {
+      showCaptch.value = false
+      run({
+        payKey: payKey.value,
+        password: password.value
+      })
+    }
+    const { loading, run } = useRequest(setPayPassword, {
       manual: true,
+      throttleInterval: 2000,
+      throttleOptions: { leading: true, trailing: false },
       onSuccess(res: any) {
         if (res.code === HTTP_CODE.ERROR) {
           Dialog.alert({
@@ -86,9 +96,12 @@ export default defineComponent({
 
     return {
       showBankCardKeyboard,
-      cardNo,
-      realName,
+      showPlainPsw,
+      showCaptch,
+      payKey,
+      password,
       onSubmit,
+      onValidOk,
       loading
     }
   }

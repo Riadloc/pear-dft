@@ -32,7 +32,6 @@
       </van-cell>
       <van-cell
         round
-        :border="false"
         title-class="text-gray-100"
         class="rounded bg-card"
         :is-link="!userData.isBindBank"
@@ -121,16 +120,30 @@
       </van-cell>
       <van-cell
         round
-        :border="false"
         title-class="text-gray-100"
-        class="mb-3 rounded bg-card"
+        class="rounded bg-card"
         is-link
         :to="{ name: 'Signup', query: { type: 1 } }"
       >
         <template #title>
           <div class="flex items-center">
-            <pear-icon set="fluent" name="shield-lock-20-regular" size="1.3rem" />
+            <pear-icon set="ph" name="shield-check-light" size="1.3rem" />
             <span class="ml-2">修改密码</span>
+          </div>
+        </template>
+      </van-cell>
+      <van-cell
+        round
+        :border="false"
+        title-class="text-gray-100"
+        class="mb-3 rounded bg-card"
+        is-link
+        @click="onChangePayPassword"
+      >
+        <template #title>
+          <div class="flex items-center">
+            <pear-icon set="ph" name="shield-star-light" size="1.3rem" />
+            <span class="ml-2">修改支付密码</span>
           </div>
         </template>
       </van-cell>
@@ -197,7 +210,6 @@ export default defineComponent({
       Dialog.confirm({
         message: '确认退出登录？'
       }).then(() => {
-        localStorage.removeItem('user.id')
         store.$reset()
         router.replace('/login')
       }).catch(() => {
@@ -230,6 +242,18 @@ export default defineComponent({
       this.name = this.userData.nickname
       this.show = true
     },
+    onChangePayPassword() {
+      const { isBindPayPassword } = this.userData
+      if (isBindPayPassword) {
+        Dialog.confirm({
+          message: '已设置支付密码，确认修改？'
+        }).then(() => {
+          this.$router.push('/paySafety')
+        })
+      } else {
+        this.$router.push('/paySafety')
+      }
+    },
     async submitChangeName(values: any) {
       const res = await updateUserInfo(this.userData.userId, values) as any
       if (res.code !== 0) {
@@ -237,7 +261,7 @@ export default defineComponent({
         return
       }
       Toast('昵称修改成功')
-      this.getUserInfo(`${this.userData.userId}`)
+      this.getUserInfo()
       this.show = false
     }
   }

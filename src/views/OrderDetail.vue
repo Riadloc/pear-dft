@@ -44,10 +44,11 @@
       </p>
     </div>
     <div class="flex mt-12" v-show="detailData?.price && detailData.status == OrderStatus.WAIT">
-      <van-button block class="mr-6 rounded-lg pear-color-button" :loading="submitLoading" @click="onPurchase">立即支付</van-button>
+      <van-button block class="mr-6 rounded-lg pear-color-button" :loading="submitLoading" @click="showPasswordDialog = true">立即支付</van-button>
       <van-button block class="rounded-lg pear-plain-button" @click="onCancel">取消订单</van-button>
     </div>
     <pear-spinner :show="loading" />
+    <typing-password-dialog :show="showPasswordDialog" @cancel="showPasswordDialog = false" @success="onPurchase" />
   </div>
 </template>
 
@@ -67,6 +68,8 @@ export default defineComponent({
   setup() {
     const route = useRoute()
     const router = useRouter()
+
+    const showPasswordDialog = ref(false)
 
     const { id, isSecond } = route.query
     const isFluxGoodOrder = computed(() => isSecond === '1')
@@ -148,6 +151,8 @@ export default defineComponent({
     const formatDate = (date: Date) => dayjs(date).format('YYYY-MM-DD HH:mm:ss')
 
     return {
+      showPasswordDialog,
+
       detailData,
       buyCount,
       countDownTime,

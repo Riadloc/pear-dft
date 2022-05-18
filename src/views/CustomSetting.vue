@@ -1,7 +1,7 @@
 <template>
   <div class="custom-setting">
     <van-nav-bar :border="false" title="设置" fixed left-arrow @click-left="back" />
-    <div class="flex justify-between gap-4 absolute bottom-0 left-0 right-0 px-4 py-6 bg-gray-800 shadow-lg rounded-t-xl">
+    <div class="flex justify-between gap-4 absolute bottom-0 left-0 right-0 px-4 py-6 bg-card shadow-lg rounded-t-xl">
       <van-button type="danger" block @click="logout">退出登录</van-button>
     </div>
   </div>
@@ -21,7 +21,6 @@ export default defineComponent({
       Dialog.confirm({
         message: '确认退出登录？'
       }).then(() => {
-        localStorage.removeItem('user.id')
         store.$reset()
         router.replace('/login')
       }).catch(() => {

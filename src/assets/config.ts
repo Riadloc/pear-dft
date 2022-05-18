@@ -25,7 +25,9 @@ export const theme = {
   stepperButtonDisabledColor: '#292a2d',
   stepperButtonIconColor: '#fff',
   stepperInputTextColor: '#fff',
-  searchActionTextColor: '#fff'
+  searchActionTextColor: '#fff',
+  passwordInputBackgroundColor: '#464a51',
+  passwordInputDotColor: '#fff'
   // buttonPrimaryBackgroundColor: 'linear-gradient(to right, #5eaeff, #1087ff)'
 }
 

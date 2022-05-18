@@ -10,6 +10,7 @@ import SearchScreen from './SearchScreen.vue'
 import FilterBar from './filter-bar'
 import WalletRecordList from './WalletRecordList.vue'
 import YidunCaptcha from './YidunCaptcha.vue'
+import TypingPasswordDialog from './TypingPasswordDialog.vue'
 
 export {
   PearIcon,
@@ -19,7 +20,8 @@ export {
   FilterBar,
   PearSpinner,
   SearchScreen,
-  WalletRecordList
+  WalletRecordList,
+  TypingPasswordDialog
 }
 
 export default {
@@ -31,5 +33,6 @@ export default {
       .component('pear-spinner', PearSpinner)
       .component('pear-captcha', PearCaptcha)
       .component('yidun-captcha', YidunCaptcha)
+      .component('typing-password-dialog', TypingPasswordDialog)
   }
 }

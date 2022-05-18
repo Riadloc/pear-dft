@@ -1,20 +1,22 @@
 <template>
   <div class="market">
-    <div class="shadow-lg pb-2 mb-4">
-      <van-search
-        readonly
-        @touchstart.stop="showSearchScreen = true"
-        shape="round"
-         v-model="query"
-        placeholder="请输入搜索关键词"
-        background="transparent"
-      />
-      <filter-bar
-        class="px-4"
-        :options="options"
-        @change="onFilterChange"
-      />
-    </div>
+    <van-sticky>
+      <div class="shadow-lg bg-paper pb-2 mb-4">
+        <van-search
+          readonly
+          @touchstart.stop="showSearchScreen = true"
+          shape="round"
+           v-model="query"
+          placeholder="请输入搜索关键词"
+          background="transparent"
+        />
+        <filter-bar
+          class="px-4"
+          :options="options"
+          @change="onFilterChange"
+        />
+      </div>
+    </van-sticky>
     <div class="px-2">
       <van-list
         v-model:loading="loading"

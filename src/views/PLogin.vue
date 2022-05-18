@@ -140,8 +140,7 @@ export default defineComponent({
           Toast.fail(data.msg)
         } else {
           Toast.success('登录成功')
-          store.setUserInfo(data.data)
-          localStorage.setItem('user.id', `${data.data.userId}`)
+          store.getUserInfo()
           router.replace('/')
         }
       }

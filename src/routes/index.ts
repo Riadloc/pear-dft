@@ -1,5 +1,4 @@
 import * as VueRouter from 'vue-router'
-import * as Cookie from 'cookie'
 import { useUserStore } from '@/stores/user.store'
 
 const HomeWrapper = () => import('@/views/HomeWrapper.vue')
@@ -22,6 +21,7 @@ const AuthorizedIdentity = () => import('@/views/AuthorizedIdentity.vue')
 const MailBind = () => import('@/views/MailBind.vue')
 const MyWallet = () => import('@/views/MyWallet.vue')
 const BankCardBind = () => import('@/views/BankCardBind.vue')
+const PaySafety = () => import('@/views/PaySafety.vue')
 const TopUp = () => import('@/views/TopUp.vue')
 const DrawCash = () => import('@/views/DrawCash.vue')
 const PutOnMarket = () => import('@/views/PutOnMarket.vue')
@@ -137,6 +137,11 @@ const routes = [
     component: BankCardBind
   },
   {
+    path: '/paySafety',
+    name: 'PaySafety',
+    component: PaySafety
+  },
+  {
     path: '/topUp',
     name: 'TopUp',
     component: TopUp
@@ -166,28 +171,16 @@ const router = VueRouter.createRouter({
 router.beforeEach(async (to) => {
   const store = useUserStore()
   const { meta } = to
-  const cookies = Cookie.parse(document.cookie)
-  const isCookieExpired = !(cookies && cookies['connect.sid'])
-  const userId = localStorage.getItem('user.id')
-  if (userId) {
-    console.log(isCookieExpired, store.isLoggedIn)
-    if (isCookieExpired && !store.isLoggedIn) {
-      const res = await store.getUserInfo(userId)
+  if (meta.requiresAuth !== false) {
+    if (!store.isLoggedIn) {
+      const res = await store.getUserInfo()
       if (!res) {
         return '/login'
       }
-      return true
     }
     if (!store.isWalletFetched) {
       store.getWalletInfo()
     }
-    return true
-  } else if (store.isLoggedIn && store.userData.id) {
-    localStorage.setItem('user.id', `${store.userData.userId}`)
-    return true
-  }
-  if (meta.requiresAuth !== false) {
-    return '/login'
   }
   return true
 })

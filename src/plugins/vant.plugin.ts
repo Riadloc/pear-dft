@@ -31,6 +31,7 @@ import {
   Progress,
   Overlay,
   ShareSheet,
+  PasswordInput,
   Stepper,
   Image as VanImage
 } from 'vant'
@@ -63,6 +64,7 @@ export default {
       .use(Uploader)
       .use(PullRefresh)
       .use(NumberKeyboard)
+      .use(PasswordInput)
       .use(Dialog)
       .use(Notify)
       .use(NoticeBar)

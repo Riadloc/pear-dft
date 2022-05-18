@@ -136,7 +136,7 @@ export default defineComponent({
           Dialog.alert({
             message: '邮箱绑定成功'
           }).then(() => {
-            store.getUserInfo(`${store.userData.userId}`)
+            store.getUserInfo()
             router.back()
           })
         }

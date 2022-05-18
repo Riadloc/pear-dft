@@ -170,6 +170,7 @@ export default defineComponent({
         })
     }
     const onValidOk = () => {
+      showCaptch.value = false
       createOrder({
         goodId: data.value.id
       })
