@@ -43,6 +43,9 @@
     <div class="flex mt-10">
       <van-button block class="rounded-lg pear-color-button" :loading="loading" @click="onBeforeSubmit">立即转售</van-button>
     </div>
+    <div class="text-white text-sm mt-3">
+      <van-checkbox v-model="checked" icon-size="1rem"><span class="text-white">我知晓并同意<span class="text-blue-500" @click="goAgreement">《商家入驻协议》</span></span></van-checkbox>
+    </div>
     <yidun-captcha v-model:show="showCaptch" @success="onValidOk"/>
   </div>
 </template>
@@ -78,6 +81,7 @@ export default defineComponent({
     })
 
     const showCaptch = ref(false)
+    const checked = ref(false)
     const price = ref('')
     const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss')
 
@@ -98,17 +102,20 @@ export default defineComponent({
       Dialog.alert({
         message: '功能正在维护中，暂时关闭'
       })
-
       // if (Number(price.value) <= 0) {
-      //   Toast.fail('不能等于0')
+      //   Toast('不能等于0')
       //   return
       // }
       // if (!isPrice(price.value)) {
-      //   Toast.fail('不正确价格格式')
+      //   Toast('不正确价格格式')
       //   return
       // }
       // if (Number(price.value) >= 100000) {
-      //   Toast.fail('金额不能大于10万')
+      //   Toast('金额不能大于10万')
+      //   return
+      // }
+      // if (!checked.value) {
+      //   Toast('请勾选同意《商家入驻协议》')
       //   return
       // }
       // showCaptch.value = true
@@ -129,15 +136,21 @@ export default defineComponent({
       }
     })
 
+    const goAgreement = () => {
+      router.push('/agreement/business')
+    }
+
     return {
       loading,
       showCaptch,
+      checked,
       detailData,
       price,
       realCash,
       createdAt,
       onBeforeSubmit,
-      onValidOk
+      onValidOk,
+      goAgreement
     }
   }
 })

@@ -65,20 +65,20 @@
           </div>
         </template>
       </van-cell>
-      <!-- <van-cell
+      <van-cell
         is-link
         clickable
         round
         :border="false"
-        to="/contact"
+        to="/infomation"
         title-class="text-gray-100"
         class="mb-3 rounded bg-card"
       >
         <template #title>
-          <pear-icon set="ph" name="chats-light" size="1.3rem" />
+          <pear-icon set="ph" name="books-light" size="1.3rem" />
           <span class="ml-2">关于我们</span>
         </template>
-      </van-cell> -->
+      </van-cell>
       <van-cell
         is-link
         clickable

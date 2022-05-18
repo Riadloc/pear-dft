@@ -26,6 +26,11 @@ const TopUp = () => import('@/views/TopUp.vue')
 const DrawCash = () => import('@/views/DrawCash.vue')
 const PutOnMarket = () => import('@/views/PutOnMarket.vue')
 const SecondaryDetail = () => import('@/views/SecondaryDetail.vue')
+const InfoList = () => import('@/views/InfoList.vue')
+
+const BusinessAgreement = () => import('@/views/info-views/BusinessAgreement.vue')
+
+const NormalLayout = () => import('@/layouts/NormalLayout.vue')
 
 const routes = [
   {
@@ -160,6 +165,21 @@ const routes = [
     path: '/secondaryDetail',
     name: 'SecondaryDetail',
     component: SecondaryDetail
+  },
+  {
+    path: '/infomation',
+    name: 'Info',
+    component: InfoList
+  },
+  {
+    path: '/agreement',
+    component: NormalLayout,
+    children: [
+      {
+        path: 'business',
+        component: BusinessAgreement
+      }
+    ]
   }
 ]
 

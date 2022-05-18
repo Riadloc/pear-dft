@@ -14,6 +14,7 @@ import {
   Icon,
   RadioGroup,
   Radio,
+  Checkbox,
   NavBar,
   Sticky,
   CountDown,
@@ -53,6 +54,7 @@ export default {
       .use(Icon)
       .use(RadioGroup)
       .use(Radio)
+      .use(Checkbox)
       .use(NavBar)
       .use(Sticky)
       .use(VanImage)

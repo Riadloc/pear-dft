@@ -1,7 +1,7 @@
 <template>
   <div class="market">
     <van-sticky>
-      <div class="shadow-lg bg-paper pb-2 mb-4">
+      <div class="shadow-lg bg-paper pt-1 pb-2 mb-4">
         <van-search
           readonly
           @touchstart.stop="showSearchScreen = true"
