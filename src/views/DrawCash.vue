@@ -88,6 +88,7 @@ export default defineComponent({
       }
       if (value < 10) {
         Toast.fail('取现金额不能小于10元')
+        return
       }
       showCaptch.value = true
     }
