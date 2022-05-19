@@ -79,8 +79,12 @@ export default defineComponent({
           return
         }
         userStore.getUserInfo()
-        Toast.success('绑定成功')
-        router.back()
+        Toast.success({
+          message: '绑定成功',
+          onClose: () => {
+            router.back()
+          }
+        })
       }
     })
 

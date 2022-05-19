@@ -34,8 +34,8 @@
         round
         title-class="text-gray-100"
         class="rounded bg-card"
-        :is-link="!userData.isBindBank"
-        :to="userData.isBindBank ? '' : 'bankCardBind'"
+        is-link
+        @click="onChangeBank"
       >
         <template #title>
           <div class="flex items-center">
@@ -252,6 +252,18 @@ export default defineComponent({
         })
       } else {
         this.$router.push('/paySafety')
+      }
+    },
+    onChangeBank() {
+      const { isBindBank } = this.userData
+      if (isBindBank) {
+        Dialog.confirm({
+          message: '已绑定银行卡，确认修改？'
+        }).then(() => {
+          this.$router.push('/bankCardBind')
+        })
+      } else {
+        this.$router.push('/bankCardBind')
       }
     },
     async submitChangeName(values: any) {
