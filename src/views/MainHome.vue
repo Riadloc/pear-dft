@@ -19,7 +19,7 @@
       <van-list
         v-model:loading="loading"
         :finished="finished"
-        finished-text="没有更多了"
+        finished-text=""
         @load="onLoad"
         class="px-4"
       >
@@ -40,6 +40,7 @@
           :is-sold-out="item.isSoldOut"
         />
       </van-list>
+      <pear-registration />
       <div class="fixed rounded-lg bg-black bg-opacity-80 bottom-chip" v-if="store.isLoggedIn && !store.userData.certified">
         <div class="text-white py-3 px-4 text-sm flex items-center justify-between">
           <span>请先完成实名认证再购买藏品</span>

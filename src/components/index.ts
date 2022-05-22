@@ -6,6 +6,7 @@ import PearImage from './PearImage.vue'
 import NavBar from './NavBar.vue'
 import PearSpinner from './PearSpinner.vue'
 import PearCaptcha from './PearCaptcha.vue'
+import PearRegistration from './PearRegistration.vue'
 import SearchScreen from './SearchScreen.vue'
 import FilterBar from './filter-bar'
 import WalletRecordList from './WalletRecordList.vue'
@@ -33,6 +34,7 @@ export default {
       .component('pear-spinner', PearSpinner)
       .component('pear-captcha', PearCaptcha)
       .component('yidun-captcha', YidunCaptcha)
+      .component('pear-registration', PearRegistration)
       .component('typing-password-dialog', TypingPasswordDialog)
   }
 }

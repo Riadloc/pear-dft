@@ -93,7 +93,14 @@
           ]"
         />
       </van-cell-group>
-      <div class="mt-10">
+      <div class="text-white text-sm mt-8 mb-6 flex" v-if="isSignup">
+        <van-checkbox v-model="checked" icon-size="1rem"></van-checkbox>
+        <span class="text-white ml-2">我已阅读并同意
+          <span class="text-blue-500" @click="goAgreement(0)"><u>《用户协议》</u></span>与
+          <span class="text-blue-500" @click="goAgreement(1)"><u>《隐私政策》</u></span>
+        </span>
+      </div>
+      <div :class=" isSignup ? '' : 'mt-10'">
         <div class="flex">
           <van-button round block class="pear-color-button" native-type="submit" :loading="btnLoading">
             {{ pageTexts.submit }}
@@ -146,6 +153,7 @@ const PageTypeTexts = {
 }
 
 export default defineComponent({
+  name: 'UserSignup',
   data() {
     return {
       WEB_NAME
@@ -162,6 +170,7 @@ export default defineComponent({
     const showPlainPsw1 = ref(false)
     const showPlainPsw2 = ref(false)
 
+    const checked = ref(false)
     const showCaptch = ref(false)
     const onValidOk = async (code: string) => {
       showCaptch.value = false
@@ -176,6 +185,10 @@ export default defineComponent({
     const onSubmit = (values: any) => {
       console.log('submit', values)
       if (type === PageTypes.SIGN_UP) {
+        if (!checked.value) {
+          Toast('请勾选同意《用户协议》与《隐私政策》')
+          return
+        }
         const inviteCode = sessionStorage.getItem('inviteCode')
         runSignup({
           ...values,
@@ -294,6 +307,14 @@ export default defineComponent({
       return false
     }
 
+    const goAgreement = (type: number) => {
+      if (type === 0) {
+        router.push({ name: 'UserAgreement' })
+      } else if (type === 1) {
+        router.push({ name: 'PrivacyAgreement' })
+      }
+    }
+
     return {
       phone,
       code,
@@ -320,7 +341,10 @@ export default defineComponent({
       validatePasswordIsMatch,
 
       pageTexts: PageTypeTexts[type],
-      isSignup
+      isSignup,
+
+      checked,
+      goAgreement
     }
   }
 })

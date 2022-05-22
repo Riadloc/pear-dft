@@ -43,8 +43,8 @@
     <div class="flex mt-10">
       <van-button block class="rounded-lg pear-color-button" :loading="loading" @click="onBeforeSubmit">立即转售</van-button>
     </div>
-    <div class="text-white text-sm mt-3">
-      <van-checkbox v-model="checked" icon-size="1rem"><span class="text-white">我知晓并同意<span class="text-blue-500" @click="goAgreement">《商家入驻协议》</span></span></van-checkbox>
+    <div class="text-white text-sm mt-3 flex">
+      <van-checkbox v-model="checked" icon-size="1rem"></van-checkbox><span class="text-white ml-2">我知晓并同意<span class="text-blue-500" @click="goAgreement">《商家入驻协议》</span></span>
     </div>
     <yidun-captcha v-model:show="showCaptch" @success="onValidOk"/>
   </div>
@@ -61,6 +61,7 @@ import { useRoute, useRouter } from 'vue-router'
 const isPrice = (val: string) => /^\d+(\.\d{1,2})?$/.test(val)
 
 export default defineComponent({
+  name: 'PutOnMarket',
   setup() {
     const route = useRoute()
     const router = useRouter()

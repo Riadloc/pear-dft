@@ -4,7 +4,9 @@
       <transition
         name="fade" mode="out-in"
       >
-        <component :is="Component" />
+        <keep-alive :include="keepAliveInclude">
+          <component :is="Component" />
+        </keep-alive>
       </transition>
     </router-view>
   </van-config-provider>
@@ -15,7 +17,8 @@ import { theme } from '@/assets/config'
 export default defineComponent({
   setup() {
     return {
-      theme
+      theme,
+      keepAliveInclude: ['UserLogin', 'UserSingup', 'PutOnMarket']
     }
   },
   mounted() {

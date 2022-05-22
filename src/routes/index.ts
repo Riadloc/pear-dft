@@ -29,6 +29,8 @@ const SecondaryDetail = () => import('@/views/SecondaryDetail.vue')
 const InfoList = () => import('@/views/InfoList.vue')
 
 const BusinessAgreement = () => import('@/views/info-views/BusinessAgreement.vue')
+const UserAgreement = () => import('@/views/info-views/UserAgreement.vue')
+const PrivacyAgreement = () => import('@/views/info-views/PrivacyAgreement.vue')
 
 const NormalLayout = () => import('@/layouts/NormalLayout.vue')
 
@@ -65,6 +67,7 @@ const routes = [
   },
   {
     path: '/login',
+    name: 'Login',
     component: Login,
     meta: {
       requiresAuth: false
@@ -173,11 +176,35 @@ const routes = [
   },
   {
     path: '/agreement',
+    name: 'Agreement',
     component: NormalLayout,
+    meta: {
+      requiresAuth: false
+    },
     children: [
       {
+        path: 'user',
+        name: 'UserAgreement',
+        component: UserAgreement,
+        meta: {
+          requiresAuth: false
+        }
+      },
+      {
+        path: 'privacy',
+        name: 'PrivacyAgreement',
+        component: PrivacyAgreement,
+        meta: {
+          requiresAuth: false
+        }
+      },
+      {
         path: 'business',
-        component: BusinessAgreement
+        name: 'BusinessAgreement',
+        component: BusinessAgreement,
+        meta: {
+          requiresAuth: false
+        }
       }
     ]
   }

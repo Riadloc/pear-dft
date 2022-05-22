@@ -77,7 +77,14 @@
             <span @click="onForget">忘记密码？</span>
         </div>
       </van-cell-group>
-      <div class="mt-10">
+      <div class="text-white text-sm mt-10 mb-6 flex">
+        <van-checkbox v-model="checked" icon-size="1rem"></van-checkbox>
+        <span class="text-white ml-2">我已阅读并同意
+          <span class="text-blue-500" @click="goAgreement(0)"><u>《用户协议》</u></span>与
+          <span class="text-blue-500" @click="goAgreement(1)"><u>《隐私政策》</u></span>
+        </span>
+      </div>
+      <div>
         <van-button round block class="pear-color-button" native-type="submit" :loading="btnLoading">
           登录
         </van-button>
@@ -105,6 +112,7 @@ enum LoginTypes {
 }
 
 export default defineComponent({
+  name: 'UserLogin',
   data() {
     return {
       WEB_NAME
@@ -120,6 +128,7 @@ export default defineComponent({
       sendCode(code)
     }
 
+    const checked = ref(false)
     const showPlainPsw = ref(false)
     const phone = ref('')
     const password = ref('')
@@ -127,6 +136,10 @@ export default defineComponent({
     const captchaCode = ref('')
     const onSubmit = (values: any) => {
       console.log('submit', values)
+      if (!checked.value) {
+        Toast('请勾选同意《用户协议》与《隐私政策》')
+        return
+      }
       run({
         ...values
       })
@@ -148,6 +161,13 @@ export default defineComponent({
 
     const onForget = () => {
       router.push({ name: 'Signup', query: { type: 2 } })
+    }
+    const goAgreement = (type: number) => {
+      if (type === 0) {
+        router.push({ name: 'UserAgreement' })
+      } else if (type === 1) {
+        router.push({ name: 'PrivacyAgreement' })
+      }
     }
 
     const sendSmsDisabled = computed(() => countDownTime.value > 0 || !phone.value)
@@ -212,6 +232,7 @@ export default defineComponent({
       showPlainPsw,
       onForget,
 
+      checked,
       showCaptch,
       smsLoading,
       sendSmsDisabled,
@@ -224,7 +245,8 @@ export default defineComponent({
       toggleLoginType,
       LoginTypes,
 
-      validatePassword
+      validatePassword,
+      goAgreement
     }
   }
 })
