@@ -23,6 +23,7 @@ const MyWallet = () => import('@/views/MyWallet.vue')
 const BankCardBind = () => import('@/views/BankCardBind.vue')
 const PaySafety = () => import('@/views/PaySafety.vue')
 const TopUp = () => import('@/views/TopUp.vue')
+const TopUpStore = () => import('@/views/TopUpStore.vue')
 const DrawCash = () => import('@/views/DrawCash.vue')
 const PutOnMarket = () => import('@/views/PutOnMarket.vue')
 const SecondaryDetail = () => import('@/views/SecondaryDetail.vue')
@@ -153,6 +154,11 @@ const routes = [
     path: '/topUp',
     name: 'TopUp',
     component: TopUp
+  },
+  {
+    path: '/topUpStore',
+    name: 'TopUpStore',
+    component: TopUpStore
   },
   {
     path: '/drawCash',

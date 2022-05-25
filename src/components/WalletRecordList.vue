@@ -21,7 +21,7 @@
         <span class="cell-td basis-1/4" v-if="type === 1">
           <span @click="() => onPay(item)" v-if="item.status === 0">继续支付</span>
         </span>
-        <span class="cell-td basis-1/4">
+        <span class="cell-td basis-1/4" v-else>
           <span>{{ item.payInfo?.remark || '' }}</span>
         </span>
       </div>

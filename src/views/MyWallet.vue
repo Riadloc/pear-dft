@@ -62,7 +62,7 @@ export default defineComponent({
       //   message: '功能正在维护中，暂时关闭'
       // })
 
-      router.push('/topUp')
+      router.push('/topUpStore')
     }
     const goDrawCash = () => {
       if (userData.value.isBindBank) {

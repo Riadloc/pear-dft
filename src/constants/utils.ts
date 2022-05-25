@@ -37,11 +37,11 @@ export function downloadFile(url: string, filename: string) {
   document.body.removeChild(eleLink)
 }
 
-export function openLink(url: string) {
+export function openLink(url: string, target = '_blank') {
   const eleLink = document.createElement('a')
   eleLink.style.display = 'none'
   eleLink.href = url
-  eleLink.target = '_blank'
+  eleLink.target = target
   // 触发点击
   document.body.appendChild(eleLink)
   eleLink.click()
