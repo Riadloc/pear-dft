@@ -18,7 +18,8 @@
     </div>
     <div class="text-white mb-4">
       <h4 class="text-base mb-2">说明</h4>
-      <p class="pl-1 text-sm text-gray-300 mb-2">服务费：手续费3.5%，版税3.5%</p>
+      <p class="pl-1 text-sm text-gray-300 mb-2" v-if="tax === NORMAL_TAX">服务费：手续费{{ formatTax(tax) }}，版税{{ formatTax(tax) }}</p>
+      <p class="pl-1 text-sm text-gray-300 mb-2" v-else>服务费：手续费<del>{{ formatTax(NORMAL_TAX) }}</del>{{ formatTax(tax) }}，版税{{ formatTax(NORMAL_TAX) }}<pear-tips class="ml-1" tip="拥有创世之星的用户享受20%的服务费减免特权" /></p>
     </div>
     <div class="text-white">
       <h4 class="text-base mb-2">价格设置</h4>
@@ -51,8 +52,10 @@
 </template>
 
 <script lang="ts">
-import { HTTP_CODE } from '@/constants/enums'
+import { EIGHTY_DISCOUNT_TAX, NORMAL_TAX } from '@/constants/constants'
+import { GoodPowerEnum, HTTP_CODE } from '@/constants/enums'
 import { getFluxGoodDetail, putItOnMarket } from '@/services/goods.service'
+import { useUserStore } from '@/stores/user.store'
 import dayjs from 'dayjs'
 import { Dialog, Toast } from 'vant'
 import { computed, defineComponent, ref } from 'vue'
@@ -63,6 +66,8 @@ const isPrice = (val: string) => /^\d+(\.\d{1,2})?$/.test(val)
 export default defineComponent({
   name: 'PutOnMarket',
   setup() {
+    const userStore = useUserStore()
+
     const route = useRoute()
     const router = useRouter()
     const { no } = route.query
@@ -86,9 +91,16 @@ export default defineComponent({
     const price = ref('')
     const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss')
 
+    const tax = computed(() => {
+      if (userStore.userData.powers.includes(GoodPowerEnum.DISCOUNT_BY_EIGHTY)) {
+        return EIGHTY_DISCOUNT_TAX
+      }
+      return NORMAL_TAX
+    })
+
     const realCash = computed(() => {
       if (isPrice(price.value)) {
-        return (Number(price.value) * 0.93).toFixed(2)
+        return (Number(price.value) * (1 - tax.value - NORMAL_TAX)).toFixed(2)
       }
       return ''
     })
@@ -100,26 +112,26 @@ export default defineComponent({
       })
     }
     const onBeforeSubmit = () => {
-      Dialog.alert({
-        message: '功能正在维护中，暂时关闭'
-      })
-      // if (Number(price.value) <= 0) {
-      //   Toast('不能等于0')
-      //   return
-      // }
-      // if (!isPrice(price.value)) {
-      //   Toast('不正确价格格式')
-      //   return
-      // }
-      // if (Number(price.value) >= 100000) {
-      //   Toast('金额不能大于10万')
-      //   return
-      // }
-      // if (!checked.value) {
-      //   Toast('请勾选同意《商家入驻协议》')
-      //   return
-      // }
-      // showCaptch.value = true
+      // Dialog.alert({
+      //   message: '功能正在维护中，暂时关闭'
+      // })
+      if (Number(price.value) <= 0) {
+        Toast('不能等于0')
+        return
+      }
+      if (!isPrice(price.value)) {
+        Toast('不正确价格格式')
+        return
+      }
+      if (Number(price.value) >= 100000) {
+        Toast('金额不能大于10万')
+        return
+      }
+      if (!checked.value) {
+        Toast('请勾选同意《商家入驻协议》')
+        return
+      }
+      showCaptch.value = true
     }
     const { loading, run: runSubmit } = useRequest(putItOnMarket, {
       manual: true,
@@ -141,17 +153,25 @@ export default defineComponent({
       router.push('/agreement/business')
     }
 
+    const formatTax = (tax: number) => {
+      return `${Number((tax * 100).toFixed(2))}%`
+    }
+
     return {
       loading,
       showCaptch,
       checked,
       detailData,
       price,
+      tax,
       realCash,
       createdAt,
+      formatTax,
       onBeforeSubmit,
       onValidOk,
-      goAgreement
+      goAgreement,
+
+      NORMAL_TAX
     }
   }
 })

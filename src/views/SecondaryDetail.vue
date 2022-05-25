@@ -23,7 +23,7 @@
         >
           <template #actions>
             <div class="flex gap-4 px-4 mb-4">
-              <template v-if="data.ownerUuid === store.userData.id">
+              <template v-if="data.ownerUuid === userStore.userData.id">
                 <template v-if="fromView === 'collect'">
                   <van-button v-if="data.status === 0" class="pear-color-button" round block @click="onTransfer">转售</van-button>
                   <van-button v-else type="warning" round block @click="onTakeOff">下架</van-button>
@@ -31,7 +31,7 @@
               </template>
               <template v-else-if="fromView === 'market'">
                 <van-button class="pear-plain-button" round block disabled v-if="data.status === 0">已售罄</van-button>
-                <van-button type="warning" round block @click="onCertify" v-else-if="store.userData.certified == 0">需要实名认证</van-button>
+                <van-button type="warning" round block @click="onCertify" v-else-if="userStore.userData.certified == 0">需要实名认证</van-button>
                 <van-button class="pear-color-button" round block @click="showCaptch = true" v-else>立即购买</van-button>
               </template>
               <!-- <van-button class="pear-color-button" round block @click="showCaptch = true">立即购买</van-button> -->
@@ -63,8 +63,8 @@
           </div>
         </div>
         <div class="section">
-          <h4 class="section-title">藏品详情</h4>
-          <p class="section-content">{{ data.description || '无' }}</p>
+          <h4 class="section-title mb-1">藏品详情</h4>
+          <p class="section-content text-sm">{{ data.description || '无' }}</p>
           <div>
             <pear-image
               v-for="picture in data.pictures"
@@ -77,8 +77,8 @@
           </div>
         </div>
         <div class="section">
-          <h4 class="section-title">购买须知</h4>
-          <p class="section-content">{{ WEB_NAME }}中的数字藏品是虚拟数字商品，而非实物商品。因数字藏品的特殊性，一经购买成功，将不支持退换。数字藏品的知识产权或其他权益属发行方或权利人所有，除另行取得发行方或权利人授权外，您不得将数字藏品用于任何商业用途。请勿对数字藏品进行炒作、场外交易或任何非法方式进行使用。</p>
+          <h4 class="section-title mb-1">购买须知</h4>
+          <p class="section-content text-sm">{{ WEB_NAME }}中的数字藏品是虚拟数字商品，而非实物商品。因数字藏品的特殊性，一经购买成功，将不支持退换。数字藏品的知识产权或其他权益属发行方或权利人所有，除另行取得发行方或权利人授权外，您不得将数字藏品用于任何商业用途。请勿对数字藏品进行炒作、场外交易或任何非法方式进行使用。</p>
         </div>
       </div>
       <div class="footer"></div>
@@ -105,7 +105,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const route = useRoute()
-    const store = useUserStore()
+    const userStore = useUserStore()
     const onBack = () => router.back()
 
     const showCaptch = ref(false)
@@ -169,6 +169,23 @@ export default defineComponent({
           Toast.success('下架成功！')
         })
     }
+    const onBeforeBuy = () => {
+      if (!userStore.userData.isBindPayPassword) {
+        Dialog.alert({
+          message: '请先到个人中心设置支付密码'
+        }).then(() => {
+          router.push('/paySafety')
+        })
+        return
+      }
+      if (fromView === 'market' && userStore.walletData.balance < data.value.marketPrice) {
+        Dialog.alert({
+          message: '余额不足，请先充值'
+        })
+        return
+      }
+      showCaptch.value = true
+    }
     const onValidOk = () => {
       showCaptch.value = false
       createOrder({
@@ -195,12 +212,13 @@ export default defineComponent({
       onTakeOff,
       WEB_NAME,
       data,
-      store,
+      userStore,
       goContract,
       goTxHash,
       formatHex,
       fromView,
       showCaptch,
+      onBeforeBuy,
       onValidOk
     }
   }

@@ -4,9 +4,9 @@
       <transition
         name="fade" mode="out-in"
       >
-        <keep-alive :include="keepAliveInclude">
+        <!-- <keep-alive :include="keepAliveInclude" :max="1"> -->
           <component :is="Component" />
-        </keep-alive>
+        <!-- </keep-alive> -->
       </transition>
     </router-view>
   </van-config-provider>

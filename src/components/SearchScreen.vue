@@ -1,13 +1,15 @@
 <template>
   <div class="search-screen bg-paper fixed top-0 left-0 w-full h-full" v-if="show">
-    <van-search
-      shape="round" v-model="query"
-      placeholder="请输入搜索关键词"
-      background="transparent"
-      show-action
-      @update:model-value="onTyping"
-      @cancel="onCancel"
-    />
+    <div class="pt-1 pb-2">
+      <van-search
+        shape="round" v-model="query"
+        placeholder="请输入搜索关键词"
+        background="transparent"
+        show-action
+        @update:model-value="onTyping"
+        @cancel="onCancel"
+      />
+    </div>
     <div class="shadow-lg max-h-40 search-result px-4 overflow-y-auto" v-if="query">
       <van-list v-if="searchList.length" :loading="typeLoading" loading-text="搜索中...">
         <div v-for="item in searchList" :key="item.id" class="cell-item" @click="() => onSelect(item)">{{ item.name }}</div>

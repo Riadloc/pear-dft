@@ -12,6 +12,16 @@ interface UserData {
   metaAccount: string,
   isBindBank: boolean;
   isBindPayPassword: boolean;
+  powers: number[];
+}
+
+interface StateInteface {
+  isLoggedIn: boolean;
+  isWalletFetched: boolean;
+  userData: UserData;
+  walletData: {
+    balance: number;
+  };
 }
 
 export const useUserStore = defineStore('user', {
@@ -28,12 +38,13 @@ export const useUserStore = defineStore('user', {
         certified: 0,
         metaAccount: '',
         isBindBank: false,
-        isBindPayPassword: false
+        isBindPayPassword: false,
+        powers: []
       },
       walletData: {
         balance: 0
       }
-    }
+    } as StateInteface
   },
   actions: {
     async getUserInfo() {

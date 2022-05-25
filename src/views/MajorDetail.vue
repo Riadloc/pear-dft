@@ -9,7 +9,6 @@
       <div class="header">
         <pear-card
           class="mb-4"
-          key="1"
           :data="data"
           :cover="data.cover"
           cover-size-class="card-large"
@@ -24,9 +23,12 @@
           <template #actions v-if="showPayButton">
             <div class="flex gap-4 px-4 mb-4">
               <van-button class="pear-plain-button" round block disabled v-if="data.isSoldOut === 1">已售罄</van-button>
-              <van-button type="success" round block disabled v-else-if="!data.onShelf">敬请期待</van-button>
-              <van-button type="warning" round block @click="onCertify" v-else-if="store.userData.certified == 0">需要实名认证</van-button>
-              <van-button class="pear-color-button" round block @click="showCaptch = true" v-else-if="data.onShelf && store.userData.certified == 1">购买</van-button>
+              <van-button type="success" round block disabled v-else-if="!onShelf">敬请期待</van-button>
+              <van-button type="warning" round block @click="onCertify" v-else-if="userStore.userData.certified == 0">需要实名认证</van-button>
+              <van-button class="purchase-button pear-color-button overflow-hidden" round block @click="onBeforeBuy" v-else-if="onShelf && userStore.userData.certified == 1">
+                <span>购买</span>
+                <div v-if="userStore.userData.powers.includes(GoodPowerEnum.AHEAD_PURCHASE_ONE_HOUR)" class="badge absolute right-6 pt-3 -top-2 h-20 w-4 bg-black bg-opacity-20 text-white text-xs leading-3 rotate-45">优先购</div>
+              </van-button>
             </div>
           </template>
         </pear-card>
@@ -55,8 +57,8 @@
           </div>
         </div>
         <div class="section">
-          <h4 class="section-title">藏品详情</h4>
-          <p class="section-content">{{ data.description || '无' }}</p>
+          <h4 class="section-title mb-1">藏品详情</h4>
+          <p class="section-content text-sm">{{ data.description || '无' }}</p>
           <div>
             <pear-image
               v-for="picture in data.pictures"
@@ -69,8 +71,8 @@
           </div>
         </div>
         <div class="section">
-          <h4 class="section-title">购买须知</h4>
-          <p class="section-content">{{ WEB_NAME }}中的数字藏品是虚拟数字商品，而非实物商品。因数字藏品的特殊性，一经购买成功，将不支持退换。数字藏品的知识产权或其他权益属发行方或权利人所有，除另行取得发行方或权利人授权外，您不得将数字藏品用于任何商业用途。请勿对数字藏品进行炒作、场外交易或任何非法方式进行使用。</p>
+          <h4 class="section-title mb-1">购买须知</h4>
+          <p class="section-content text-sm">{{ WEB_NAME }}中的数字藏品是虚拟数字商品，而非实物商品。因数字藏品的特殊性，一经购买成功，将不支持退换。数字藏品的知识产权或其他权益属发行方或权利人所有，除另行取得发行方或权利人授权外，您不得将数字藏品用于任何商业用途。请勿对数字藏品进行炒作、场外交易或任何非法方式进行使用。</p>
         </div>
       </div>
       <div class="footer"></div>
@@ -89,15 +91,16 @@ import { WEB_NAME } from '@/assets/config'
 import { createPaymentOrder } from '@/services/payment.service'
 import { Dialog } from 'vant'
 import { useUserStore } from '@/stores/user.store'
-import { HTTP_CODE } from '@/constants/enums'
+import { HTTP_CODE, GoodPowerEnum } from '@/constants/enums'
 import { openLink } from '@/constants/utils'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   components: { PearCard },
   setup() {
     const router = useRouter()
     const route = useRoute()
-    const store = useUserStore()
+    const userStore = useUserStore()
     const onBack = () => router.back()
     const goodNo = route.query.id as string
 
@@ -131,12 +134,38 @@ export default defineComponent({
         router.push({ name: 'OrderDetail', query: { id: res.data, isSecond: 1 } })
       }
     })
+    const onBeforeBuy = () => {
+      if (!userStore.userData.isBindPayPassword) {
+        Dialog.alert({
+          message: '请先到个人中心设置支付密码'
+        }).then(() => {
+          router.push('/paySafety')
+        })
+        return
+      }
+      if (userStore.walletData.balance < data.value.price) {
+        Dialog.alert({
+          message: '余额不足，请先充值'
+        })
+        return
+      }
+      showCaptch.value = true
+    }
     const onValidOk = () => {
       showCaptch.value = false
       createOrder({
         goodId: data.value.id
       })
     }
+
+    const onShelf = computed(() => {
+      if (userStore.userData.powers.includes(GoodPowerEnum.AHEAD_PURCHASE_ONE_HOUR)) {
+        console.log(data.value.shelfTime)
+        console.log(dayjs(data.value.shelfTime).isBefore(dayjs().add(1, 'hour')))
+        return data.value.shelfTime && dayjs(data.value.shelfTime).isBefore(dayjs().add(1, 'hour'))
+      }
+      return data.value.onShelf
+    })
 
     const onCertify = () => {
       router.push('/certify')
@@ -158,13 +187,17 @@ export default defineComponent({
       onBack,
       onCertify,
       WEB_NAME,
+      onBeforeBuy,
       onValidOk,
       data,
       showPayButton,
-      store,
+      userStore,
+      GoodPowerEnum,
       goContract,
       goTxHash,
-      formatHex
+      formatHex,
+
+      onShelf
     }
   }
 })
@@ -189,5 +222,8 @@ export default defineComponent({
   &-content {
     @apply text-gray-300;
   }
+}
+.badge {
+  transform: rotate(30deg);
 }
 </style>

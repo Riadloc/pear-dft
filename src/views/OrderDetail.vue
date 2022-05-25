@@ -35,7 +35,7 @@
     </div>
     <div class="text-white mb-4">
       <h4 class="text-base mb-2">说明</h4>
-      <p class="pl-1 text-sm text-gray-300">一个用户同时允许存在一笔待支付订单</p>
+      <p class="pl-1 text-sm text-gray-300">一个用户允许同时存在一笔待支付订单</p>
     </div>
     <div class="text-white">
       <!-- <h4 class="text-base mb-2" v-if="!isFluxGoodOrder">购买数量<van-stepper class="ml-4" v-model="buyCount" :max="detailData.good?.limit || 5"  /></h4> -->

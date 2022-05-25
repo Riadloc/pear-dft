@@ -36,3 +36,11 @@ export enum WalletRecordType {
   TOP_UP,
   DRAW_CASH,
 }
+
+/** 藏品能力 */
+export enum GoodPowerEnum {
+  /** 提前一个小时优先购买 */
+  AHEAD_PURCHASE_ONE_HOUR,
+  /** 手续费打8折 */
+  DISCOUNT_BY_EIGHTY,
+}
