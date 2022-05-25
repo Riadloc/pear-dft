@@ -112,9 +112,6 @@ export default defineComponent({
       })
     }
     const onBeforeSubmit = () => {
-      // Dialog.alert({
-      //   message: '功能正在维护中，暂时关闭'
-      // })
       if (Number(price.value) <= 0) {
         Toast('不能等于0')
         return

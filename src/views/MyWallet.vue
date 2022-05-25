@@ -58,10 +58,6 @@ export default defineComponent({
     const activeTab = ref(WalletRecordType.TRADE)
 
     const goTopUp = () => {
-      // Dialog.alert({
-      //   message: '功能正在维护中，暂时关闭'
-      // })
-
       router.push('/topUpStore')
     }
     const goDrawCash = () => {

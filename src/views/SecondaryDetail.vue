@@ -142,10 +142,7 @@ export default defineComponent({
 
     const qrcode = ref('')
     const onTransfer = () => {
-      Dialog.alert({
-        message: '功能正在维护中，暂时关闭'
-      })
-      // router.push({ name: 'PutOnMarket', query: { no: goodNo } })
+      router.push({ name: 'PutOnMarket', query: { no: goodNo } })
     }
     const onBindBank = () => {
       router.push('/bankCardBind')
