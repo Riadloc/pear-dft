@@ -15,13 +15,18 @@ interface UserData {
   powers: number[];
 }
 
+interface WalletData {
+  balance: number;
+  realName: string;
+  bankNo: string;
+  alipayAccount: string;
+}
+
 interface StateInteface {
   isLoggedIn: boolean;
   isWalletFetched: boolean;
   userData: UserData;
-  walletData: {
-    balance: number;
-  };
+  walletData: WalletData;
 }
 
 export const useUserStore = defineStore('user', {
@@ -42,7 +47,10 @@ export const useUserStore = defineStore('user', {
         powers: []
       },
       walletData: {
-        balance: 0
+        balance: 0,
+        realName: '',
+        bankNo: '',
+        alipayAccount: ''
       }
     } as StateInteface
   },

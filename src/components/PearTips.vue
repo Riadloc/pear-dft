@@ -1,7 +1,5 @@
 <template>
-  <div class="pear-tips inline" @click="onClick">
-    <pear-icon set="ph" name="question-light" size="1rem" />
-  </div>
+  <pear-icon set="ph" name="question-light" :size="size"  @click="onClick" />
 </template>
 
 <script lang="ts">
@@ -10,7 +8,11 @@ import { Dialog } from 'vant'
 
 export default defineComponent({
   props: {
-    tip: String
+    tip: String,
+    size: {
+      type: String,
+      default: '1rem'
+    }
   },
   setup(props) {
     const onClick = () => {
@@ -25,7 +27,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="less" scoped>
-
-</style>

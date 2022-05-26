@@ -8,6 +8,10 @@ export function postSignup(data: any) {
   return request.post('/user/singup', data)
 }
 
+export function postLogout() {
+  return request.post('/user/logout')
+}
+
 export function postSendSms(data: any) {
   return request.post('/user/send_sms', data)
 }

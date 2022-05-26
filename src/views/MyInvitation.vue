@@ -2,11 +2,10 @@
   <div class="my-invitation">
     <pear-navbar title="我的邀请" left-arrow />
     <div class="bg-card p-4">
-      <p class="text-white">我的邀请人数</p>
-      <p class="text-gray-300 text-xs">仅记录已实名且绑定了银行卡的注册用户</p>
+      <p class="text-white flex items-center">我的邀请人数 <pear-tips class="ml-1" tip="仅记录已实名且绑定了银行卡的注册用户" size="1.3rem" /></p>
       <p class="text-white text-3xl mt-2">{{ list?.length || 0 }}</p>
     </div>
-    <div class="bg-card mt-2">
+    <div class="bg-card mt-2" v-if="list.length">
       <van-cell title="邀请明细" class="bg-card" title-class="text-white"/>
       <van-cell title="账号" class="bg-card text-sm" value="注册时间" title-class="text-white" value-class="text-white"/>
       <van-cell

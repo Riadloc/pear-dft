@@ -88,7 +88,7 @@ export default defineComponent({
           })
           return
         }
-        userStore.getUserInfo()
+        userStore.userData.isBindPayPassword = true
         Toast.success('绑定成功')
         router.back()
       }
