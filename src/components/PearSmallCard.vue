@@ -6,12 +6,12 @@
       :alt="`${name}`"
       :class="[round && 'rounded-2xl', 'overflow-hidden', 'w-full']"
     />
-    <div class="p-2 relative">
-      <div class="flex flex-col w-8/12">
-        <span class="text-sm text-white">{{ name }}</span>
-        <span class="text-gray-300 text-xs">{{ owner }}</span>
+    <div class="p-2">
+      <div class="flex flex-col">
+        <span class="text-sm text-white leading-5">{{ name }}</span>
+        <span class="text-gray-300 text-xs leading-5">{{ owner }}</span>
+        <p class="text-yellow-200 text-md leading-5"><span class="text-xs">￥</span>{{ price }}</p>
       </div>
-      <span class="absolute bottom-2 right-2 text-yellow-200 text-md align-bottom"><span class="text-xs">￥</span>{{ price }}</span>
     </div>
     <p class="serial text-white text-xs bg-black bg-opacity-20 text-center px-2 rounded-full absolute right-2 top-2">{{ serial }}</p>
     <div class="absolute left-2 top-2 bg-black bg-opacity-80 px-2 rounded-full leading-4" v-if="isSelling || isPurchasing">
@@ -46,7 +46,6 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
   .card {
-    background-image: url(/black-twill.png);
     .serial {
       border: 0.0625rem solid hsla(0,0%,100%,.6);
     }

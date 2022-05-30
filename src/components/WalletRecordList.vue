@@ -103,7 +103,7 @@ export default defineComponent({
 <style lang="less" scoped>
 .cell {
   @apply py-2;
-  border-bottom: 0.06rem solid #fff;
+  border-bottom: 0.06rem solid #666;
   &-td {
     text-align: center;
   }

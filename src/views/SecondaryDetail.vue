@@ -17,12 +17,12 @@
           limit
           :name="data.name"
           :price="fromView === 'market' ? data.marketPrice : data.price"
-          :amount="`${data.serial} / ${data.copies}`"
+          :amount="`# ${data.serial} / ${data.copies}`"
           :owner="data.user?.nickname"
           is-flux
         >
           <template #actions>
-            <div class="flex gap-4 px-4 mb-4">
+            <div class="flex px-4 mb-4">
               <template v-if="data.ownerUuid === userStore.userData.id">
                 <template v-if="fromView === 'collect'">
                   <van-button v-if="data.status === 0" class="pear-color-button" round block @click="onTransfer">转售</van-button>
@@ -30,7 +30,7 @@
                 </template>
               </template>
               <template v-else-if="fromView === 'market'">
-                <van-button class="pear-plain-button" round block disabled v-if="data.status === 0">已售罄</van-button>
+                <van-button class="pear-gray-button" round block disabled v-if="data.status === 0">已售罄</van-button>
                 <van-button type="warning" round block @click="onCertify" v-else-if="userStore.userData.certified == 0">需要实名认证</van-button>
                 <van-button class="pear-color-button" round block @click="showCaptch = true" v-else>立即购买</van-button>
               </template>
@@ -236,7 +236,23 @@ export default defineComponent({
 .section {
   @apply bg-card rounded-lg my-4 p-4;
   &-title {
-    @apply text-white text-lg;
+    @apply text-white;
+    position: relative;
+    padding-left: 0.8rem;
+    line-height: 1;
+    margin-bottom: 0.8rem;
+    &::before {
+      position: absolute;
+      left: 0;
+      content: '';
+      width: 0.2rem;
+      height: 100%;
+      background: #fff;
+      opacity: .9;
+      border: 0.1rem solid #fff;
+      box-sizing: border-box;
+      box-shadow: -0.1rem 0 0 #ce5a6d, 0.1rem 0 0 #31C17B;
+    }
   }
   &-content {
     @apply text-gray-300;

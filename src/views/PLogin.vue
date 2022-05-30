@@ -1,10 +1,10 @@
 <template>
   <div class="plogin">
     <h3 class="text-white text-lg my-10">欢迎登录 {{ WEB_NAME }}</h3>
-    <van-notice-bar wrapable :scrollable="false" class="mb-4">
-      <p>由于系统问题，部分用户的密码会登录错误。如遇到这类问题，请点击忘记密码进行修改</p>
+    <van-notice-bar left-icon="volume-o" class="mb-4 rounded">
+      <p>由于系统问题，部分用户的密码会登录错误。如遇到这类问题，请点击忘记密码进行密码修改</p>
     </van-notice-bar>
-    <van-button size="small" round class="absolute right-4 top-4 pear-plain-button" to="/signup">注 册</van-button>
+    <van-button size="small" round class="absolute right-4 top-4 px-3 pear-gray-button" to="/signup">注 册</van-button>
     <van-form @submit="onSubmit" validate-trigger="onSubmit">
       <van-cell-group :border="false" size="large">
         <template #title>
@@ -12,7 +12,7 @@
             <div class="flex items-center">
               <span class="text-md">手机号</span>
             </div>
-            <van-button size="mini" class="pear-plain-button" @click="toggleLoginType">{{ loginTypeName }}登录</van-button>
+            <van-button size="mini" class="px-3 pear-gray-button" @click="toggleLoginType">{{ loginTypeName }}登录</van-button>
           </div>
         </template>
         <van-field
@@ -85,7 +85,7 @@
         </span>
       </div>
       <div>
-        <van-button round block class="pear-color-button" native-type="submit" :loading="btnLoading">
+        <van-button round block class="pear-green-button" native-type="submit" :loading="btnLoading">
           登录
         </van-button>
       </div>
@@ -255,7 +255,7 @@ export default defineComponent({
 <style lang="less" scoped>
 .plogin {
   padding: 20px;
-  background-image: url(/escheresque-dark.png);
+  background-image: url(/black-twill.png);
   min-height: 100vh;
   .count-down {
     color: inherit!important;

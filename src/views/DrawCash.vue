@@ -15,11 +15,11 @@
           class="mb-4 rounded"
           placeholder="请输入提现金额"
         />
-        <span class="text-xs text-gray-300 absolute -bottom-5 right-0" @click="onFull">全部提现</span>
+        <span class="text-xs text-green-300 absolute -bottom-5 right-0 active:opacity-70" @click="onFull">全部提现</span>
       </div>
     </van-form>
     <div class="mt-10">
-      <van-button round block class="pear-plain-button" native-type="submit" @click="onBeforeSubmit">
+      <van-button block class="pear-green-button rounded" native-type="submit" @click="onBeforeSubmit">
         立即提现
       </van-button>
     </div>

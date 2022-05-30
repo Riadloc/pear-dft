@@ -24,7 +24,7 @@
         :rules="[{ required: true, message: '请填写登录密码' }]"
       />
       <div class="mt-10">
-        <van-button round block class="pear-plain-button" native-type="submit">
+        <van-button block class="pear-green-button rounded" native-type="submit">
           绑定
         </van-button>
       </div>

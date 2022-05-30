@@ -1,8 +1,8 @@
 <template>
   <div class="main-home">
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-      <div class="logo h-12 w-full ">
-        <div class="logo_img w-full h-full"></div>
+      <div class="logo w-full shadow-md">
+        <span class="title">梨数字-元宇宙</span>
       </div>
       <van-swipe
         class="my-swipe rounded-2xl"
@@ -12,9 +12,9 @@
         <van-swipe-item>
           <img src="/banner.jpg" alt="banner">
         </van-swipe-item>
-        <van-swipe-item>
+        <!-- <van-swipe-item>
           <img src="/banner.jpg" alt="banner">
-        </van-swipe-item>
+        </van-swipe-item> -->
       </van-swipe>
       <van-list
         v-model:loading="loading"
@@ -141,6 +141,14 @@ export default defineComponent({
     margin: 0 auto;
   }
   .logo {
+    @apply px-4 py-3 top-0 w-full mb-4;
+    // background-image: url(/az-subtle.png);
+  }
+  .title {
+    @apply text-white text-lg;
+    font-family: BaiWuChangBold;
+    letter-spacing: 0.2rem;
+    font-weight: bold;
   }
   .logo_img {
     background-image: url(/logo.png);

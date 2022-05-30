@@ -1,6 +1,6 @@
 <template>
   <div class="pay-page flex flex-col justify-center items-center">
-    <van-nav-bar :border="false" title="购买" left-arrow left-text="返回" fixed @click-left="back" />
+    <pear-navbar title="购买" left-arrow />
     <h3 class="text-white text-lg mb-1">请使用支付宝扫码支付</h3>
     <h4 class="text-gray-400 text-sm mb-4">二维码有效期为5分钟，仅限本次使用</h4>
     <div

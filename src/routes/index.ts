@@ -1,5 +1,6 @@
 import * as VueRouter from 'vue-router'
 import { useUserStore } from '@/stores/user.store'
+import { setInviteCode } from '@/constants/utils'
 
 const HomeWrapper = () => import('@/views/HomeWrapper.vue')
 const MainHome = () => import('@/views/MainHome.vue')
@@ -28,6 +29,7 @@ const DrawCash = () => import('@/views/DrawCash.vue')
 const PutOnMarket = () => import('@/views/PutOnMarket.vue')
 const SecondaryDetail = () => import('@/views/SecondaryDetail.vue')
 const InfoList = () => import('@/views/InfoList.vue')
+const ComposeLab = () => import('@/views/ComposeLab.vue')
 
 const BusinessAgreement = () => import('@/views/info-views/BusinessAgreement.vue')
 const UserAgreement = () => import('@/views/info-views/UserAgreement.vue')
@@ -181,6 +183,11 @@ const routes = [
     component: InfoList
   },
   {
+    path: '/composeLab',
+    name: 'ComposeLab',
+    component: ComposeLab
+  },
+  {
     path: '/agreement',
     name: 'Agreement',
     component: NormalLayout,
@@ -224,6 +231,7 @@ const router = VueRouter.createRouter({
 router.beforeEach(async (to) => {
   const store = useUserStore()
   const { meta } = to
+  setInviteCode()
   if (meta.requiresAuth !== false) {
     if (!store.isLoggedIn) {
       const res = await store.getUserInfo()

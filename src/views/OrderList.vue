@@ -1,6 +1,6 @@
 <template>
   <div class="order-list">
-    <van-nav-bar :border="false" title="已购作品" left-arrow @click-left="back" />
+    <pear-navbar title="已购作品" left-arrow />
     <van-tabs v-model:active="active" swipeable>
       <van-tab title="待支付" name="wait">
         <order-list-view

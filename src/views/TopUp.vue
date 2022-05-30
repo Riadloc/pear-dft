@@ -18,7 +18,7 @@
       <p>选择支付方式</p>
     </div> -->
     <div class="mt-10">
-      <van-button round block class="pear-plain-button" native-type="submit" @click="onBeforeSubmit">
+      <van-button block class="pear-green-button rounded" native-type="submit" @click="onBeforeSubmit">
         立即充值
       </van-button>
     </div>

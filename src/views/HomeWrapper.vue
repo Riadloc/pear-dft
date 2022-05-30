@@ -69,6 +69,8 @@ export default defineComponent({
     overflow-y: auto;
   }
   .tabbar {
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
     background: linear-gradient(180deg,hsla(0,0%,0%,.70),hsla(0,0%,0%,.80) 24%,hsla(0,0%,0%,.90) 44%,#000);
     backdrop-filter: blur(0.25rem);
   }

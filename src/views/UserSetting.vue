@@ -1,6 +1,6 @@
 <template>
   <div class="user-info">
-    <van-nav-bar :border="false" title="个人信息" left-arrow @click-left="back" />
+    <pear-navbar title="个人信息" left-arrow />
     <div class="pb-6">
       <van-cell
         round
@@ -162,9 +162,21 @@
           </div>
         </template>
       </van-cell>
-      <!-- <div class="mt-10">
-        <van-button class="pear-plain-button !text-red-600" block @click="logout">退出登录</van-button>
-      </div> -->
+      <van-cell
+        round
+        :border="false"
+        title-class="text-gray-100"
+        class="rounded bg-card"
+        is-link
+        @click="logout"
+      >
+        <template #title>
+          <div class="flex items-center">
+            <pear-icon set="ph" name="sign-out-light" size="1.3rem" />
+            <span class="ml-2 text-red-500">退出登录</span>
+          </div>
+        </template>
+      </van-cell>
     </div>
     <van-dialog v-model:show="show" title="输入新昵称" show-cancel-button :beforeClose="beforeClose">
       <div class="p-4">
@@ -184,16 +196,17 @@
 
 <script lang="ts">
 import { datamask } from '@/constants/utils'
-import { updateUserInfo } from '@/services/user.service'
+import { postLogout, updateUserInfo } from '@/services/user.service'
 import { useUserStore } from '@/stores/user.store'
 import { mapActions, mapState } from 'pinia'
 import { Dialog, Toast } from 'vant'
 import { defineComponent, ref } from 'vue'
+import { useRequest } from 'vue-request'
 import { useRouter } from 'vue-router'
 export default defineComponent({
   setup() {
     const router = useRouter()
-    const store = useUserStore()
+    const userStore = useUserStore()
 
     const show = ref(false)
     const name = ref('')
@@ -210,12 +223,18 @@ export default defineComponent({
       Dialog.confirm({
         message: '确认退出登录？'
       }).then(() => {
-        store.$reset()
-        router.replace('/login')
+        runLogout()
       }).catch(() => {
         //
       })
     }
+    const { loading: logOutLoading, run: runLogout } = useRequest(postLogout, {
+      manual: true,
+      onSuccess() {
+        userStore.$reset()
+        router.replace('/login')
+      }
+    })
 
     const back = () => {
       router.back()
@@ -227,6 +246,7 @@ export default defineComponent({
       show,
       renameForm,
       logout,
+      logOutLoading,
       beforeClose
     }
   },

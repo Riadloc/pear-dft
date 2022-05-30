@@ -1,10 +1,12 @@
 import type { App } from 'vue'
 import PearCard from './PearCard.vue'
 import PearSmallCard from './PearSmallCard.vue'
+import PearCollectCard from './PearCollectCard.vue'
 import PearIcon from './PearIcon.vue'
 import PearImage from './PearImage.vue'
 import PearTips from './PearTips.vue'
 import NavBar from './NavBar.vue'
+import CollectList from './CollectList.vue'
 import PearSpinner from './PearSpinner.vue'
 import PearCaptcha from './PearCaptcha.vue'
 import PearRegistration from './PearRegistration.vue'
@@ -18,8 +20,10 @@ export {
   PearIcon,
   PearCard,
   PearSmallCard,
+  PearCollectCard,
   NavBar,
   FilterBar,
+  CollectList,
   PearSpinner,
   SearchScreen,
   WalletRecordList,

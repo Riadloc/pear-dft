@@ -1,11 +1,11 @@
 <template>
   <div class="collect">
     <van-sticky>
-      <div class="collect-header px-4 py-2 shadow-lg bg-paper">
+      <div class="px-4 py-2">
         <h3 class="text-white text-lg">我的藏品</h3>
       </div>
     </van-sticky>
-    <div class="py-4 px-2">
+    <div class="pb-4 px-2">
       <van-list
         v-model:loading="loading"
         :finished="finished"
@@ -13,35 +13,40 @@
         @load="onLoad"
         class="collect-list flex flex-wrap"
       >
-        <pear-small-card
+        <pear-collect-card
           v-for="item in goods"
-          @click="() => goDetail(item)"
+          @click="() => onClick(item)"
           :key="item.name"
           class="mb-4 mx-2 collect-card"
           :cover="item.cover"
           round
           limit
-          :name="item.parentGood.name"
-          :price="item.price"
-          :serial="`${item.serial}/${item.parentGood.copies}`"
-          :is-selling="item.status !== 0"
+          :name="item.name"
+          :count="item.count"
         />
       </van-list>
     </div>
+    <van-action-sheet v-model:show="sheet.show" :title="`${sheet.title} / 共${sheet.count}个`" @close="onClose">
+      <collect-list v-if="sheet.goodId" :id="sheet.goodId" />
+    </van-action-sheet>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
-import { PearSmallCard } from '@/components'
+import { computed, defineComponent, reactive, ref } from 'vue'
+import { PearCollectCard, CollectList } from '@/components'
 import { useLoadMore } from 'vue-request'
-import { useRouter } from 'vue-router'
 import { getMyGoodList } from '@/services/goods.service'
 
 export default defineComponent({
-  components: { PearSmallCard },
+  components: { PearCollectCard, CollectList },
   setup() {
-    const router = useRouter()
+    const sheet = reactive({
+      show: false,
+      title: '',
+      count: 0,
+      goodId: ''
+    })
 
     const finished = ref(false)
     const pageSize = ref(20)
@@ -71,17 +76,28 @@ export default defineComponent({
     const goods = computed(() => dataList.value || [])
     const count = computed(() => data.value?.count || 0)
 
-    const goDetail = (item: any) => {
-      router.push({ name: 'SecondaryDetail', query: { id: item.goodNo, from: 'collect' } })
+    const onClick = (item: any) => {
+      sheet.show = true
+      sheet.title = item.name
+      sheet.goodId = item.id
+      sheet.count = item.count
+    }
+    const onClose = () => {
+      sheet.title = ''
+      sheet.goodId = ''
+      sheet.count = 0
     }
 
     return {
+      sheet,
+
       goods,
       count,
       finished,
       loading,
       onLoad,
-      goDetail
+      onClick,
+      onClose
     }
   }
 })

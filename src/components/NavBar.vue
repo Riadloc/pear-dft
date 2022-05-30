@@ -1,5 +1,9 @@
 <template>
-  <van-nav-bar :border="false" :title="title" :fixed="fixed" :left-arrow="leftArrow" @click-left="back" />
+  <van-nav-bar :border="false" :fixed="fixed" :left-arrow="leftArrow" @click-left="back">
+    <template #title>
+      <span class="pear-bwc-family">{{ title }}</span>
+    </template>
+  </van-nav-bar>
 </template>
 
 <script lang="ts">

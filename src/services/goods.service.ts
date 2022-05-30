@@ -24,6 +24,10 @@ export function getMyGoodList(params: any) {
   return request.get('goods/collect', { params })
 }
 
+export function getMyGoodSnsList(params: any) {
+  return request.get('goods/collect/sns', { params })
+}
+
 export function putItOnMarket(data: any) {
   return request.put('goods/market/puton', data)
 }

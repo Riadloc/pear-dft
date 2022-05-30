@@ -9,7 +9,7 @@
     />
     <div class="py-3 px-4 relative">
       <div>
-        <span class="text-md text-white font-semibold">{{ name }}</span>
+        <span class="name text-md text-white">{{ name }}</span>
       </div>
       <div class="tag rounded-sm inline-flex flex-row my-1.5 overflow-hidden">
         <span class="text-xs text-center px-2 text-amber-200 bg-gray-600" v-if="isFlux">{{ amount }}</span>
@@ -21,7 +21,7 @@
       <div class="flex flex-row justify-between">
         <div class="text-gray-300 text-xs">{{ owner }}</div>
       </div>
-      <div class="text-white text-2xl absolute bottom-6 right-4 align-bottom"><span class="text-base">￥</span>{{ price }}</div>
+      <div class="text-white text-xl absolute bottom-4 right-4 align-bottom"><span class="text-sm">￥</span>{{ price }}</div>
     </div>
     <template v-if="!isFlux">
       <div class="absolute left-4 top-4 bg-black bg-opacity-80 px-2 py-1 rounded-full leading-4" v-if="isSoldOut === 1">
@@ -76,9 +76,12 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
   .card {
-    background-image: url(/az-subtle.png);
+    // background-image: url(/az-subtle.png);
     .card-image {
       width: 100%;
     }
+  }
+  .name {
+    // font-family: BaiWuChangBold;
   }
 </style>

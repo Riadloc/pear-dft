@@ -6,8 +6,8 @@
       <p class="text-sm text-gray-300">当前余额</p>
     </div>
     <div class="flex px-4">
-      <van-button block class="mr-6 rounded-lg pear-plain-button" @click="goTopUp">充值</van-button>
-      <van-button block class="rounded-lg pear-plain-button" @click="goDrawCash">提现</van-button>
+      <van-button block class="mr-6 rounded-lg pear-green-button" @click="goTopUp">充值</van-button>
+      <van-button block class="rounded-lg pear-gray-button" @click="goDrawCash">提现</van-button>
     </div>
     <div>
       <van-tabs v-model:active="activeTab" shrink class="mt-4" sticky>

@@ -14,6 +14,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { theme } from '@/assets/config'
+import { setInviteCode } from '@/constants/utils'
 export default defineComponent({
   setup() {
     return {
@@ -22,13 +23,7 @@ export default defineComponent({
     }
   },
   mounted() {
-    const query = location.href.split('?')[1]
-    if (query) {
-      const searchParams = new URLSearchParams(query)
-      if (searchParams.get('code')) {
-        sessionStorage.setItem('inviteCode', searchParams.get('code') as string)
-      }
-    }
+    setInviteCode()
   }
 })
 </script>

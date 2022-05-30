@@ -5,7 +5,7 @@
       <van-button
         size="small"
         round
-        class="absolute right-4 top-4 pear-plain-button"
+        class="absolute right-4 top-4 px-3 pear-gray-button"
         to="/login"
       >登 录</van-button>
     </template>
@@ -102,7 +102,7 @@
       </div>
       <div :class=" isSignup ? '' : 'mt-10'">
         <div class="flex">
-          <van-button round block class="pear-color-button" native-type="submit" :loading="btnLoading">
+          <van-button round block class="pear-green-button" native-type="submit" :loading="btnLoading">
             {{ pageTexts.submit }}
           </van-button>
         </div>
@@ -353,7 +353,7 @@ export default defineComponent({
 <style lang="less" scoped>
 .psignup {
   padding: 20px;
-  background-image: url(/escheresque-dark.png);
+  background-image: url(/black-twill.png);
   min-height: 100vh;
   .count-down {
     color: inherit!important;

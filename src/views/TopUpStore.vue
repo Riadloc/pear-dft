@@ -15,7 +15,7 @@
           <p>{{ item }} 额度</p>
         </div>
         <div class="p-3 flex flex-col justify-end ">
-          <span class="bg-green-500 rounded-tl-md rounded-br-md text-sm px-2 pay-button" @click="() => onSelect(item)">￥{{ item }}</span>
+          <span class="bg-primary rounded-tl-md rounded-br-md text-sm px-2 pay-button" @click="() => onSelect(item)">￥{{ item }}</span>
         </div>
       </div>
     </div>

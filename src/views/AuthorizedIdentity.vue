@@ -1,7 +1,7 @@
 
 <template>
   <div class="authorized-identity pt-12">
-    <van-nav-bar :border="false" left-arrow @click-left="back" fixed />
+    <pear-navbar fixed left-arrow />
     <van-notice-bar wrapable :scrollable="false">
       <p>一分钟内只能请求认证一次，一天内最多认证三次</p>
     </van-notice-bar>
@@ -26,7 +26,7 @@
           :rules="[{ required: true, message: '请输入身份证号' }, { pattern: /^[\d]{17}[\dxX]{1}$/, message: '格式不正确' }]"
         />
         <div class="mt-10">
-          <van-button round block class="pear-plain-button" native-type="submit" :loading="loading">
+          <van-button block class="pear-green-button rounded" native-type="submit" :loading="loading">
             提交认证
           </van-button>
         </div>

@@ -22,7 +22,7 @@
         >
           <template #actions v-if="showPayButton">
             <div class="flex gap-4 px-4 mb-4">
-              <van-button class="pear-plain-button" round block disabled v-if="data.isSoldOut === 1">已售罄</van-button>
+              <van-button class="pear-gray-button" round block disabled v-if="data.isSoldOut === 1">已售罄</van-button>
               <van-button type="success" round block disabled v-else-if="!onShelf">敬请期待</van-button>
               <van-button type="warning" round block @click="onCertify" v-else-if="userStore.userData.certified == 0">需要实名认证</van-button>
               <van-button class="purchase-button pear-color-button overflow-hidden" round block @click="onBeforeBuy" v-else-if="onShelf && userStore.userData.certified == 1">
@@ -217,7 +217,23 @@ export default defineComponent({
 .section {
   @apply bg-card rounded-lg my-4 p-4;
   &-title {
-    @apply text-white text-lg;
+    @apply text-white;
+    position: relative;
+    padding-left: 0.8rem;
+    line-height: 1;
+    margin-bottom: 0.8rem;
+    &::before {
+      position: absolute;
+      left: 0;
+      content: '';
+      width: 0.2rem;
+      height: 100%;
+      background: #fff;
+      opacity: .9;
+      border: 0.1rem solid #fff;
+      box-sizing: border-box;
+      box-shadow: -0.1rem 0 0 #ce5a6d, 0.1rem 0 0 #31C17B;
+    }
   }
   &-content {
     @apply text-gray-300;

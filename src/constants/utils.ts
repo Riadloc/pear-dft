@@ -25,6 +25,16 @@ export function isPrice(val: string) {
   return /^\d+(\.\d{1,2})?$/.test(val)
 }
 
+export function setInviteCode() {
+  const query = location.href.split('?')[1]
+  if (query) {
+    const searchParams = new URLSearchParams(query)
+    if (searchParams.get('code')) {
+      sessionStorage.setItem('inviteCode', searchParams.get('code') as string)
+    }
+  }
+}
+
 export function downloadFile(url: string, filename: string) {
   const eleLink = document.createElement('a')
   eleLink.download = filename

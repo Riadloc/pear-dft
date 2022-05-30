@@ -65,13 +65,19 @@ body {
 .pear-plain-button {
   background-image: linear-gradient(90deg,#32363d,#464a51);
   color: #fff;
-  border: none;
+  border: 1px solid #666;
+}
+
+.pear-plain-button2 {
+  background-color: #32363d;
+  color: #fff;
+  border: 1px solid #333;
 }
 
 .pear-danger-button {
   background-image: linear-gradient(90deg,#DC2626,#EF4444);
   color: #fff;
-  border: none;
+  border: 1px solid;
 }
 
 .pear-color-button {
@@ -81,10 +87,43 @@ body {
 }
 
 .pear-gray-button {
-  background: #eaeaea;
-  color: #333;
+  background: #333;
+  color: #fff;
   border: none;
 }
-/* .pear-plain-button::before {
-  display: none!important;
-} */
+
+.pear-green-button {
+  background: #31C17B;
+  color: #fff;
+  border: none;
+}
+
+.pear-green-plain-button {
+  background: transparent;
+  color: #fff;
+  border: 0.06rem solid #31C17B;
+}
+
+.pear-line {
+  position: relative;
+}
+
+.pear-line::after {
+  position: absolute;
+  content: '';
+  width: 1.49333rem;
+  height: .13333rem;
+  background: linear-gradient(135deg,#eaffb3,#7bffd8 49%,#c3c0ff);
+  border-radius: .08rem;
+  margin-top: -.08rem;
+}
+
+.pear-bwc-family {
+  font-family: 'BaiWuChangBold';
+  letter-spacing: 0.1rem;
+}
+
+@font-face {
+  font-family: 'BaiWuChangBold';
+  src: url('https://pearmeta-1253493520.file.myqcloud.com/BaiWuChangBold.ttf') format('truetype');
+}

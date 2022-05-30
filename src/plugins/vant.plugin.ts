@@ -31,6 +31,7 @@ import {
   Popover,
   Progress,
   Overlay,
+  ActionSheet,
   ShareSheet,
   PasswordInput,
   Stepper,
@@ -72,6 +73,7 @@ export default {
       .use(NoticeBar)
       .use(Overlay)
       .use(Popover)
+      .use(ActionSheet)
       .use(Stepper)
       .use(Progress)
       .use(ShareSheet)

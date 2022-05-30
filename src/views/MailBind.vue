@@ -1,8 +1,8 @@
 
 <template>
-  <div class="mail-bind pt-20">
-    <van-nav-bar :border="false" left-arrow @click-left="back" fixed />
-    <div class="px-10">
+  <div class="mail-bind">
+    <pear-navbar left-arrow />
+    <div class="px-6 pt-10">
       <h2 class="text-3xl font-semibold text-white">邮箱绑定</h2>
       <p class="text-sm text-gray-400 my-4" v-if="store.userData.email ">已绑定邮箱：{{ store.userData.email }}</p>
       <van-form @submit="onSubmit">
@@ -52,7 +52,7 @@
           />
         </van-cell-group>
         <div class="mt-10">
-          <van-button block type="primary" plain native-type="submit" :loading="loading">
+          <van-button block class="pear-green-button rounded" native-type="submit" :loading="loading">
             <span v-if="store.userData.email">重新绑定</span><span v-else>提交</span>
           </van-button>
         </div>

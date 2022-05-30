@@ -32,7 +32,7 @@
         :rules="[{ required: true, message: '请填写支付宝账号' }]"
       />
       <div class="mt-10">
-        <van-button round block class="pear-plain-button" native-type="submit">
+        <van-button block class="pear-green-button rounded" native-type="submit">
           {{ userStore.userData.isBindBank ? '重新绑定' : '绑定' }}
         </van-button>
       </div>

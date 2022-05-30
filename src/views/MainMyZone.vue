@@ -1,27 +1,27 @@
 <template>
-  <div class="my-zone p-4">
-    <div class="my-short-info">
-      <div class="flex items-center p-4 rounded-lg" @click="goUserPage">
+  <div class="my-zone">
+    <div class="my-short-info shadow-lg px-4 py-7">
+      <div class="flex items-center rounded-lg" @click="goUserPage">
         <van-image
           round
           fit="cover"
           width="4rem"
           height="4rem"
           src="/apple-touch-icon.png"
-          class="bg-white"
+          class="bg-gradient-to-r from-sky-500 to-indigo-500"
         >
           <template v-slot:error>加载失败</template>
         </van-image>
         <div class="flex flex-col ml-4 flex-1">
           <span class="text-white">{{ userData.nickname }}</span>
-          <span class="text-gray-400 text-sm">ID: {{ userData.userId }}</span>
+          <span class="text-gray-400 text-sm">UID: {{ userData.userId }}</span>
         </div>
         <div>
-          <van-icon name="arrow" size="1.2rem" class="text-white" />
+          <van-icon name="arrow" size="1.2rem" class="text-gray-300" />
         </div>
       </div>
     </div>
-    <div class="my-menu mt-2">
+    <div class="my-menu p-4">
       <div class="wallet flex flex-row justify-between items-center bg-card mb-3 p-3 rounded-md" @click="goWallet">
         <div class="flex items-center">
           <!-- <div>
@@ -33,7 +33,7 @@
           </div>
         </div>
         <div>
-          <van-button round class="pear-plain-button px-2" size="mini">进入钱包</van-button>
+          <van-button round class="pear-gray-button p-4" size="mini">进入钱包</van-button>
         </div>
       </div>
       <van-cell
@@ -46,10 +46,10 @@
       >
         <template #title>
           <pear-icon set="ph" name="package-light" size="1.3rem" />
-          <span class="ml-2">订单</span>
+          <span class="ml-2">我的订单</span>
         </template>
       </van-cell>
-      <van-cell
+      <!-- <van-cell
         is-link
         clickable
         round
@@ -60,11 +60,11 @@
       >
         <template #title>
           <div class="flex items-center">
-            <pear-icon set="ph" name="gear-light" size="1.3rem" />
-            <span class="ml-2">设置</span>
+            <pear-icon set="ph" name="codesandbox-logo-light" size="1.3rem" />
+            <span class="ml-2">合成中心</span>
           </div>
         </template>
-      </van-cell>
+      </van-cell> -->
       <van-cell
         is-link
         clickable
