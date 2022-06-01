@@ -33,7 +33,7 @@
           </div>
         </div>
         <div>
-          <van-button round class="pear-gray-button p-4" size="mini">进入钱包</van-button>
+          <van-button round class="pear-gray-button p-4" size="mini">进入</van-button>
         </div>
       </div>
       <van-cell
