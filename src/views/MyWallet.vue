@@ -6,17 +6,17 @@
       <p class="text-sm text-gray-300">当前余额</p>
     </div>
     <div class="flex px-4">
-      <van-button block class="mr-6 rounded-lg pear-green-button" @click="goTopUp">充值</van-button>
-      <van-button block class="rounded-lg pear-gray-button" @click="goDrawCash">提现</van-button>
+      <van-button block class="rounded-lg pear-green-button" @click="goTopUp">充值</van-button>
+      <!-- <van-button block class="rounded-lg pear-gray-button" @click="goDrawCash">提现</van-button> -->
     </div>
     <div>
       <van-tabs v-model:active="activeTab" shrink class="mt-4" sticky>
         <van-tab title="交易记录" :name="WalletRecordType.TRADE">
            <wallet-record-list :type="WalletRecordType.TRADE" />
         </van-tab>
-        <van-tab title="充值记录" :name="WalletRecordType.TOP_UP">
+        <!-- <van-tab title="充值记录" :name="WalletRecordType.TOP_UP">
            <wallet-record-list :type="WalletRecordType.TOP_UP" />
-        </van-tab>
+        </van-tab> -->
         <van-tab title="提现记录" :name="WalletRecordType.DRAW_CASH">
            <wallet-record-list :type="WalletRecordType.DRAW_CASH" />
         </van-tab>
