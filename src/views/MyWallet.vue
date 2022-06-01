@@ -14,12 +14,12 @@
         <van-tab title="交易记录" :name="WalletRecordType.TRADE">
            <wallet-record-list :type="WalletRecordType.TRADE" />
         </van-tab>
-        <!-- <van-tab title="充值记录" :name="WalletRecordType.TOP_UP">
+        <van-tab title="充值记录" :name="WalletRecordType.TOP_UP">
            <wallet-record-list :type="WalletRecordType.TOP_UP" />
-        </van-tab> -->
-        <van-tab title="提现记录" :name="WalletRecordType.DRAW_CASH">
-           <wallet-record-list :type="WalletRecordType.DRAW_CASH" />
         </van-tab>
+        <!-- <van-tab title="提现记录" :name="WalletRecordType.DRAW_CASH">
+           <wallet-record-list :type="WalletRecordType.DRAW_CASH" />
+        </van-tab> -->
       </van-tabs>
     </div>
   </div>
