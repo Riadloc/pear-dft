@@ -160,8 +160,6 @@ export default defineComponent({
 
     const onShelf = computed(() => {
       if (userStore.userData.powers.includes(GoodPowerEnum.AHEAD_PURCHASE_ONE_HOUR)) {
-        console.log(data.value.shelfTime)
-        console.log(dayjs(data.value.shelfTime).isBefore(dayjs().add(1, 'hour')))
         return data.value.shelfTime && dayjs(data.value.shelfTime).isBefore(dayjs().add(1, 'hour'))
       }
       return data.value.onShelf

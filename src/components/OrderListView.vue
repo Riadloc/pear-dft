@@ -12,7 +12,7 @@
       :key="item.id"
       class="flex flex-col mt-4 bg-card rounded text-gray-300 p-3">
       <div class="flex justify-between text-sm mb-2">
-        <span>{{ formatDate(item.createdAt) }}</span>
+        <span>{{ formatTimezoneDate(item.createdAt) }}</span>
         <span :class="statusNameClass">{{ statusName }}</span>
       </div>
       <div class="flex">
@@ -56,6 +56,7 @@ import { getOrderList } from '@/services/order.service'
 import { useRouter } from 'vue-router'
 import { Dialog, Toast } from 'vant'
 import { cancelPaymentOrder } from '@/services/payment.service'
+import { formatTimezoneDate } from '@/constants/utils'
 import dayjs from 'dayjs'
 
 export default defineComponent({
@@ -90,7 +91,7 @@ export default defineComponent({
             ...res,
             list: res.list?.map((item: any) => ({
               ...item,
-              countDownTime: (dayjs(item.createdAt).add(5, 'minute').unix() - dayjs().unix()) * 1000
+              countDownTime: (dayjs(item.createdAt).add(8, 'hour').add(5, 'minute').unix() - dayjs().unix()) * 1000
             }))
           }
         }
@@ -170,12 +171,9 @@ export default defineComponent({
 
       showPopover,
       actions,
-      onSelect
-    }
-  },
-  methods: {
-    formatDate(date: Date) {
-      return dayjs(date).add(8, 'hour').format('YY-MM-DD HH:mm:ss')
+      onSelect,
+
+      formatTimezoneDate
     }
   }
 })

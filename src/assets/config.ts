@@ -30,8 +30,8 @@ export const theme = {
   passwordInputDotColor: '#fff',
   popupBackgroundColor: '#292a2d',
   actionSheetItemTextColor: '#fff',
-  tabsBottomBarColor: '#31C17B'
-  // buttonPrimaryBackgroundColor: 'linear-gradient(to right, #5eaeff, #1087ff)'
+  tabsBottomBarColor: '#31C17B',
+  passwordInputCursorColor: '#fff'
 }
 
 export const BASE_URL = {

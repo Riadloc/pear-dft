@@ -35,7 +35,11 @@ import { defineComponent, ref, watch } from 'vue'
 import { useRequest } from 'vue-request'
 export default defineComponent({
   props: {
-    show: Boolean
+    show: Boolean,
+    validate: {
+      type: Boolean,
+      default: true
+    }
   },
   setup(props, context) {
     const value = ref('')
@@ -44,9 +48,13 @@ export default defineComponent({
     const onTyping = (val: string) => {
       if (val.length === 6) {
         showKeyboard.value = false
-        run({
-          payKey: value.value
-        })
+        if (props.validate) {
+          run({
+            payKey: value.value
+          })
+        } else {
+          context.emit('success', value.value)
+        }
       }
     }
 

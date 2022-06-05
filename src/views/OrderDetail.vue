@@ -31,7 +31,7 @@
     </div>
     <div class="text-white mb-4">
       <h4 class="text-base mb-2">订单详情</h4>
-      <p class="pl-1 text-sm text-gray-300">创建时间<span class="ml-4 text-white">{{ formatDate(detailData.createdAt) }}</span></p>
+      <p class="pl-1 text-sm text-gray-300">创建时间<span class="ml-4 text-white">{{ formatTimezoneDate(detailData.createdAt) }}</span></p>
     </div>
     <div class="text-white mb-4">
       <h4 class="text-base mb-2">说明</h4>
@@ -48,13 +48,17 @@
       <van-button block class="rounded-lg pear-gray-button" @click="onCancel">取消订单</van-button>
     </div>
     <pear-spinner :show="loading" />
-    <typing-password-dialog :show="showPasswordDialog" @cancel="showPasswordDialog = false" @success="onPurchase" />
+    <typing-password-dialog
+      :show="showPasswordDialog"
+      :validate="false"
+      @cancel="showPasswordDialog = false"
+      @success="onPurchase"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
-import dayjs from 'dayjs'
 import { Dialog, Toast } from 'vant'
 import { useRoute, useRouter } from 'vue-router'
 import { useRequest } from 'vue-request'
@@ -63,6 +67,7 @@ import { cancelPaymentOrder } from '@/services/payment.service'
 import { HTTP_CODE, OrderStatus } from '@/constants/enums'
 import { onTrade } from '@/services/wallet.service'
 import { ONE_MINUTE } from '@/constants/constants'
+import { formatTimezoneDate } from '@/constants/utils'
 
 export default defineComponent({
   setup() {
@@ -94,8 +99,6 @@ export default defineComponent({
         if (res.code === HTTP_CODE.ERROR) {
           Dialog.alert({
             message: res.msg
-          }).then(() => {
-            router.back()
           })
           return
         }
@@ -118,10 +121,11 @@ export default defineComponent({
         router.back()
       })
     }
-    const onPurchase = () => {
+    const onPurchase = (payKey: string) => {
       _onPurchase({
         orderId: id,
-        isSecond
+        isSecond,
+        payKey
       })
     }
     const onCancel = () => {
@@ -148,8 +152,6 @@ export default defineComponent({
       })
     }
 
-    const formatDate = (date: Date) => dayjs(date).format('YYYY-MM-DD HH:mm:ss')
-
     return {
       showPasswordDialog,
 
@@ -159,7 +161,7 @@ export default defineComponent({
       onFinished,
       onPurchase,
       onCancel,
-      formatDate,
+      formatTimezoneDate,
       OrderStatus,
       loading,
       submitLoading,

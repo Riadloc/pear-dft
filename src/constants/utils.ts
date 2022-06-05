@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 export function validatePassword(value: string): boolean | string {
   console.log(value)
   if (value) {
@@ -33,6 +35,11 @@ export function setInviteCode() {
       sessionStorage.setItem('inviteCode', searchParams.get('code') as string)
     }
   }
+}
+
+/** 加上时区的时间格式化 */
+export function formatTimezoneDate(date: Date | number | string, format?: string) {
+  return dayjs(date).add(8, 'hour').format(format || 'YYYY-MM-DD HH:mm:ss')
 }
 
 export function downloadFile(url: string, filename: string) {

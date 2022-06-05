@@ -47,7 +47,12 @@
     <div class="text-white text-sm mt-3 flex">
       <van-checkbox v-model="checked" icon-size="1rem"></van-checkbox><span class="text-white ml-2">我知晓并同意<span class="text-blue-500" @click="goAgreement">《商家入驻协议》</span></span>
     </div>
-    <yidun-captcha v-model:show="showCaptch" @success="onValidOk"/>
+    <typing-password-dialog
+      :show="showPasswordDialog"
+      @cancel="showPasswordDialog = false"
+      @success="onValidOk"
+      :validate="false"
+    />
   </div>
 </template>
 
@@ -86,7 +91,7 @@ export default defineComponent({
       }
     })
 
-    const showCaptch = ref(false)
+    const showPasswordDialog = ref(false)
     const checked = ref(false)
     const price = ref('')
     const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss')
@@ -104,11 +109,12 @@ export default defineComponent({
       }
       return ''
     })
-    const onValidOk = () => {
-      showCaptch.value = false
+    const onValidOk = (payKey: string) => {
+      showPasswordDialog.value = false
       runSubmit({
         goodId: detailData.value.id,
-        price: price.value
+        price: price.value,
+        payKey
       })
     }
     const onBeforeSubmit = () => {
@@ -128,7 +134,7 @@ export default defineComponent({
         Toast('请勾选同意《商家入驻协议》')
         return
       }
-      showCaptch.value = true
+      showPasswordDialog.value = true
     }
     const { loading, run: runSubmit } = useRequest(putItOnMarket, {
       manual: true,
@@ -156,7 +162,7 @@ export default defineComponent({
 
     return {
       loading,
-      showCaptch,
+      showPasswordDialog,
       checked,
       detailData,
       price,

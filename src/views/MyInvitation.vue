@@ -16,7 +16,7 @@
         value-class="text-gray-100"
       >
         <template #title>{{ item.phone }}</template>
-        <template #value>{{ dateformat(item.createAt) }}</template>
+        <template #value>{{ formatTimezoneDate(item.createAt, 'YYYY/MM/DD') }}</template>
       </van-cell>
     </div>
   </div>
@@ -28,7 +28,7 @@ import { getMyInvitaions } from '@/services/user.service'
 import { Toast } from 'vant'
 import { computed, defineComponent } from 'vue'
 import { useRequest } from 'vue-request'
-import dayjs from 'dayjs'
+import { formatTimezoneDate } from '@/constants/utils'
 
 export default defineComponent({
   setup() {
@@ -44,12 +44,9 @@ export default defineComponent({
 
     return {
       list,
-      loading
-    }
-  },
-  methods: {
-    dateformat(date: Date) {
-      return dayjs(date).format('YYYY/MM/DD')
+      loading,
+
+      formatTimezoneDate
     }
   }
 })

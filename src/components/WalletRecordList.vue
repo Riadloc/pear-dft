@@ -31,9 +31,8 @@
 
 <script lang="ts">
 import { HTTP_CODE } from '@/constants/enums'
-import { openLink } from '@/constants/utils'
+import { formatTimezoneDate, openLink } from '@/constants/utils'
 import { getWalletRecords } from '@/services/wallet.service'
-import dayjs from 'dayjs'
 import { defineComponent, ref } from 'vue'
 import { useLoadMore } from 'vue-request'
 
@@ -83,7 +82,7 @@ export default defineComponent({
     }
 
     const dateformat = (date: Date) => {
-      return dayjs(date).format('YYYY-MM-DD HH:mm')
+      return formatTimezoneDate(date, 'YYYY-MM-DD HH:mm')
     }
 
     return {
