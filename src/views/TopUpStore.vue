@@ -77,7 +77,7 @@ import { checkLianlianSms, topUpService } from '@/services/wallet.service'
 import { useUserStore } from '@/stores/user.store'
 import { storeToRefs } from 'pinia'
 import { Dialog, Toast } from 'vant'
-import { defineComponent, onMounted, onUnmounted, reactive, ref } from 'vue'
+import { computed, defineComponent, onMounted, onUnmounted, reactive, ref } from 'vue'
 import { useRequest } from 'vue-request'
 import { maskbank } from '@/constants/utils'
 
@@ -111,7 +111,7 @@ export default defineComponent({
       })
     }
 
-    const { loading, run: runTopUp } = useRequest(topUpService, {
+    const { loading: mainLoading, run: runTopUp } = useRequest(topUpService, {
       manual: true,
       onSuccess(res: any) {
         if (res.code === HTTP_CODE.ERROR) {
@@ -137,7 +137,7 @@ export default defineComponent({
       }
     })
 
-    const { run: runCheckSms } = useRequest(checkLianlianSms, {
+    const { loading: checkLoading, run: runCheckSms } = useRequest(checkLianlianSms, {
       manual: true,
       onSuccess(res: any) {
         if (res.code === HTTP_CODE.ERROR) {
@@ -173,6 +173,8 @@ export default defineComponent({
     }
 
     const bankId = ref('')
+
+    const loading = computed(() => mainLoading.value || checkLoading.value)
 
     onMounted(() => {
       document.addEventListener('visibilitychange', onVisiblityChange)

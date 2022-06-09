@@ -18,7 +18,8 @@
         <span class="text-xs text-green-300 absolute -bottom-5 right-0 active:opacity-70" @click="onFull">全部提现</span>
       </div>
     </van-form>
-    <div class="mt-6 mb-4">
+    <ll-password-field label="开户时设置" title="提现密码" ref="llPasswordField" class="mt-8 mb-4"  />
+    <div class="mb-4">
       <h3 class="text-gray-300 text-sm mb-1">选择提现银行卡</h3>
       <van-radio-group v-model="checked">
         <div
@@ -83,6 +84,7 @@ export default defineComponent({
 
     const showCodeDialog = ref(false)
 
+    const llPasswordField = ref<any>(null)
     const amount = ref('')
     const show = ref(false)
     const showCaptch = ref(false)
@@ -101,7 +103,7 @@ export default defineComponent({
         code
       })
     }
-    const onBeforeSubmit = () => {
+    const onBeforeSubmit = async () => {
       const value = Number(amount.value)
       if (value <= 0) {
         Toast.fail('不能等于0')
@@ -123,8 +125,12 @@ export default defineComponent({
         Toast.fail('请选择提现银行卡')
         return
       }
+      const password = await llPasswordField.value.getValue()
+      const randomKey = llPasswordField.value.getRandomKey()
       runSubmit({
-        price: amount.value
+        price: amount.value,
+        password,
+        randomKey
       })
     }
     const onSuccess = () => {
@@ -198,6 +204,7 @@ export default defineComponent({
       onFull,
       loading,
       walletData,
+      llPasswordField,
 
       showCaptch,
       onValidOk,

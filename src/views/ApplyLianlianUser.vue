@@ -299,7 +299,7 @@ export default defineComponent({
             }
             const { txn_seqno, token } = applyResult.value.data
             const password = await llPasswordField.value.getValue()
-            const randomKey = await llPasswordField.value.getRandomKey()
+            const randomKey = llPasswordField.value.getRandomKey()
             console.log('password', password)
             if (!password) {
               Toast('请输入提现密码')

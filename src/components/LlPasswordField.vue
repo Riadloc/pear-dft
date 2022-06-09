@@ -4,7 +4,7 @@
       <span class="text-white">{{ title }}</span>
     </template>
     <template #value>
-      <input id="password-keyboard" class="default border-none bg-transparent w-full text-white" placeholder="请输入密码，6-12数字" />
+      <input id="password-keyboard" class="default border-none bg-transparent w-full text-white" placeholder="请输入密码，6-12数字或字母组合" />
     </template>
   </van-cell>
 </template>
