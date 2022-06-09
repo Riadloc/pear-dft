@@ -22,7 +22,7 @@
           v-model="formData1.phone"
           name="phone"
           class="mb-4 rounded"
-          placeholder="注册手机号"
+          placeholder="接受验证码手机号"
           :rules="[{ required: true, message: '请填写注册手机号' }]" />
         <van-field
           readonly
@@ -67,7 +67,7 @@
           :border="false"
           readonly
           @touchstart.stop="showDatePicker = true"
-          v-model="formData2.idExp"
+          :model-value="formData2.idExp"
           name="idExp"
           class="mb-4 rounded"
           placeholder="身份证有效期"
@@ -177,7 +177,7 @@ export default defineComponent({
     const llPasswordField = ref<any>(null)
     const bankCard = userStore.walletData.bankCards[0]
     const formData1 = reactive({
-      phone: datamask(bankCard.phone),
+      phone: datamask(userStore.userData.phone),
       idNo: bankCard.idNo,
       code: '',
       realName: bankCard.realName,
