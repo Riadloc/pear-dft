@@ -20,31 +20,93 @@
       </div>
     </div>
     <pear-spinner :show="loading" />
+    <typing-password-dialog
+      title="请输入验证码"
+      :show="showCodeDialog"
+      @cancel="showCodeDialog = false"
+      @success="onValidOk"
+      :validate="false"
+    />
+    <van-action-sheet v-model:show="showConfirmDialog" title="充值信息确认">
+      <div class="p-4">
+        <div class="mb-4">
+          <h3 class="text-gray-300 text-sm mb-1">充值金额</h3>
+          <p class="text">￥ {{ payInfo.price }}</p>
+        </div>
+        <div class="mb-4">
+          <h3 class="text-gray-300 text-sm mb-1">支付方式</h3>
+          <div class="flex">
+            <div class="inline-flex">
+              <div class="w-6 h-6 bg-primary rounded-md align-middle text-center">
+                <pear-icon set="ph" name="credit-card-fill" size="1.3rem" class="text-white" />
+              </div>
+              <span class="ml-2">银行卡快捷支付</span>
+            </div>
+          </div>
+        </div>
+        <div class="mb-4">
+          <h3 class="text-gray-300 text-sm mb-1">选择支付银行卡</h3>
+          <van-radio-group v-model="checked">
+            <div
+              class="flex justify-between"
+              v-for="item in walletData.bankCards"
+              :key="item.id"
+            >
+              <div class="inline-flex" @click="checked = item.id">
+                <div class="w-6 h-6 bg-primary rounded-md align-middle text-center">
+                  <pear-icon set="ph" name="credit-card-fill" size="1.3rem" class="text-white" />
+                </div>
+                <span class="ml-2 text-white align-middle">{{ maskbank(item.bankNo) }}</span>
+              </div>
+              <van-radio :name="item.id"/>
+            </div>
+          </van-radio-group>
+        </div>
+        <div class="pt-2">
+          <van-button block :class="[checked ? 'pear-green-button' : 'pear-gray-button', 'rounded-lg']" @click="onTopup">立即充值</van-button>
+        </div>
+      </div>
+    </van-action-sheet>
   </div>
 </template>
 
 <script lang="ts">
 import { HTTP_CODE } from '@/constants/enums'
-import { openLink } from '@/constants/utils'
 import router from '@/routes'
-import { topUpService } from '@/services/wallet.service'
-import { Dialog } from 'vant'
-import { defineComponent, onMounted, onUnmounted, reactive } from 'vue'
+import { checkLianlianSms, topUpService } from '@/services/wallet.service'
+import { useUserStore } from '@/stores/user.store'
+import { storeToRefs } from 'pinia'
+import { Dialog, Toast } from 'vant'
+import { defineComponent, onMounted, onUnmounted, reactive, ref } from 'vue'
 import { useRequest } from 'vue-request'
+import { maskbank } from '@/constants/utils'
+
 export default defineComponent({
   setup() {
+    const userStore = useUserStore()
+    const { walletData } = storeToRefs(userStore)
+
+    const showConfirmDialog = ref(false)
+    const showCodeDialog = ref(false)
+
     const payInfo = reactive({
-      url: '',
-      orderId: ''
+      orderNo: '',
+      price: '',
+      token: ''
     })
 
     const onSelect = (value: number) => {
-      Dialog.confirm({
-        message: `选择的充值金额为${value}，确认充值？`
-      }).then(() => {
-        runTopUp({
-          price: `${value}`
-        })
+      payInfo.price = `${value}`
+      showConfirmDialog.value = true
+    }
+
+    const onTopup = () => {
+      if (!checked.value) {
+        Toast.fail('请选择支付银行卡')
+        return
+      }
+      runTopUp({
+        price: payInfo.price
       })
     }
 
@@ -57,15 +119,43 @@ export default defineComponent({
           })
           return
         }
-        const { url, orderId } = res.data
-        payInfo.url = url
-        payInfo.orderId = orderId
-        openLink(url, '_self')
+        if (res.data.token) {
+          Toast('已发送验证码至您的手机')
+          const { txn_seqno: orderNo, total_amount: price, token } = res.data
+          showCodeDialog.value = true
+          payInfo.orderNo = orderNo
+          payInfo.price = price
+          payInfo.token = token
+        } else {
+          Dialog.alert({
+            message: '支付成功'
+          }).then(() => {
+            router.back()
+          })
+        }
+      }
+    })
+
+    const { run: runCheckSms } = useRequest(checkLianlianSms, {
+      manual: true,
+      onSuccess(res: any) {
+        if (res.code === HTTP_CODE.ERROR) {
+          Dialog.alert({
+            message: res.msg
+          })
+          return
+        }
+        showCodeDialog.value = false
+        Dialog.alert({
+          message: '支付成功'
+        }).then(() => {
+          router.back()
+        })
       }
     })
 
     const onVisiblityChange = () => {
-      if (document.visibilityState && payInfo.orderId) {
+      if (document.visibilityState && payInfo.orderNo) {
         Dialog.confirm({
           message: '支付完成？'
         }).then(() => {
@@ -73,6 +163,16 @@ export default defineComponent({
         })
       }
     }
+
+    const onValidOk = (code: string) => {
+      runCheckSms({
+        ...payInfo,
+        code
+      })
+    }
+
+    const checked = ref('')
+
     onMounted(() => {
       document.addEventListener('visibilitychange', onVisiblityChange)
     })
@@ -81,8 +181,15 @@ export default defineComponent({
     })
 
     return {
+      showConfirmDialog,
+      showCodeDialog,
       onSelect,
+      onValidOk,
+      onTopup,
+      maskbank,
       loading,
+      payInfo,
+      walletData,
       values: [
         100,
         300,
@@ -90,7 +197,9 @@ export default defineComponent({
         1000,
         5000,
         10
-      ]
+      ],
+
+      checked
     }
   }
 })

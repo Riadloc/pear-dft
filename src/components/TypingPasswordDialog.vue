@@ -2,7 +2,7 @@
   <div class="typing-password-dialog">
     <van-dialog
       :show="show"
-      title="请输入支付密码"
+      :title="title"
       :show-confirm-button="false"
       show-cancel-button
       class="!top-1/3"
@@ -36,6 +36,7 @@ import { useRequest } from 'vue-request'
 export default defineComponent({
   props: {
     show: Boolean,
+    title: String,
     validate: {
       type: Boolean,
       default: true

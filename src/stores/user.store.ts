@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { getUserInfo } from '@/services/user.service'
 import { getWalletInfo } from '@/services/wallet.service'
+import { LianlianSteps } from '@/constants/enums'
 
 interface UserData {
   id: number;
@@ -10,16 +11,22 @@ interface UserData {
   email: string;
   certified: 0 | 1;
   metaAccount: string,
-  isBindBank: boolean;
   isBindPayPassword: boolean;
   powers: number[];
+  role: number;
 }
 
 interface WalletData {
   balance: number;
-  realName: string;
-  bankNo: string;
-  alipayAccount: string;
+  step: LianlianSteps;
+  bankCards: Array<{
+    id: string;
+    realName: string;
+    bankNo: string;
+    idNo: string;
+    phone: string;
+    status: number;
+  }>
 }
 
 interface StateInteface {
@@ -42,15 +49,14 @@ export const useUserStore = defineStore('user', {
         email: '',
         certified: 0,
         metaAccount: '',
-        isBindBank: false,
         isBindPayPassword: false,
-        powers: []
+        powers: [],
+        role: 0
       },
       walletData: {
         balance: 0,
-        realName: '',
-        bankNo: '',
-        alipayAccount: ''
+        step: 0,
+        bankCards: []
       }
     } as StateInteface
   },

@@ -1,9 +1,9 @@
 <template>
-  <div class="bank-card-bind pt-16">
-    <pear-navbar title="绑定银行卡" fixed left-arrow />
-    <van-form @submit="onSubmit" class="p-6" validate-trigger="onSubmit">
+  <div class="bank-card-bind">
+    <pear-navbar title="绑定银行卡" left-arrow />
+    <van-form @submit="onSubmit" class="p-4" validate-trigger="onSubmit">
       <van-field
-        label="卡号"
+        label="银行卡号"
         :border="false"
         readonly
         @touchstart.stop="showBankCardKeyboard = true"
@@ -12,6 +12,15 @@
         class="mb-4 rounded"
         placeholder="储蓄银行卡卡号"
         :rules="[{ required: true, message: '请填写储蓄银行卡卡号' }]"
+      />
+      <van-field
+        label="预留手机号"
+        :border="false"
+        v-model="formData.phone"
+        name="phone"
+        class="mb-4 rounded"
+        placeholder="银行卡开户手机号"
+        :rules="[{ required: true, message: '请填写银行卡开户手机号' }]"
       />
       <van-field
         label="姓名"
@@ -23,18 +32,17 @@
         :rules="[{ required: true, message: '请填写开户人姓名' }]"
       />
       <van-field
-        label="支付宝账号"
+        label="身份证号"
         :border="false"
-        v-model="formData.alipayAccount"
-        name="alipayAccount"
+        v-model="formData.idNo"
+        name="idNo"
         class="mb-4 rounded"
-        placeholder="支付宝账号"
-        :rules="[{ required: true, message: '请填写支付宝账号' }]"
+        placeholder="身份证号"
+        :rules="[{ required: true, message: '请填写身份证号' }]"
       />
+      <ll-password-field v-if="userStore.walletData.step === LianlianSteps.SUCCESSED" label="提现时专用" title="提现密码" ref="llPasswordField" />
       <div class="mt-10">
-        <van-button block class="pear-green-button rounded" native-type="submit">
-          {{ userStore.userData.isBindBank ? '重新绑定' : '绑定' }}
-        </van-button>
+        <van-button block class="pear-green-button rounded" native-type="submit">立即绑定</van-button>
       </div>
     </van-form>
     <van-number-keyboard
@@ -43,16 +51,23 @@
       :maxlength="20"
       @blur="showBankCardKeyboard = false"
     />
+    <typing-password-dialog
+      title="请输入验证码"
+      :show="showCodeDialog"
+      @cancel="showCodeDialog = false"
+      @success="onValidOk"
+      :validate="false"
+    />
     <pear-spinner :show="loading" />
   </div>
 </template>
 
 <script lang="ts">
-import { HTTP_CODE } from '@/constants/enums'
-import { checkBankCardStat, onBankBind } from '@/services/wallet.service'
+import { HTTP_CODE, LianlianSteps } from '@/constants/enums'
+import { checkBankCardStat, checkBindCodeWithBank, onBankBind } from '@/services/wallet.service'
 import { useUserStore } from '@/stores/user.store'
 import { Dialog, Toast } from 'vant'
-import { defineComponent, onMounted, reactive, ref } from 'vue'
+import { computed, defineComponent, reactive, ref } from 'vue'
 import { useRequest } from 'vue-request'
 import { useRouter } from 'vue-router'
 export default defineComponent({
@@ -60,11 +75,14 @@ export default defineComponent({
     const router = useRouter()
     const userStore = useUserStore()
 
+    const llPasswordField = ref<any>(null)
     const showBankCardKeyboard = ref(false)
+    const showCodeDialog = ref(false)
     const formData = reactive({
+      phone: userStore.userData.phone,
       bankNo: '',
-      realName: '',
-      alipayAccount: ''
+      idNo: '',
+      realName: ''
     })
 
     const onSubmit = (values: any) => {
@@ -83,19 +101,16 @@ export default defineComponent({
               Toast('支持储蓄银行卡')
               return
             }
-            if (!(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.([a-zA-Z0-9]+)$/.test(values.alipayAccount) || /^\d{11}$/.test(values.alipayAccount))) {
-              Toast('支付宝账号格式不正确，支持手机号或电子邮箱账号格式')
-              return
-            }
             runBankBind({
               bankNo: values.bankNo,
               realName: values.realName,
-              alipayAccount: values.alipayAccount
+              phone: values.phone,
+              idNo: values.idNo
             })
           })
       })
     }
-    const { loading, run: runBankBind } = useRequest(onBankBind, {
+    const { data: bankBindData, loading: loading1, run: runBankBind } = useRequest(onBankBind, {
       manual: true,
       onSuccess(res: any) {
         if (res.code === HTTP_CODE.ERROR) {
@@ -104,31 +119,54 @@ export default defineComponent({
           })
           return
         }
-        userStore.userData.isBindBank = true
-        userStore.getWalletInfo()
-        Toast.success({
-          message: '绑定成功',
-          onClose: () => {
-            router.back()
-          }
-        })
+        if (!res.data.token) {
+          userStore.getWalletInfo()
+          Toast.success({
+            message: '绑定成功',
+            onClose: () => {
+              router.back()
+            }
+          })
+        } else {
+          Toast('已发送验证码至您的手机')
+          showCodeDialog.value = true
+        }
       }
     })
-
-    onMounted(() => {
-      if (userStore.isWalletFetched && userStore.walletData.bankNo) {
-        const { bankNo, realName, alipayAccount } = userStore.walletData
-        formData.realName = realName
-        formData.bankNo = bankNo
-        formData.alipayAccount = alipayAccount
+    const { loading: loading2, run: runBankBindCheck } = useRequest(checkBindCodeWithBank, {
+      manual: true,
+      onSuccess(res: any) {
+        if (res.code === HTTP_CODE.ERROR) {
+          Dialog.alert({
+            message: res.msg
+          })
+          return
+        }
+        showCodeDialog.value = false
       }
     })
+    const onValidOk = async (code: string) => {
+      const { txn_seqno } = bankBindData.value.data
+      const password = await llPasswordField.value.getValue()
+      const randomKey = llPasswordField.value.getRandomKey()
+      runBankBindCheck({
+        code,
+        orderNo: txn_seqno,
+        password,
+        randomKey
+      })
+    }
+    const loading = computed(() => loading1.value || loading2.value)
 
     return {
       showBankCardKeyboard,
+      showCodeDialog,
       formData,
+      llPasswordField,
       userStore,
+      LianlianSteps,
       onSubmit,
+      onValidOk,
       loading
     }
   }
@@ -136,5 +174,12 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-
+:deep {
+  .cell-title {
+    width: var(--van-field-label-width);
+    margin-right: var(--van-field-label-margin-right);
+    flex-grow: 0;
+    flex-basis: var(--van-field-label-width);
+  }
+}
 </style>

@@ -48,6 +48,7 @@
       <van-checkbox v-model="checked" icon-size="1rem"></van-checkbox><span class="text-white ml-2">我知晓并同意<span class="text-blue-500" @click="goAgreement">《商家入驻协议》</span></span>
     </div>
     <typing-password-dialog
+      title="请输入支付密码"
       :show="showPasswordDialog"
       @cancel="showPasswordDialog = false"
       @success="onValidOk"
@@ -113,7 +114,7 @@ export default defineComponent({
       showPasswordDialog.value = false
       runSubmit({
         goodId: detailData.value.id,
-        price: price.value,
+        price: `${Number(price.value)}`,
         payKey
       })
     }

@@ -22,6 +22,7 @@ const AuthorizedIdentity = () => import('@/views/AuthorizedIdentity.vue')
 const MailBind = () => import('@/views/MailBind.vue')
 const MyWallet = () => import('@/views/MyWallet.vue')
 const BankCardBind = () => import('@/views/BankCardBind.vue')
+const BankCardList = () => import('@/views/BankCardList.vue')
 const PaySafety = () => import('@/views/PaySafety.vue')
 const TopUp = () => import('@/views/TopUp.vue')
 const TopUpStore = () => import('@/views/TopUpStore.vue')
@@ -30,10 +31,12 @@ const PutOnMarket = () => import('@/views/PutOnMarket.vue')
 const SecondaryDetail = () => import('@/views/SecondaryDetail.vue')
 const InfoList = () => import('@/views/InfoList.vue')
 const ComposeLab = () => import('@/views/ComposeLab.vue')
+const ApplyLianlianUser = () => import('@/views/ApplyLianlianUser.vue')
 
 const BusinessAgreement = () => import('@/views/info-views/BusinessAgreement.vue')
 const UserAgreement = () => import('@/views/info-views/UserAgreement.vue')
 const PrivacyAgreement = () => import('@/views/info-views/PrivacyAgreement.vue')
+const LianlianUserAgreement = () => import('@/views/info-views/LianlianUserAgreement.vue')
 
 const NormalLayout = () => import('@/layouts/NormalLayout.vue')
 
@@ -148,6 +151,11 @@ const routes = [
     component: BankCardBind
   },
   {
+    path: '/bankCardList',
+    name: 'BankCardList',
+    component: BankCardList
+  },
+  {
     path: '/paySafety',
     name: 'PaySafety',
     component: PaySafety
@@ -188,6 +196,11 @@ const routes = [
     component: ComposeLab
   },
   {
+    path: '/applyLianlianUser',
+    name: 'ApplyLianlianUser',
+    component: ApplyLianlianUser
+  },
+  {
     path: '/agreement',
     name: 'Agreement',
     component: NormalLayout,
@@ -215,6 +228,14 @@ const routes = [
         path: 'business',
         name: 'BusinessAgreement',
         component: BusinessAgreement,
+        meta: {
+          requiresAuth: false
+        }
+      },
+      {
+        path: 'lianlianUser',
+        name: 'LianlianUserAgreement',
+        component: LianlianUserAgreement,
         meta: {
           requiresAuth: false
         }

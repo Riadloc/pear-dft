@@ -1,7 +1,7 @@
 import request from '@/assets/request'
 
 export function topUpService(data: any) {
-  return request.post('/wallet/topup', data)
+  return request.post('/wallet/lianlian/topup', data)
 }
 
 export function createPayAccount(data: any) {
@@ -42,4 +42,32 @@ export function getWalletInfo() {
 
 export function onBankBind(data: any) {
   return request.post('/wallet/bank/bind', data)
+}
+
+export function checkLianlianSms(data: any) {
+  return request.post('/wallet/lianlian/checksms', data)
+}
+
+export function getLianlianRandomKey(data: any) {
+  return request.post('/wallet/lianlian/random', data)
+}
+
+export function applyBindCodeWithPhone(data: any) {
+  return request.post('/wallet/lianlian/bindphone/send', data)
+}
+
+export function checkBindCodeWithPhone(data: any) {
+  return request.post('/wallet/lianlian/bindphone/check', data)
+}
+
+export function applyLianlianUser(data: any) {
+  return request.post('/wallet/lianlian/user/apply', data)
+}
+
+export function checkLianlianUser(data: any) {
+  return request.post('/wallet/lianlian/user/check', data)
+}
+
+export function checkBindCodeWithBank(data: any) {
+  return request.post('/wallet/lianlian/bindbank/check', data)
 }

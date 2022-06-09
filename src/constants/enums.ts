@@ -35,6 +35,20 @@ export enum WalletRecordType {
   TRADE,
   TOP_UP,
   DRAW_CASH,
+  APPLY_USER,
+  ALL,
+}
+
+/** 连连支付个人开户状态 */
+export enum LianlianSteps {
+  /** 初始状态，未开户 */
+  DEFAULT,
+  /** 已提交申请单 */
+  APPLYED,
+  /** 已开户 */
+  SUCCESSED,
+  /** 开户失败 */
+  FAILED,
 }
 
 /** 藏品能力 */
@@ -43,4 +57,12 @@ export enum GoodPowerEnum {
   AHEAD_PURCHASE_ONE_HOUR,
   /** 手续费打8折 */
   DISCOUNT_BY_EIGHTY,
+}
+
+/** 用户角色 */
+export enum UserRoles {
+  /** 普通用户 */
+  NORMAL,
+  /** 管理员 */
+  ADMIN,
 }

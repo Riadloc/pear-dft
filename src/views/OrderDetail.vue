@@ -49,6 +49,7 @@
     </div>
     <pear-spinner :show="loading" />
     <typing-password-dialog
+      title="请输入支付密码"
       :show="showPasswordDialog"
       :validate="false"
       @cancel="showPasswordDialog = false"

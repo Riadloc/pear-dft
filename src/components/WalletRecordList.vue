@@ -11,14 +11,16 @@
         <span class="cell-td basis-1/4">交易金额</span>
         <span class="cell-td basis-1/4">状态</span>
         <span class="cell-td basis-1/4">时间</span>
-        <span class="cell-td basis-1/4" v-if="type === 1">操作</span>
+        <span class="cell-td basis-1/4" v-if="type === WalletRecordType.ALL">类型</span>
+        <span class="cell-td basis-1/4" v-else-if="type === WalletRecordType.TOP_UP">操作</span>
         <span class="cell-td basis-1/4" v-else>备注</span>
       </div>
       <div class="cell flex text-xs" v-for="item in dataList" :key="item.id">
         <span class="cell-td basis-1/4">{{ item.change }}</span>
         <span class="cell-td basis-1/4">{{ getStatusName(item.status) }}</span>
         <span class="cell-td basis-1/4">{{ dateformat(item.createdAt) }}</span>
-        <span class="cell-td basis-1/4" v-if="type === 1">
+        <span class="cell-td basis-1/4" v-if="type === WalletRecordType.ALL">{{ getTypeName(item.type) }}</span>
+        <span class="cell-td basis-1/4" v-else-if="type === WalletRecordType.TOP_UP">
           <span @click="() => onPay(item)" v-if="item.status === 0">继续支付</span>
         </span>
         <span class="cell-td basis-1/4" v-else>
@@ -30,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { HTTP_CODE } from '@/constants/enums'
+import { HTTP_CODE, WalletRecordType } from '@/constants/enums'
 import { formatTimezoneDate, openLink } from '@/constants/utils'
 import { getWalletRecords } from '@/services/wallet.service'
 import { defineComponent, ref } from 'vue'
@@ -80,6 +82,20 @@ export default defineComponent({
           return '关闭'
       }
     }
+    const getTypeName = (type: WalletRecordType) => {
+      switch (type) {
+        case WalletRecordType.TRADE:
+          return '交易'
+        case WalletRecordType.TOP_UP:
+          return '充值'
+        case WalletRecordType.DRAW_CASH:
+          return '提现'
+        case WalletRecordType.APPLY_USER:
+          return '开户'
+        default:
+          return ''
+      }
+    }
 
     const dateformat = (date: Date) => {
       return formatTimezoneDate(date, 'YYYY-MM-DD HH:mm')
@@ -93,7 +109,10 @@ export default defineComponent({
       onPay,
 
       getStatusName,
-      dateformat
+      getTypeName,
+      dateformat,
+
+      WalletRecordType
     }
   }
 })

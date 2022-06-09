@@ -44,7 +44,7 @@
       <div class="fixed rounded-lg bg-black bg-opacity-80 bottom-chip" v-if="store.isLoggedIn && !store.userData.certified">
         <div class="text-white py-3 px-4 text-sm flex items-center justify-between">
           <span>请先完成实名认证再购买藏品</span>
-          <van-button type="primary" size="mini" round class="px-2" @click="certify">实名认证</van-button>
+          <van-button size="mini" class="pear-green-button rounded-full px-2" @click="certify">实名认证</van-button>
         </div>
       </div>
     </van-pull-refresh>

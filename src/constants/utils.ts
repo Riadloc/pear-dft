@@ -23,6 +23,13 @@ export function datamask(phone: string) {
   return ''
 }
 
+export function maskbank(bankNo: string) {
+  if (bankNo) {
+    return '**** ' + bankNo.slice(-4)
+  }
+  return ''
+}
+
 export function isPrice(val: string) {
   return /^\d+(\.\d{1,2})?$/.test(val)
 }
@@ -33,6 +40,73 @@ export function setInviteCode() {
     const searchParams = new URLSearchParams(query)
     if (searchParams.get('code')) {
       sessionStorage.setItem('inviteCode', searchParams.get('code') as string)
+    }
+  }
+}
+
+export function initLianlianKeyboard(props: any) {
+  const svgPath = 'https://mpay-static.oss-cn-hangzhou.aliyuncs.com/html/lib/microdone/svg' // svg图片的地址
+  const { inputId, random } = props
+  if (typeof (window as any).kb === 'undefined') {
+  // 键盘构造
+    // eslint-disable-next-line new-cap
+    (window as any).kb = new (window as any).keyBoard({
+      chaosMode: 0, // 混乱模式,0:无混乱;1:打开时乱一次;2:每输入一个字符乱一次,默认值0
+      pressStatus: 1, // 按键状态,0:按下、抬起按键无变化;1:按下、抬起按键的颜色变化,默认值0
+      kbType: 1, // 键盘类型,0:全键盘;1:纯数字键盘,默认值0
+      svg: svgPath,
+      hasMap: '1', // 是否调用mapping值：当为1时调用，当为非1时，不调用
+      license: random.license
+    })
+  }
+  (window as any).BL.SV = svgPath
+  if (!document.getElementById('testkbid')) {
+    (window as any).kb.generate() // 键盘初始化
+  }
+  (window as any).passGuard.ib = random.map_arr
+  if (typeof (window as any).passGuardKeyboard === 'undefined') {
+  // 密码卫士构造
+    // eslint-disable-next-line new-cap
+    (window as any).passGuardKeyboard = new (window as any).passGuard({
+      jump: 1,
+      fixed: 'H5fixed', // 当fixed接口添加时，代表该输入框在fixed覆盖层上且覆盖层的ID为接口的值(在demo中覆盖层ID为"H5fixed")
+      maxLength: 12, // 最大输入长度
+      regExp1: '[\\S\\s]', // 输入过程限制的正则
+      regExp2: '[a-zA-Z0-9]{6,12}',
+      displayMode: 1, // 显示形式,0:星号;1:明文,默认值0
+      callBack: () => {}, // 成功回调
+      errorCallBack: () => {}, // 失败回调
+      focus: () => {}, // H5键盘获取焦点回调
+      blur: () => {}, // H5键盘失去焦点回调
+      add: () => {},
+      del: () => {},
+      rsaPublicKey: random.rsa_public_content
+    })
+  }
+
+  (window as any).passGuardKeyboard.generate(inputId, (window as any).kb, 'passGuardKeyboard', 0); // 密码卫士初始化
+  (window as any).passGuardKeyboard.setRandKey(random.random_value) // 设置随机因子
+  return {
+  // 清空input的内容
+    clearAllPwd() {
+      (window as any).passGuardKeyboard.clearpwd()
+    },
+    // 获取所有密码输入的值
+    getValue() {
+      return new Promise((resolve, reject) => {
+        if ((window as any).passGuardKeyboard.getLength() === 0) {
+          reject(new Error('EMPTY'))
+          return
+        }
+        if ((window as any).passGuardKeyboard.getValid() === 1) {
+          reject(new Error('FORMAT_ERROR'))
+          return
+        }
+        // ib is cleared after passGuardKeyboard.getOutput(), thus needs to be reassigned
+        const password = (window as any).passGuardKeyboard.getOutput();
+        (window as any).passGuard.ib = random.map_arr
+        resolve(password)
+      })
     }
   }
 }

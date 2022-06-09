@@ -6,20 +6,23 @@
       <p class="text-sm text-gray-300">当前余额</p>
     </div>
     <div class="flex px-4">
-      <van-button block class="rounded-lg pear-green-button" @click="goTopUp">充值</van-button>
-      <!-- <van-button block class="rounded-lg pear-gray-button" @click="goDrawCash">提现</van-button> -->
+      <van-button block class="rounded-lg pear-green-button mr-4" @click="goTopUp">充值</van-button>
+      <van-button block class="rounded-lg pear-gray-button" @click="goDrawCash">提现</van-button>
     </div>
     <div>
       <van-tabs v-model:active="activeTab" shrink class="mt-4" sticky>
+      <van-tab title="全部记录" :name="WalletRecordType.ALL">
+           <wallet-record-list :type="WalletRecordType.ALL" />
+        </van-tab>
         <van-tab title="交易记录" :name="WalletRecordType.TRADE">
            <wallet-record-list :type="WalletRecordType.TRADE" />
         </van-tab>
         <van-tab title="充值记录" :name="WalletRecordType.TOP_UP">
            <wallet-record-list :type="WalletRecordType.TOP_UP" />
         </van-tab>
-        <!-- <van-tab title="提现记录" :name="WalletRecordType.DRAW_CASH">
+        <van-tab title="提现记录" :name="WalletRecordType.DRAW_CASH">
            <wallet-record-list :type="WalletRecordType.DRAW_CASH" />
-        </van-tab> -->
+        </van-tab>
       </van-tabs>
     </div>
   </div>
@@ -29,7 +32,7 @@
 import { defineComponent, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { WalletRecordList } from '@/components'
-import { WalletRecordType } from '@/constants/enums'
+import { LianlianSteps, WalletRecordType, UserRoles } from '@/constants/enums'
 import { useUserStore } from '@/stores/user.store'
 import { storeToRefs } from 'pinia'
 import { Dialog } from 'vant'
@@ -55,20 +58,58 @@ export default defineComponent({
     const store = useUserStore()
     const { walletData, userData } = storeToRefs(store)
 
-    const activeTab = ref(WalletRecordType.TRADE)
+    const activeTab = ref(WalletRecordType.ALL)
+
+    const checkBankInfo = () => {
+      if (!walletData.value.bankCards?.length || !walletData.value.bankCards[0]?.idNo) {
+        Dialog.confirm({
+          message: '请先补齐银行卡信息',
+          confirmButtonText: '前去绑定'
+        }).then(() => {
+          router.push({ name: 'BankCardList' })
+        })
+        return false
+      }
+      return true
+    }
 
     const goTopUp = () => {
-      router.push('/topUpStore')
+      if (userData.value.role === UserRoles.NORMAL) {
+        Dialog.alert({
+          message: '功能维护中，暂时关闭'
+        })
+      } else {
+        const valid = checkBankInfo()
+        if (valid) {
+          router.push('/topUpStore')
+        }
+      }
     }
     const goDrawCash = () => {
-      if (userData.value.isBindBank) {
-        router.push('/drawCash')
-      } else {
+      if (userData.value.role === UserRoles.NORMAL) {
         Dialog.alert({
-          message: '请先绑定银行卡'
-        }).then(() => {
-          router.push('/bankCardBind')
+          message: '功能维护中，暂时关闭'
         })
+      } else {
+        const valid = checkBankInfo()
+        if (!valid) return
+        if (walletData.value.step !== LianlianSteps.SUCCESSED) {
+          Dialog.confirm({
+            message: '请先开通连连支付账号',
+            confirmButtonText: '前去开通'
+          }).then(() => {
+            router.push({ name: 'LianlianUserAgreement' })
+          })
+        } else if (!walletData.value.bankCards?.length) {
+          Dialog.confirm({
+            message: '请先绑定银行卡',
+            confirmButtonText: '前去绑定'
+          }).then(() => {
+            router.push({ name: 'BankCardList' })
+          })
+        } else {
+          router.push('/drawCash')
+        }
       }
     }
 

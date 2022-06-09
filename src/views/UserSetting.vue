@@ -43,11 +43,6 @@
             <span class="ml-2">银行卡管理</span>
           </div>
         </template>
-        <template #value>
-          <!-- <span v-if="userData.certified">已认证</span> -->
-          <span v-if="userData.isBindBank">已绑定</span>
-          <span v-else>未绑定</span>
-        </template>
       </van-cell>
       <van-cell
         round
@@ -275,16 +270,7 @@ export default defineComponent({
       }
     },
     onChangeBank() {
-      const { isBindBank } = this.userData
-      if (isBindBank) {
-        Dialog.confirm({
-          message: '已绑定银行卡，确认修改？'
-        }).then(() => {
-          this.$router.push('/bankCardBind')
-        })
-      } else {
-        this.$router.push('/bankCardBind')
-      }
+      this.$router.push({ name: 'BankCardList' })
     },
     async submitChangeName(values: any) {
       const res = await updateUserInfo(this.userData.userId, values) as any

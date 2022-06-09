@@ -144,9 +144,6 @@ export default defineComponent({
     const onTransfer = () => {
       router.push({ name: 'PutOnMarket', query: { no: goodNo } })
     }
-    const onBindBank = () => {
-      router.push('/bankCardBind')
-    }
     const onCertify = () => {
       router.push('/certify')
     }
@@ -204,7 +201,6 @@ export default defineComponent({
       qrcode,
       onBack,
       onTransfer,
-      onBindBank,
       onCertify,
       onTakeOff,
       WEB_NAME,

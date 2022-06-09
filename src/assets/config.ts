@@ -31,7 +31,12 @@ export const theme = {
   popupBackgroundColor: '#292a2d',
   actionSheetItemTextColor: '#fff',
   tabsBottomBarColor: '#31C17B',
-  passwordInputCursorColor: '#fff'
+  passwordInputCursorColor: '#fff',
+  stepsBackgroundColor: '#202125',
+  switchOnBackgroundColor: '#31c17b',
+  switchBackgroundColor: '#666',
+  checkboxCheckedIconColor: '#31c17b',
+  radioCheckedIconColor: '#31c17b'
 }
 
 export const BASE_URL = {

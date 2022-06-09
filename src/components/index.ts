@@ -15,6 +15,7 @@ import FilterBar from './filter-bar'
 import WalletRecordList from './WalletRecordList.vue'
 import YidunCaptcha from './YidunCaptcha.vue'
 import TypingPasswordDialog from './TypingPasswordDialog.vue'
+import LlPasswordField from './LlPasswordField.vue'
 
 export {
   PearIcon,
@@ -42,5 +43,6 @@ export default {
       .component('yidun-captcha', YidunCaptcha)
       .component('pear-registration', PearRegistration)
       .component('typing-password-dialog', TypingPasswordDialog)
+      .component('ll-password-field', LlPasswordField)
   }
 }

@@ -181,9 +181,9 @@ export default defineComponent({
     right: 0;
   }
   .link {
-    color: var(--van-blue);
+    color: #31c17b;
     &:active {
-      color: rgba(25,137,250,.5)
+      opacity: 0.6;
     }
   }
   .van-cell:after {

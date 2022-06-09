@@ -36,7 +36,7 @@ specifiers:
   qs: ^6.10.3
   tailwindcss: ^3.0.24
   typescript: ^4.4.4
-  vant: ^3.4.7
+  vant: 3.4.7
   vite: ^2.7.2
   vite-plugin-purge-icons: ^0.8.1
   vite-plugin-style-import: ^1.4.1
@@ -58,7 +58,7 @@ dependencies:
   qr-code-styling: registry.npmmirror.com/qr-code-styling/1.6.0-rc.1
   qrcode: registry.npmmirror.com/qrcode/1.5.0
   qs: registry.npmmirror.com/qs/6.10.3
-  vant: registry.npmmirror.com/vant/3.4.9_vue@3.2.33
+  vant: registry.npmmirror.com/vant/3.4.7_vue@3.2.33
   vue: registry.npmmirror.com/vue/3.2.33
   vue-request: registry.npmmirror.com/vue-request/1.2.4_vue@3.2.33
   vue-router: registry.npmmirror.com/vue-router/4.0.15_vue@3.2.33
@@ -490,18 +490,18 @@ packages:
     version: 1.8.0
     dev: false
 
-  registry.npmmirror.com/@vant/popperjs/1.1.0:
-    resolution: {integrity: sha512-8MD1gz146awV/uPxYjz4pet22f7a9YVKqk7T+gFkWFwT9mEcrIUEg/xPrdOnWKLP9puXyYtm7oVfSDSefZ/p/w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vant/popperjs/-/popperjs-1.1.0.tgz}
+  registry.npmmirror.com/@vant/popperjs/1.2.1:
+    resolution: {integrity: sha512-qzQlrPE4aOsBzfrktDVwzQy/QICCTKifmjrruhY58+Q2fobUYp/T9QINluIafzsD3VJwgP8+HFVLBsyDmy3VZQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vant/popperjs/-/popperjs-1.2.1.tgz}
     name: '@vant/popperjs'
-    version: 1.1.0
+    version: 1.2.1
     dependencies:
       '@popperjs/core': registry.npmmirror.com/@popperjs/core/2.11.5
     dev: false
 
-  registry.npmmirror.com/@vant/use/1.3.6:
-    resolution: {integrity: sha512-3z+nywPaV2F5BdJO7RQxWlgfzJeEOmViD2yHMb7Tg+R4NR/7iQskqW8v2Cnv9FWSJgTOSHlcr7UzeLpiTAP4HA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vant/use/-/use-1.3.6.tgz}
+  registry.npmmirror.com/@vant/use/1.4.1:
+    resolution: {integrity: sha512-YonNN0SuJLEJuqdoMcVAJm2JUZWkHNrW81QzeF6FLyG5HFUGlmTM5Sby7gdS3Z/8UDMlkWRQpJxBWbmVzmUWxQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vant/use/-/use-1.4.1.tgz}
     name: '@vant/use'
-    version: 1.3.6
+    version: 1.4.1
     dev: false
 
   registry.npmmirror.com/@vitejs/plugin-vue/2.3.3_vite@2.9.9+vue@3.2.33:
@@ -4246,17 +4246,17 @@ packages:
     version: 2.3.0
     dev: true
 
-  registry.npmmirror.com/vant/3.4.9_vue@3.2.33:
-    resolution: {integrity: sha512-OXwfL3oDahlEQC4HhaC7TmM9uoPDjAuWi1mR/OLW3JyOvPoCR8YhOtX2M6OQnz3Hnd3l4oWjjASKNGltWiPtjQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vant/-/vant-3.4.9.tgz}
-    id: registry.npmmirror.com/vant/3.4.9
+  registry.npmmirror.com/vant/3.4.7_vue@3.2.33:
+    resolution: {integrity: sha512-/iafbNF3VPcDevIun8DMj84V9sGMcBZ2LW8j20uqthW6NpFmkMpDFJxMINQFIZ0myEogqVSDVhS6XFAwlx3nkQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vant/-/vant-3.4.7.tgz}
+    id: registry.npmmirror.com/vant/3.4.7
     name: vant
-    version: 3.4.9
+    version: 3.4.7
     peerDependencies:
       vue: ^3.0.0
     dependencies:
       '@vant/icons': registry.npmmirror.com/@vant/icons/1.8.0
-      '@vant/popperjs': registry.npmmirror.com/@vant/popperjs/1.1.0
-      '@vant/use': registry.npmmirror.com/@vant/use/1.3.6
+      '@vant/popperjs': registry.npmmirror.com/@vant/popperjs/1.2.1
+      '@vant/use': registry.npmmirror.com/@vant/use/1.4.1
       vue: registry.npmmirror.com/vue/3.2.33
     dev: false
 
