@@ -261,7 +261,11 @@ export default defineComponent({
             message: data.msg
           })
         } else {
-          //
+          Dialog.alert({
+            message: '开户成功！'
+          }).then(() => {
+            router.back()
+          })
         }
       }
     })
@@ -305,24 +309,13 @@ export default defineComponent({
               Toast('请输入验证码')
               return
             }
-            const res = await runCheckUser({
+            runCheckUser({
               orderNo: txn_seqno,
               token,
               randomKey,
               code: formData2.code,
               password
             })
-            if (res.code === HTTP_CODE.ERROR) {
-              Dialog.alert({
-                message: res.msg
-              })
-            } else {
-              Dialog.alert({
-                message: '开户绑卡已提交申请！'
-              }).then(() => {
-                router.back()
-              })
-            }
           } catch (error) {
             console.log(error)
             Dialog.alert({
