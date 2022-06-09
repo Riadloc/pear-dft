@@ -46,13 +46,13 @@
         </div>
         <div class="mb-4">
           <h3 class="text-gray-300 text-sm mb-1">选择支付银行卡</h3>
-          <van-radio-group v-model="checked">
+          <van-radio-group v-model="bankId">
             <div
               class="flex justify-between"
               v-for="item in walletData.bankCards"
               :key="item.id"
             >
-              <div class="inline-flex" @click="checked = item.id">
+              <div class="inline-flex" @click="bankId = item.id">
                 <div class="w-6 h-6 bg-primary rounded-md align-middle text-center">
                   <pear-icon set="ph" name="credit-card-fill" size="1.3rem" class="text-white" />
                 </div>
@@ -63,7 +63,7 @@
           </van-radio-group>
         </div>
         <div class="pt-2">
-          <van-button block :class="[checked ? 'pear-green-button' : 'pear-gray-button', 'rounded-lg']" @click="onTopup">立即充值</van-button>
+          <van-button block :class="[bankId ? 'pear-green-button' : 'pear-gray-button', 'rounded-lg']" @click="onTopup">立即充值</van-button>
         </div>
       </div>
     </van-action-sheet>
@@ -101,11 +101,12 @@ export default defineComponent({
     }
 
     const onTopup = () => {
-      if (!checked.value) {
+      if (!bankId.value) {
         Toast.fail('请选择支付银行卡')
         return
       }
       runTopUp({
+        bankId: bankId.value,
         price: payInfo.price
       })
     }
@@ -171,7 +172,7 @@ export default defineComponent({
       })
     }
 
-    const checked = ref('')
+    const bankId = ref('')
 
     onMounted(() => {
       document.addEventListener('visibilitychange', onVisiblityChange)
@@ -199,7 +200,7 @@ export default defineComponent({
         10
       ],
 
-      checked
+      bankId
     }
   }
 })
