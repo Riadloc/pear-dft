@@ -155,7 +155,7 @@ import { useRequest } from 'vue-request'
 import { ONE_MINUTE } from '@/constants/constants'
 import { HTTP_CODE } from '@/constants/enums'
 import { Toast, Switch, DatetimePicker, Dialog } from 'vant'
-import { applyBindCodeWithPhone, checkBindCodeWithPhone, applyLianlianUser } from '@/services/wallet.service'
+import { applyBindCodeWithPhone, checkBindCodeWithPhone, applyLianlianUser, checkLianlianUser } from '@/services/wallet.service'
 import dayjs from 'dayjs'
 const requestConfig = {
   manual: true,
@@ -253,7 +253,7 @@ export default defineComponent({
         }
       }
     })
-    const { run: runCheckUser, loading: checkUserLoading } = useRequest<any>(applyLianlianUser, {
+    const { run: runCheckUser, loading: checkUserLoading } = useRequest<any>(checkLianlianUser, {
       ...requestConfig,
       onSuccess(data) {
         if (data.code === HTTP_CODE.ERROR) {
