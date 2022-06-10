@@ -22,6 +22,7 @@ const AuthorizedIdentity = () => import('@/views/AuthorizedIdentity.vue')
 const MailBind = () => import('@/views/MailBind.vue')
 const MyWallet = () => import('@/views/MyWallet.vue')
 const BankCardBind = () => import('@/views/BankCardBind.vue')
+const BankCardUnbind = () => import('@/views/BankCardUnbind.vue')
 const BankCardList = () => import('@/views/BankCardList.vue')
 const PaySafety = () => import('@/views/PaySafety.vue')
 const TopUp = () => import('@/views/TopUp.vue')
@@ -149,6 +150,11 @@ const routes = [
     path: '/bankCardBind',
     name: 'BankCardBind',
     component: BankCardBind
+  },
+  {
+    path: '/bankCardUnbind',
+    name: 'BankCardUnbind',
+    component: BankCardUnbind
   },
   {
     path: '/bankCardList',

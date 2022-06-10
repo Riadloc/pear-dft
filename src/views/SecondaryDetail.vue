@@ -56,10 +56,10 @@
               <span>认证标准</span>
               <span class="text-gray-100">ERC-721</span>
             </div>
-            <div class="flex justify-between mt-2">
+            <!-- <div class="flex justify-between mt-2">
               <span>认证网络</span>
               <span class="text-gray-100">Polygon</span>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="section">
@@ -98,7 +98,7 @@ import { useUserStore } from '@/stores/user.store'
 import { createSecondaryPaymentOrder } from '@/services/payment.service'
 import { HTTP_CODE } from '@/constants/enums'
 import { Dialog, Toast } from 'vant'
-import { openLink } from '@/constants/utils'
+// import { openLink } from '@/constants/utils'
 
 export default defineComponent({
   components: { PearCard },
@@ -191,10 +191,10 @@ export default defineComponent({
       return value.slice(0, 6) + '...' + value.slice(-6)
     }
     const goContract = () => {
-      openLink(`https://polygonscan.com/address/${data.value.contract}`)
+      // openLink(`https://polygonscan.com/address/${data.value.contract}`)
     }
     const goTxHash = () => {
-      openLink(`https://polygonscan.com/tx/${data.value.hash}`)
+      // openLink(`https://polygonscan.com/tx/${data.value.hash}`)
     }
 
     return {

@@ -26,6 +26,7 @@ interface WalletData {
     idNo: string;
     phone: string;
     status: number;
+    createdAt: string;
   }>
 }
 

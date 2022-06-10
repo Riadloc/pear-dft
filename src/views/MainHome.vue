@@ -2,7 +2,7 @@
   <div class="main-home">
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <div class="logo w-full shadow-md">
-        <span class="title">梨数字-元宇宙</span>
+        <span class="title">梨数字</span>
       </div>
       <van-swipe
         class="my-swipe rounded-2xl"

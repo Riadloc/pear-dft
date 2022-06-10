@@ -23,7 +23,7 @@
     <typing-password-dialog
       title="请输入验证码"
       :show="showCodeDialog"
-      @cancel="showCodeDialog = false"
+      @cancel="onValidCancel"
       @success="onValidOk"
       :validate="false"
     />
@@ -169,6 +169,10 @@ export default defineComponent({
       }
     }
 
+    const onValidCancel = () => {
+      showCodeDialog.value = false
+      showConfirmDialog.value = false
+    }
     const onValidOk = (code: string) => {
       runCheckSms({
         ...payInfo,
@@ -192,6 +196,7 @@ export default defineComponent({
       showCodeDialog,
       onSelect,
       onValidOk,
+      onValidCancel,
       onTopup,
       maskbank,
       loading,

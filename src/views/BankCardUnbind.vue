@@ -1,12 +1,11 @@
 <template>
   <div class="bank-card-bind">
-    <pear-navbar title="绑定银行卡" left-arrow />
+    <pear-navbar title="解绑银行卡" left-arrow />
     <van-form @submit="onSubmit" class="p-4" validate-trigger="onSubmit">
       <van-field
         label="银行卡号"
         :border="false"
         readonly
-        @touchstart.stop="showBankCardKeyboard = true"
         v-model="formData.bankNo"
         name="bankNo"
         class="mb-4 rounded"
@@ -14,6 +13,7 @@
         :rules="[{ required: true, message: '请填写储蓄银行卡卡号' }]"
       />
       <van-field
+        readonly
         label="预留手机号"
         :border="false"
         v-model="formData.phone"
@@ -23,6 +23,7 @@
         :rules="[{ required: true, message: '请填写银行卡开户手机号' }]"
       />
       <van-field
+        readonly
         label="姓名"
         :border="false"
         v-model="formData.realName"
@@ -32,6 +33,7 @@
         :rules="[{ required: true, message: '请填写开户人姓名' }]"
       />
       <van-field
+        readonly
         label="身份证号"
         :border="false"
         v-model="formData.idNo"
@@ -42,7 +44,7 @@
       />
       <ll-password-field v-if="userStore.walletData.step === LianlianSteps.SUCCESSED" label="提现时专用" title="提现密码" ref="llPasswordField" />
       <div class="mt-10">
-        <van-button block class="pear-green-button rounded" native-type="submit">立即绑定</van-button>
+        <van-button block class="pear-green-button rounded" native-type="submit">解除绑定</van-button>
       </div>
     </van-form>
     <van-number-keyboard
@@ -51,114 +53,76 @@
       :maxlength="20"
       @blur="showBankCardKeyboard = false"
     />
-    <typing-password-dialog
-      title="请输入验证码"
-      :show="showCodeDialog"
-      @cancel="showCodeDialog = false"
-      @success="onValidOk"
-      :validate="false"
-    />
     <pear-spinner :show="loading" />
   </div>
 </template>
 
 <script lang="ts">
 import { HTTP_CODE, LianlianSteps } from '@/constants/enums'
-import { checkBankCardStat, checkBindCodeWithBank, onBankBind } from '@/services/wallet.service'
+import { datamask } from '@/constants/utils'
+import { onBankUnbind } from '@/services/wallet.service'
 import { useUserStore } from '@/stores/user.store'
+import { storeToRefs } from 'pinia'
 import { Dialog, Toast } from 'vant'
 import { computed, defineComponent, reactive, ref } from 'vue'
 import { useRequest } from 'vue-request'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+
 export default defineComponent({
   setup() {
+    const route = useRoute()
     const router = useRouter()
     const userStore = useUserStore()
+    const { walletData } = storeToRefs(userStore)
+
+    const data = walletData.value.bankCards.find(item => item.id === route.query.bankId)
 
     const llPasswordField = ref<any>(null)
     const showBankCardKeyboard = ref(false)
     const showCodeDialog = ref(false)
     const formData = reactive({
-      phone: userStore.userData.phone,
-      bankNo: '',
-      idNo: '',
-      realName: ''
+      phone: datamask(data?.phone || ''),
+      bankNo: data?.bankNo,
+      idNo: data?.idNo,
+      realName: data?.realName
     })
 
-    const onSubmit = (values: any) => {
+    const onSubmit = () => {
+      const { length: count } = walletData.value.bankCards
+      const isApplyedUser = walletData.value.step === LianlianSteps.SUCCESSED
       Dialog.confirm({
-        message: '确认信息无误？',
-        confirmButtonText: '确认无误',
-        cancelButtonText: '再检查一下'
-      }).then(() => {
-        checkBankCardStat(values.bankNo)
-          .then(async (res: any) => {
-            if (!res.validated) {
-              Toast('错误或不支持的卡号')
-              return
-            }
-            if (res.cardType !== 'DC') {
-              Toast('支持储蓄银行卡')
-              return
-            }
-            const formData: any = {
-              bankNo: values.bankNo,
-              realName: values.realName,
-              phone: values.phone,
-              idNo: values.idNo
-            }
-            if (userStore.walletData.step === LianlianSteps.SUCCESSED) {
-              formData.password = await llPasswordField.value.getValue()
-              formData.randomKey = llPasswordField.value.getRandomKey()
-            }
-            runBankBind(formData)
-          })
+        message: '确认解除绑定？'
+      }).then(async () => {
+        if (count === 1 && isApplyedUser) {
+          Toast('不满足解绑条件！')
+          return
+        }
+        const formData: any = {
+          bankId: data?.id
+        }
+        if (userStore.walletData.step === LianlianSteps.SUCCESSED) {
+          formData.password = await llPasswordField.value.getValue()
+          formData.randomKey = llPasswordField.value.getRandomKey()
+        }
+        runBankUnbind(formData)
       })
     }
-    const { data: bankBindData, loading: loading1, run: runBankBind } = useRequest(onBankBind, {
+    const { loading: ubLoading, run: runBankUnbind } = useRequest(onBankUnbind, {
       manual: true,
       onSuccess(res: any) {
         if (res.code === HTTP_CODE.ERROR) {
           Dialog.alert({
             message: res.msg
           })
-          return
         }
-        if (!res.data.token) {
-          userStore.getWalletInfo()
-          Toast.success({
-            message: '绑定成功',
-            onClose: () => {
-              router.back()
-            }
-          })
-        } else {
-          Toast('已发送验证码至您的手机')
-          showCodeDialog.value = true
-        }
+        Dialog.alert({
+          message: '解绑申请成功提交！'
+        }).then(() => {
+          router.back()
+        })
       }
     })
-    const { loading: loading2, run: runBankBindCheck } = useRequest(checkBindCodeWithBank, {
-      manual: true,
-      onSuccess(res: any) {
-        if (res.code === HTTP_CODE.ERROR) {
-          Dialog.alert({
-            message: res.msg
-          })
-          return
-        }
-        showCodeDialog.value = false
-      }
-    })
-    const onValidOk = (code: string) => {
-      const { txn_seqno, token } = bankBindData.value.data
-      runBankBindCheck({
-        code,
-        orderNo: txn_seqno,
-        token
-      })
-    }
-    const loading = computed(() => loading1.value || loading2.value)
+    const loading = computed(() => ubLoading.value)
 
     return {
       showBankCardKeyboard,
@@ -168,7 +132,6 @@ export default defineComponent({
       userStore,
       LianlianSteps,
       onSubmit,
-      onValidOk,
       loading
     }
   }

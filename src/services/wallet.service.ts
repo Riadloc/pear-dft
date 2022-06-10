@@ -48,6 +48,10 @@ export function onBankBind(data: any) {
   return request.post('/wallet/bank/bind', data)
 }
 
+export function onBankUnbind(data: any) {
+  return request.post('/wallet/bank/unbind', data)
+}
+
 export function checkLianlianSms(data: any) {
   return request.post('/wallet/lianlian/checksms', data)
 }
