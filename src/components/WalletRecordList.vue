@@ -107,7 +107,7 @@ export default defineComponent({
           })
           return
         }
-        showCodeDialog.value = false
+        showCodeDialog.value = true
       }
     })
     const { loading: checkLoading, run: runCheckSms } = useRequest(checkLianlianSms, {
