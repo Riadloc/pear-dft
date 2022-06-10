@@ -113,6 +113,8 @@ export default defineComponent({
 
     const { loading: mainLoading, run: runTopUp } = useRequest(topUpService, {
       manual: true,
+      throttleInterval: 1000,
+      throttleOptions: { leading: true, trailing: false },
       onSuccess(res: any) {
         if (res.code === HTTP_CODE.ERROR) {
           Dialog.alert({
@@ -139,6 +141,8 @@ export default defineComponent({
 
     const { loading: checkLoading, run: runCheckSms } = useRequest(checkLianlianSms, {
       manual: true,
+      throttleInterval: 1000,
+      throttleOptions: { leading: true, trailing: false },
       onSuccess(res: any) {
         if (res.code === HTTP_CODE.ERROR) {
           Dialog.alert({

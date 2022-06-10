@@ -4,6 +4,10 @@ export function topUpService(data: any) {
   return request.post('/wallet/lianlian/topup', data)
 }
 
+export function continueTopup(data: any) {
+  return request.post('/wallet/lianlian/topup/continue', data)
+}
+
 export function createPayAccount(data: any) {
   return request.post('/wallet/account/create', data)
 }

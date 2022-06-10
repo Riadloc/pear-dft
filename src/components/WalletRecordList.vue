@@ -1,42 +1,54 @@
 <template>
-  <van-list
-    v-model:loading="loading"
-    :finished="finished"
-    finished-text="暂无数据"
-    @load="onLoad"
-    class="px-4 pt-4 text-white"
-  >
-    <template v-if="dataList.length">
-      <div class="cell flex text-sm">
-        <span class="cell-td basis-1/4">交易金额</span>
-        <span class="cell-td basis-1/4">状态</span>
-        <span class="cell-td basis-1/4">时间</span>
-        <span class="cell-td basis-1/4" v-if="type === WalletRecordType.ALL">类型</span>
-        <span class="cell-td basis-1/4" v-else-if="type === WalletRecordType.TOP_UP">操作</span>
-        <span class="cell-td basis-1/4" v-else>备注</span>
-      </div>
-      <div class="cell flex text-xs" v-for="item in dataList" :key="item.id">
-        <span class="cell-td basis-1/4">{{ item.change }}</span>
-        <span class="cell-td basis-1/4">{{ getStatusName(item.status) }}</span>
-        <span class="cell-td basis-1/4">{{ dateformat(item.createdAt) }}</span>
-        <span class="cell-td basis-1/4" v-if="type === WalletRecordType.ALL">{{ getTypeName(item.type) }}</span>
-        <span class="cell-td basis-1/4" v-else-if="type === WalletRecordType.TOP_UP">
-          <span @click="() => onPay(item)" v-if="item.status === 0">继续支付</span>
-        </span>
-        <span class="cell-td basis-1/4" v-else>
-          <span>{{ item.payInfo?.remark || '' }}</span>
-        </span>
-      </div>
-    </template>
-  </van-list>
+  <div>
+    <van-list
+      v-model:loading="loading"
+      :finished="finished"
+      finished-text="暂无数据"
+      @load="onLoad"
+      class="px-4 pt-4 text-white"
+    >
+      <template v-if="dataList.length">
+        <div class="cell flex text-sm">
+          <span class="cell-td basis-1/4">交易金额</span>
+          <span class="cell-td basis-1/4">状态</span>
+          <span class="cell-td basis-1/4">时间</span>
+          <span class="cell-td basis-1/4" v-if="type === WalletRecordType.ALL">类型</span>
+          <span class="cell-td basis-1/4" v-else-if="type === WalletRecordType.TOP_UP">操作</span>
+          <span class="cell-td basis-1/4" v-else>备注</span>
+        </div>
+        <div class="cell flex text-xs" v-for="item in dataList" :key="item.id">
+          <span class="cell-td basis-1/4">{{ item.change }}</span>
+          <span class="cell-td basis-1/4">{{ getStatusName(item.status) }}</span>
+          <span class="cell-td basis-1/4">{{ dateformat(item.createdAt) }}</span>
+          <span class="cell-td basis-1/4" v-if="type === WalletRecordType.ALL">{{ getTypeName(item.type) }}</span>
+          <span class="cell-td basis-1/4" v-else-if="type === WalletRecordType.TOP_UP">
+            <span @click="() => onPay(item)" v-if="item.status === 0">继续支付</span>
+          </span>
+          <span class="cell-td basis-1/4" v-else>
+            <span>{{ item.payInfo?.remark || '' }}</span>
+          </span>
+        </div>
+      </template>
+    </van-list>
+    <typing-password-dialog
+      title="请输入验证码"
+      :show="showCodeDialog"
+      @cancel="showCodeDialog = false"
+      @success="onValidOk"
+      :validate="false"
+    />
+    <pear-spinner :show="submitLoading" />
+  </div>
 </template>
 
 <script lang="ts">
 import { HTTP_CODE, WalletRecordType } from '@/constants/enums'
-import { formatTimezoneDate, openLink } from '@/constants/utils'
-import { getWalletRecords } from '@/services/wallet.service'
-import { defineComponent, ref } from 'vue'
-import { useLoadMore } from 'vue-request'
+import { formatTimezoneDate } from '@/constants/utils'
+import router from '@/routes'
+import { checkLianlianSms, continueTopup, getWalletRecords } from '@/services/wallet.service'
+import { Dialog } from 'vant'
+import { computed, defineComponent, ref } from 'vue'
+import { useLoadMore, useRequest } from 'vue-request'
 
 export default defineComponent({
   props: {
@@ -68,9 +80,55 @@ export default defineComponent({
       pageNo.value += 1
       loadMore()
     }
+
+    const showCodeDialog = ref(false)
     const onPay = (item: any) => {
-      openLink(item.payInfo.url)
+      runContinueTopup({
+        orderId: item.id
+      })
     }
+    const onValidOk = (code: string) => {
+      const { txn_seqno: orderNo, total_amount: price, token } = payInfo.value.data
+      runCheckSms({
+        orderNo,
+        price,
+        token,
+        code
+      })
+    }
+    const { data: payInfo, loading: continueLoading, run: runContinueTopup } = useRequest(continueTopup, {
+      manual: true,
+      throttleInterval: 2000,
+      throttleOptions: { leading: true, trailing: false },
+      onSuccess(res: any) {
+        if (res.code === HTTP_CODE.ERROR) {
+          Dialog.alert({
+            message: res.msg
+          })
+          return
+        }
+        showCodeDialog.value = false
+      }
+    })
+    const { loading: checkLoading, run: runCheckSms } = useRequest(checkLianlianSms, {
+      manual: true,
+      throttleInterval: 2000,
+      throttleOptions: { leading: true, trailing: false },
+      onSuccess(res: any) {
+        if (res.code === HTTP_CODE.ERROR) {
+          Dialog.alert({
+            message: res.msg
+          })
+          return
+        }
+        showCodeDialog.value = false
+        Dialog.alert({
+          message: '支付成功'
+        }).then(() => {
+          router.back()
+        })
+      }
+    })
 
     const getStatusName = (status: number) => {
       switch (status) {
@@ -101,12 +159,17 @@ export default defineComponent({
       return formatTimezoneDate(date, 'YYYY-MM-DD HH:mm')
     }
 
+    const submitLoading = computed(() => continueLoading.value || checkLoading.value)
+
     return {
       loading,
+      submitLoading,
       dataList,
       finished,
       onLoad,
       onPay,
+      showCodeDialog,
+      onValidOk,
 
       getStatusName,
       getTypeName,
