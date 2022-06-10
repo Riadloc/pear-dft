@@ -199,7 +199,8 @@ export default defineComponent({
         500,
         1000,
         5000,
-        10
+        10,
+        0.1
       ],
 
       bankId
