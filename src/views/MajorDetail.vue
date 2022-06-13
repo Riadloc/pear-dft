@@ -66,6 +66,7 @@
       <div class="footer"></div>
     </div>
     <yidun-captcha v-model:show="showCaptch" @success="onValidOk"/>
+    <pear-spinner :show="loading" />
   </div>
 </template>
 
@@ -108,7 +109,7 @@ export default defineComponent({
       }
     })
 
-    const { run: createOrder } = useRequest(createPaymentOrder, {
+    const { run: createOrder, loading } = useRequest(createPaymentOrder, {
       manual: true,
       throttleInterval: 2000,
       throttleOptions: { leading: true, trailing: false },
@@ -169,6 +170,8 @@ export default defineComponent({
 
     const showPayButton = computed(() => !goodNo.startsWith('F'))
     return {
+      loading,
+
       showCaptch,
       onBack,
       onCertify,

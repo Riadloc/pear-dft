@@ -16,6 +16,10 @@ export function getGoodsList(params: any) {
   return request.get('goods', { params })
 }
 
+export function getFilterGoodsList(params: any) {
+  return request.get('goods/list/filter', { params })
+}
+
 export function getMarketGoodList(params: any) {
   return request.get('goods/market', { params })
 }

@@ -42,6 +42,9 @@ body {
   --card-large-size: calc(100vw - 2rem);
   --card-small-size: calc(50vw - 1.5rem);
   --card-base-size: 6rem;
+  --primary-color: #31c17b;
+  --van-primary-color: var(--primary-color);
+  --van-active-color: var(--van-gray-8);
 }
 
 .card-large {

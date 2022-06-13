@@ -34,7 +34,7 @@ export default defineComponent({
     id: [String, Number]
   },
   setup(props, context) {
-    const order = ref<OrderEnum>(OrderEnum.ASC)
+    const order = ref<OrderEnum>(OrderEnum.DESC)
 
     const onClick = () => {
       order.value = order.value === OrderEnum.ASC ? OrderEnum.DESC : OrderEnum.ASC

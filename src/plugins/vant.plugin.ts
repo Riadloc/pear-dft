@@ -28,7 +28,6 @@ import {
   NumberKeyboard,
   Dialog,
   NoticeBar,
-  Popover,
   Progress,
   Overlay,
   ActionSheet,
@@ -37,6 +36,8 @@ import {
   Stepper,
   Step,
   Steps,
+  Popup,
+  Tag,
   Image as VanImage
 } from 'vant'
 
@@ -74,13 +75,14 @@ export default {
       .use(Notify)
       .use(NoticeBar)
       .use(Overlay)
-      .use(Popover)
       .use(ActionSheet)
       .use(Stepper)
       .use(Progress)
       .use(ShareSheet)
       .use(Step)
       .use(Steps)
+      .use(Popup)
+      .use(Tag)
     app.config.globalProperties.$back = history.back
   }
 }

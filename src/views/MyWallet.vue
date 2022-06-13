@@ -1,6 +1,6 @@
 <template>
   <div class="wallet pt-6">
-    <pear-navbar title="我的余额" fixed left-arrow />
+    <pear-navbar title="我的余额" class="bg-paper" fixed left-arrow />
     <div class="flex flex-col items-center justify-center h-40 text-white">
       <p class="text-3xl align-bottom"><span class="text-lg">￥</span>{{ walletData.balance }}</p>
       <p class="text-sm text-gray-300">当前余额</p>

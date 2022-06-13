@@ -1,6 +1,6 @@
 <template>
   <div class="my-zone">
-    <div class="my-short-info shadow-lg px-4 py-7">
+    <div class="my-short-info bg-card px-4 py-5 rounded-bl-lg rounded-br-lg">
       <div class="flex items-center rounded-lg" @click="goUserPage">
         <van-image
           round
@@ -24,9 +24,6 @@
     <div class="my-menu p-4">
       <div class="wallet flex flex-row justify-between items-center bg-card mb-3 p-3 rounded-md" @click="goWallet">
         <div class="flex items-center">
-          <!-- <div>
-            <i class="iconfont icon-qianbao text-4xl"></i>
-          </div> -->
           <div class="text-white ml-3">
             <p class="text-gray-300 text-xs">账户余额</p>
             <p class="text-lg align-bottom"><span class="text-sm">￥</span>{{ walletData.balance }}</p>

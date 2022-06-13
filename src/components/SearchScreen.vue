@@ -10,7 +10,7 @@
         @cancel="onCancel"
       />
     </div>
-    <div class="shadow-lg max-h-40 search-result px-4 overflow-y-auto" v-if="query">
+    <div class="shadow-lg max-h-50 search-result px-4 overflow-y-auto" v-if="query">
       <van-list v-if="searchList.length" :loading="typeLoading" loading-text="搜索中...">
         <div v-for="item in searchList" :key="item.id" class="cell-item" @click="() => onSelect(item)">{{ item.name }}</div>
       </van-list>
@@ -82,6 +82,7 @@ export default defineComponent({
       console.log(props.defaultQuery)
       if (value && props.defaultQuery) {
         query.value = props.defaultQuery
+        _onTyping()
       }
     })
 

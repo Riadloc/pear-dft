@@ -144,7 +144,6 @@ export default defineComponent({
       })
     }
 
-    const showPopover = ref(false)
     const actions = [
       { text: '继续支付' },
       { text: '取消订单' },
@@ -169,7 +168,6 @@ export default defineComponent({
       purchase,
       OrderStatus,
 
-      showPopover,
       actions,
       onSelect,
 
