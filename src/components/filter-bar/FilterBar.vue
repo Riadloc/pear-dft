@@ -115,3 +115,8 @@ export default defineComponent({
   }
 })
 </script>
+<style lang="less" scoped>
+:deep(.van-tag--primary.van-tag--plain) {
+  color: #fff;
+}
+</style>

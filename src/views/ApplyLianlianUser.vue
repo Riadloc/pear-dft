@@ -368,18 +368,16 @@ export default defineComponent({
     opacity: 0.6;
   }
 }
-:deep {
-  .van-step__circle-container {
-    @apply bg-paper;
-  }
-  .van-step--finish {
-    @apply text-gray-600;
-  }
-  .cell-title {
-    width: var(--van-field-label-width);
-    margin-right: var(--van-field-label-margin-right);
-    flex-grow: 0;
-    flex-basis: var(--van-field-label-width);
-  }
+:deep(.van-step__circle-container) {
+  @apply bg-paper;
+}
+:deep(.van-step--finish) {
+  @apply text-gray-600;
+}
+:deep(.cell-title) {
+  width: var(--van-field-label-width);
+  margin-right: var(--van-field-label-margin-right);
+  flex-grow: 0;
+  flex-basis: var(--van-field-label-width);
 }
 </style>

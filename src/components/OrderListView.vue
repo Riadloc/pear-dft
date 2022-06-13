@@ -91,7 +91,7 @@ export default defineComponent({
             ...res,
             list: res.list?.map((item: any) => ({
               ...item,
-              countDownTime: (dayjs(item.createdAt).add(8, 'hour').add(3, 'minute').unix() - dayjs().unix()) * 1000
+              countDownTime: (dayjs(item.createdAt).add(8, 'hour').add(3, 'minute').unix() - dayjs().unix()) * 1000 // 加8个小时是因为时区
             }))
           }
         }

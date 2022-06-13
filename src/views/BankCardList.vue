@@ -134,13 +134,11 @@ export default defineComponent({
 })
 </script>
 <style lang="less" scoped>
-  :deep {
-    .van-cell-group {
-      background: transparent;
-    }
-    .van-cell {
-      background: transparent;
-      color: #fff;
-    }
-  }
+:deep(.van-cell-group) {
+  background: transparent;
+}
+:deep(.van-cell) {
+  background: transparent;
+  color: #fff;
+}
 </style>

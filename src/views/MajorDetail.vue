@@ -22,10 +22,10 @@
         >
           <template #actions v-if="showPayButton">
             <div class="flex gap-4 px-4 mb-4">
-              <van-button class="pear-gray-button" round block disabled v-if="data.isSoldOut === 1">已售罄</van-button>
-              <van-button type="success" round block disabled v-else-if="!onShelf">敬请期待</van-button>
-              <van-button type="warning" round block @click="onCertify" v-else-if="userStore.userData.certified == 0">需要实名认证</van-button>
-              <van-button class="purchase-button pear-color-button overflow-hidden" round block @click="onBeforeBuy" v-else-if="onShelf && userStore.userData.certified == 1">
+              <van-button class="pear-gray-button" block disabled v-if="data.isSoldOut === 1">已售罄</van-button>
+              <van-button type="success" block disabled v-else-if="!onShelf">敬请期待</van-button>
+              <van-button type="warning" block @click="onCertify" v-else-if="userStore.userData.certified == 0">需要实名认证</van-button>
+              <van-button class="purchase-button pear-color-button overflow-hidden" block @click="onBeforeBuy" v-else-if="onShelf && userStore.userData.certified == 1">
                 <span>购买</span>
                 <div v-if="userStore.userData.powers.includes(GoodPowerEnum.AHEAD_PURCHASE_ONE_HOUR)" class="badge absolute right-6 pt-3 -top-2 h-20 w-4 bg-black bg-opacity-20 text-white text-xs leading-3 rotate-45">优先购</div>
               </van-button>

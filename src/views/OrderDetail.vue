@@ -43,7 +43,10 @@
     <div class="text-white mb-4">
       <h4 class="text-base mb-2">说明</h4>
       <p class="text-sm text-gray-300">一个用户允许同时存在一笔待支付订单</p>
-      <p class="text-sm text-gray-300 align-bottom">
+    </div>
+    <div class="text-white mb-4">
+      <!-- <h4 class="text-base mb-2">购买数量<van-stepper class="ml-4" v-model="buyCount" max="5"  /></h4> -->
+      <p class="pl-1 text-sm text-gray-300 align-bottom">
         <span class="text-red-400">{{ buyCount }}</span> 件商品，总商品金额：<span class="text-red-400"><span class="text-xs">￥</span>{{ (Number(detailData.price) * buyCount).toFixed(2) }}</span>
       </p>
     </div>
