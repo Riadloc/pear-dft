@@ -44,22 +44,10 @@
           <h4 class="section-title">认证信息</h4>
           <div class="text-gray-300 text-sm">
             <div class="flex justify-between mt-2">
-              <span>合约地址</span>
-              <span class="text-blue-500" @click="goContract">{{ formatHex(data.contract) }}</span>
-            </div>
-            <div class="flex justify-between mt-2">
               <span>认证标识</span>
               <span class="text-blue-500" @click="goTxHash" v-if="data.hash">{{ formatHex(data.hash) }}</span>
               <span class="text-gray-100" v-else>上链确认中</span>
             </div>
-            <div class="flex justify-between mt-2">
-              <span>认证标准</span>
-              <span class="text-gray-100">ERC-721</span>
-            </div>
-            <!-- <div class="flex justify-between mt-2">
-              <span>认证网络</span>
-              <span class="text-gray-100">Polygon</span>
-            </div> -->
           </div>
         </div>
         <div class="section">
