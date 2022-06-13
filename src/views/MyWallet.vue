@@ -33,7 +33,7 @@ import { defineComponent, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { WalletRecordList } from '@/components'
 // import { LianlianSteps, WalletRecordType, UserRoles } from '@/constants/enums'
-import { WalletRecordType, UserRoles } from '@/constants/enums'
+import { WalletRecordType } from '@/constants/enums'
 import { useUserStore } from '@/stores/user.store'
 import { storeToRefs } from 'pinia'
 import { Dialog } from 'vant'
@@ -62,6 +62,15 @@ export default defineComponent({
     const activeTab = ref(WalletRecordType.ALL)
 
     const checkBankInfo = () => {
+      if (!userData.value.certified) {
+        Dialog.confirm({
+          message: '需要实名认证',
+          confirmButtonText: '前去实名'
+        }).then(() => {
+          router.push('/certify')
+        })
+        return false
+      }
       if (!walletData.value.bankCards?.length || !walletData.value.bankCards[0]?.idNo) {
         Dialog.confirm({
           message: '请先补齐银行卡信息',
@@ -75,37 +84,26 @@ export default defineComponent({
     }
 
     const goTopUp = () => {
-      if (userData.value.role === UserRoles.NORMAL) {
-        Dialog.alert({
-          message: '功能维护中，暂时关闭'
-        })
-      } else {
-        const valid = checkBankInfo()
-        if (valid) {
-          router.push('/topUpStore')
-        }
+      const valid = checkBankInfo()
+      if (valid) {
+        router.push('/topUpStore')
       }
     }
+
     const goDrawCash = () => {
-      if (userData.value.role === UserRoles.NORMAL) {
-        Dialog.alert({
-          message: '功能维护中，暂时关闭'
-        })
-      } else {
-        const valid = checkBankInfo()
-        if (!valid) return
-        router.push('/drawCash')
-        // if (walletData.value.step !== LianlianSteps.SUCCESSED) {
-        //   Dialog.confirm({
-        //     message: '请先开通连连支付账号',
-        //     confirmButtonText: '前去开通'
-        //   }).then(() => {
-        //     router.push({ name: 'LianlianUserAgreement' })
-        //   })
-        // } else {
-        //   router.push('/drawCash')
-        // }
-      }
+      const valid = checkBankInfo()
+      if (!valid) return
+      router.push('/drawCash')
+      // if (walletData.value.step !== LianlianSteps.SUCCESSED) {
+      //   Dialog.confirm({
+      //     message: '请先开通连连支付账号',
+      //     confirmButtonText: '前去开通'
+      //   }).then(() => {
+      //     router.push({ name: 'LianlianUserAgreement' })
+      //   })
+      // } else {
+      //   router.push('/drawCash')
+      // }
     }
 
     const onVisiblityChange = () => {
