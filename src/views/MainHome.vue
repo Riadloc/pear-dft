@@ -2,7 +2,7 @@
   <div class="main-home">
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <div class="logo w-full shadow-md">
-        <span class="title">梨数字</span>
+        <span class="title">{{ title }}</span>
       </div>
       <van-swipe
         class="my-swipe rounded-2xl"
@@ -116,6 +116,7 @@ export default defineComponent({
     }
 
     return {
+      title: import.meta.env.VITE_DOMAIN_NAME,
       active,
       goToDetail,
       goods,

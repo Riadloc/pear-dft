@@ -1,5 +1,3 @@
-export const WEB_NAME = '梨数字'
-
 export const theme = {
   cellBackgroundColor: 'rgba(255,255,255,.1)',
   cellGroupBackgroundColor: 'rgba(255,255,255,.1)',
@@ -37,9 +35,4 @@ export const theme = {
   switchBackgroundColor: '#666',
   checkboxCheckedIconColor: '#31c17b',
   radioCheckedIconColor: '#31c17b'
-}
-
-export const BASE_URL = {
-  DEV: '//127.0.0.1:3000',
-  PROD: '//pearmeta.art'
 }

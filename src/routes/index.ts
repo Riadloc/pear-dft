@@ -2,43 +2,77 @@ import * as VueRouter from 'vue-router'
 import { useUserStore } from '@/stores/user.store'
 import { setInviteCode } from '@/constants/utils'
 
+/** 首页带底部navbar的容器页面 */
 const HomeWrapper = () => import('@/views/HomeWrapper.vue')
+/** 首页-主页面 */
 const MainHome = () => import('@/views/MainHome.vue')
+/** 首页-个人中心 */
 const MyZone = () => import('@/views/MainMyZone.vue')
+/** 首页-我的藏品 */
 const Collect = () => import('@/views/MainCollect.vue')
+/** 首页-市场 */
 const Market = () => import('@/views/MainMarket.vue')
+/** 登录页面 */
 const Login = () => import('@/views/PLogin.vue')
+/** 注册页 */
 const Signup = () => import('@/views/PSignup.vue')
+/** 详情页 */
 const Detail = () => import('@/views/MajorDetail.vue')
+/** 我的订单 */
 const OrderList = () => import('@/views/OrderList.vue')
+/** 订单详情 */
 const OrderDetail = () => import('@/views/OrderDetail.vue')
+/** 联系我们 */
 const ContactUs = () => import('@/views/ContactUs.vue')
-const CustomSetting = () => import('@/views/CustomSetting.vue')
-const PayPage = () => import('@/views/PayPage.vue')
+/** 个人中心-设置页 */
 const UserSetting = () => import('@/views/UserSetting.vue')
+/** 邀请有礼 */
 const InviteFriends = () => import('@/views/InviteFriends.vue')
+/** 我的邀请 */
 const MyInvitation = () => import('@/views/MyInvitation.vue')
+/** 实名认证 */
 const AuthorizedIdentity = () => import('@/views/AuthorizedIdentity.vue')
+/** 邮箱绑定 */
 const MailBind = () => import('@/views/MailBind.vue')
+/** 我的钱包 */
 const MyWallet = () => import('@/views/MyWallet.vue')
+/** 银行卡绑定 */
 const BankCardBind = () => import('@/views/BankCardBind.vue')
+/** 银行卡解绑 */
 const BankCardUnbind = () => import('@/views/BankCardUnbind.vue')
+/** 银行卡管理 */
 const BankCardList = () => import('@/views/BankCardList.vue')
+/** 支付密码 */
 const PaySafety = () => import('@/views/PaySafety.vue')
+/** 充值页（未启用） */
 const TopUp = () => import('@/views/TopUp.vue')
+/** 充值页（商城储蓄卡） */
 const TopUpStore = () => import('@/views/TopUpStore.vue')
+/** 提现 */
 const DrawCash = () => import('@/views/DrawCash.vue')
+/** 上架设置页 */
 const PutOnMarket = () => import('@/views/PutOnMarket.vue')
+/** 二级市场页面 */
 const SecondaryDetail = () => import('@/views/SecondaryDetail.vue')
+/** 关于我们 */
 const InfoList = () => import('@/views/InfoList.vue')
+/** 合成列表页（开发中） */
+const ComposeList = () => import('@/views/ComposeList.vue')
+/** 合成页（开发中） */
 const ComposeLab = () => import('@/views/ComposeLab.vue')
+/** 连连支付-开户  */
 const ApplyLianlianUser = () => import('@/views/ApplyLianlianUser.vue')
 
+/** 商户协议（需替换） */
 const BusinessAgreement = () => import('@/views/info-views/BusinessAgreement.vue')
+/** 用户协议 */
 const UserAgreement = () => import('@/views/info-views/UserAgreement.vue')
+/** 隐私协议 */
 const PrivacyAgreement = () => import('@/views/info-views/PrivacyAgreement.vue')
+/** 连连支付-用户协议 */
 const LianlianUserAgreement = () => import('@/views/info-views/LianlianUserAgreement.vue')
 
+/** 简单的layout */
 const NormalLayout = () => import('@/layouts/NormalLayout.vue')
 
 const routes = [
@@ -107,14 +141,8 @@ const routes = [
     component: ContactUs
   },
   {
-    path: '/setting',
-    component: CustomSetting
-  },
-  {
-    path: '/pay',
-    name: 'PayPage',
-    component: PayPage,
-    props: true
+    path: '/composeList',
+    component: ComposeList
   },
   {
     path: '/certify',

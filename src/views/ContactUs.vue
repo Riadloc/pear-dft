@@ -10,6 +10,6 @@
       </template>
     </van-image>
     <h3 class="mt-4 text-white font-medium text-lg">关注公众号了解更多资讯</h3>
-    <a class="mt-2 text-green-500 text-sm underline" href="/mp.jpg" download="梨数藏公众号.jpg">保存至手机</a>
+    <a class="mt-2 text-green-500 text-sm underline" href="/mp.jpg" download="梨数字公众号.jpg">保存至手机</a>
   </div>
 </template>

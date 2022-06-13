@@ -1,6 +1,6 @@
 <template>
   <div class="plogin">
-    <h3 class="text-white text-lg my-10">欢迎登录 {{ WEB_NAME }}</h3>
+    <h3 class="text-white text-lg my-10">欢迎登录 {{ title }}</h3>
     <van-notice-bar left-icon="volume-o" class="mb-4 rounded">
       <p>由于系统问题，部分用户的密码会登录错误。如遇到这类问题，请点击忘记密码进行密码修改</p>
     </van-notice-bar>
@@ -103,7 +103,6 @@ import { useRequest } from 'vue-request'
 import { useUserStore } from '@/stores/user.store'
 import { postLogin, postSendSms } from '@/services/user.service'
 import { validatePassword } from '@/constants/utils'
-import { WEB_NAME } from '@/assets/config'
 import { HTTP_CODE } from '@/constants/enums'
 const ONE_MINUTE = 60 * 1000
 enum LoginTypes {
@@ -115,7 +114,7 @@ export default defineComponent({
   name: 'UserLogin',
   data() {
     return {
-      WEB_NAME
+      title: import.meta.env.VITE_DOMAIN_NAME
     }
   },
   setup() {

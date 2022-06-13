@@ -26,8 +26,7 @@ export default defineComponent({
     const captchaIns = ref<any>();
     (window as any).initNECaptchaWithFallback({
       element: '#captcha',
-      captchaId: '7fbc4af8104c4da5b1881913248af751',
-      // width: '320px',
+      captchaId: import.meta.env.VITE_YIDUN_ID,
       mode: 'popup',
       onVerify: async (err: any, data: any) => {
         if (err) return
@@ -38,7 +37,6 @@ export default defineComponent({
         }
       },
       onClose: () => {
-        // captchaIns.value?.close()
         context.emit('update:show', false)
       }
     }, function onload(instance: any) {
