@@ -25,14 +25,14 @@
             <div class="flex px-4 mb-4">
               <template v-if="data.ownerUuid === userStore.userData.id">
                 <template v-if="fromView === 'collect'">
-                  <van-button v-if="data.status === 0" class="pear-color-button" round block @click="onTransfer">转售</van-button>
-                  <van-button v-else type="warning" round block @click="onTakeOff">下架</van-button>
+                  <van-button v-if="data.status === 0" class="pear-color-button" block @click="onTransfer">转售</van-button>
+                  <van-button v-else class="pear-danger-button" block @click="onTakeOff">下架</van-button>
                 </template>
               </template>
               <template v-else-if="fromView === 'market'">
-                <van-button class="pear-gray-button" round block disabled v-if="data.status === 0">已售罄</van-button>
-                <van-button type="warning" round block @click="onCertify" v-else-if="userStore.userData.certified == 0">需要实名认证</van-button>
-                <van-button class="pear-color-button" round block @click="showCaptch = true" v-else>立即购买</van-button>
+                <van-button class="pear-gray-button" block disabled v-if="data.status === 0">已售罄</van-button>
+                <van-button type="warning" block @click="onCertify" v-else-if="userStore.userData.certified == 0">需要实名认证</van-button>
+                <van-button class="pear-color-button" block @click="showCaptch = true" v-else>立即购买</van-button>
               </template>
               <!-- <van-button class="pear-color-button" round block @click="showCaptch = true">立即购买</van-button> -->
             </div>
@@ -44,22 +44,10 @@
           <h4 class="section-title">认证信息</h4>
           <div class="text-gray-300 text-sm">
             <div class="flex justify-between mt-2">
-              <span>合约地址</span>
-              <span class="text-blue-500" @click="goContract">{{ formatHex(data.contract) }}</span>
-            </div>
-            <div class="flex justify-between mt-2">
               <span>认证标识</span>
               <span class="text-blue-500" @click="goTxHash" v-if="data.hash">{{ formatHex(data.hash) }}</span>
               <span class="text-gray-100" v-else>上链确认中</span>
             </div>
-            <div class="flex justify-between mt-2">
-              <span>认证标准</span>
-              <span class="text-gray-100">ERC-721</span>
-            </div>
-            <!-- <div class="flex justify-between mt-2">
-              <span>认证网络</span>
-              <span class="text-gray-100">Polygon</span>
-            </div> -->
           </div>
         </div>
         <div class="section">

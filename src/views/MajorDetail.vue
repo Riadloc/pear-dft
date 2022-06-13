@@ -22,10 +22,10 @@
         >
           <template #actions v-if="showPayButton">
             <div class="flex gap-4 px-4 mb-4">
-              <van-button class="pear-gray-button" round block disabled v-if="data.isSoldOut === 1">已售罄</van-button>
-              <van-button type="success" round block disabled v-else-if="!onShelf">敬请期待</van-button>
-              <van-button type="warning" round block @click="onCertify" v-else-if="userStore.userData.certified == 0">需要实名认证</van-button>
-              <van-button class="purchase-button pear-color-button overflow-hidden" round block @click="onBeforeBuy" v-else-if="onShelf && userStore.userData.certified == 1">
+              <van-button class="pear-gray-button" block disabled v-if="data.isSoldOut === 1">已售罄</van-button>
+              <van-button type="success" block disabled v-else-if="!onShelf">敬请期待</van-button>
+              <van-button type="warning" block @click="onCertify" v-else-if="userStore.userData.certified == 0">需要实名认证</van-button>
+              <van-button class="purchase-button pear-color-button overflow-hidden" block @click="onBeforeBuy" v-else-if="onShelf && userStore.userData.certified == 1">
                 <span>购买</span>
                 <div v-if="userStore.userData.powers.includes(GoodPowerEnum.AHEAD_PURCHASE_ONE_HOUR)" class="badge absolute right-6 pt-3 -top-2 h-20 w-4 bg-black bg-opacity-20 text-white text-xs leading-3 rotate-45">优先购</div>
               </van-button>
@@ -38,22 +38,10 @@
           <h4 class="section-title">认证信息</h4>
           <div class="text-gray-300 text-sm">
             <div class="flex justify-between mt-2">
-              <span>合约地址</span>
-              <span class="text-blue-500" @click="goContract">{{ formatHex(data.contract) }}</span>
-            </div>
-            <div class="flex justify-between mt-2">
               <span>认证标识</span>
               <span class="text-blue-500" @click="goTxHash" v-if="data.hash">{{ formatHex(data.hash) }}</span>
               <span class="text-gray-100" v-else>上链确认中</span>
             </div>
-            <div class="flex justify-between mt-2">
-              <span>认证标准</span>
-              <span class="text-gray-100">ERC-721</span>
-            </div>
-            <!-- <div class="flex justify-between mt-2">
-              <span>认证网络</span>
-              <span class="text-gray-100">Polygon</span>
-            </div> -->
           </div>
         </div>
         <div class="section">
@@ -78,6 +66,7 @@
       <div class="footer"></div>
     </div>
     <yidun-captcha v-model:show="showCaptch" @success="onValidOk"/>
+    <pear-spinner :show="loading" />
   </div>
 </template>
 
@@ -119,7 +108,7 @@ export default defineComponent({
       }
     })
 
-    const { run: createOrder } = useRequest(createPaymentOrder, {
+    const { run: createOrder, loading } = useRequest(createPaymentOrder, {
       manual: true,
       throttleInterval: 2000,
       throttleOptions: { leading: true, trailing: false },
@@ -181,6 +170,7 @@ export default defineComponent({
     const showPayButton = computed(() => !goodNo.startsWith('F'))
     return {
       title: import.meta.env.VITE_DOMAIN_NAME,
+      loading,
 
       showCaptch,
       onBack,

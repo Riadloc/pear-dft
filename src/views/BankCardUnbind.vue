@@ -139,12 +139,10 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-:deep {
-  .cell-title {
-    width: var(--van-field-label-width);
-    margin-right: var(--van-field-label-margin-right);
-    flex-grow: 0;
-    flex-basis: var(--van-field-label-width);
-  }
+:deep(.cell-title) {
+  width: var(--van-field-label-width);
+  margin-right: var(--van-field-label-margin-right);
+  flex-grow: 0;
+  flex-basis: var(--van-field-label-width);
 }
 </style>

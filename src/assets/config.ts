@@ -34,5 +34,6 @@ export const theme = {
   switchOnBackgroundColor: '#31c17b',
   switchBackgroundColor: '#666',
   checkboxCheckedIconColor: '#31c17b',
-  radioCheckedIconColor: '#31c17b'
+  radioCheckedIconColor: '#31c17b',
+  tagPlainBackgroundColor: '#202125'
 }

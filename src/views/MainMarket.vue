@@ -6,11 +6,12 @@
           readonly
           @touchstart.stop="showSearchScreen = true"
           shape="round"
-           v-model="query"
+          v-model="query"
           placeholder="请输入搜索关键词"
           background="transparent"
         />
         <filter-bar
+          ref="filterBar"
           class="px-4"
           :options="options"
           @change="onFilterChange"
@@ -27,7 +28,7 @@
       >
         <pear-small-card
           v-for="item in goods"
-          :key="item.name"
+          :key="item.id"
           @click="() => goDetail(item)"
           class="market-card mb-4 mx-2 flex-grow-0 flex-shrink-0"
           :cover="item.cover"
@@ -74,17 +75,26 @@ export default defineComponent({
 
     const showSearchScreen = ref(false)
     const query = ref('')
+    const filterBar = ref()
     const sortObj = reactive({
       id: '',
       value: OrderEnum.DESC
     })
     const onKeyworkSelected = (value: string) => {
       query.value = value
+      if (!value) {
+        filterBar.value?.reset()
+      }
       onRefresh()
     }
-    const onFilterChange = (data: { id: string, value: OrderEnum }) => {
-      sortObj.id = `${data.id}Sort`
-      sortObj.value = data.value
+    const onFilterChange = (data: { id: string, value: OrderEnum, selected: string }) => {
+      if (data.id) {
+        sortObj.id = `${data.id}Sort`
+        sortObj.value = data.value
+      }
+      if (data.selected !== undefined) {
+        query.value = data.selected
+      }
       onRefresh()
     }
 
@@ -134,6 +144,7 @@ export default defineComponent({
     return {
       options,
       query,
+      filterBar,
       onKeyworkSelected,
       onFilterChange,
       goods,

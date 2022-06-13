@@ -91,7 +91,7 @@ export default defineComponent({
             ...res,
             list: res.list?.map((item: any) => ({
               ...item,
-              countDownTime: (dayjs(item.createdAt).add(8, 'hour').add(5, 'minute').unix() - dayjs().unix()) * 1000
+              countDownTime: (dayjs(item.createdAt).add(8, 'hour').add(3, 'minute').unix() - dayjs().unix()) * 1000 // 加8个小时是因为时区
             }))
           }
         }
@@ -144,7 +144,6 @@ export default defineComponent({
       })
     }
 
-    const showPopover = ref(false)
     const actions = [
       { text: '继续支付' },
       { text: '取消订单' },
@@ -169,7 +168,6 @@ export default defineComponent({
       purchase,
       OrderStatus,
 
-      showPopover,
       actions,
       onSelect,
 
