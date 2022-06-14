@@ -35,11 +35,11 @@
           <van-count-down v-if="formData.countDownTime" :time="formData.countDownTime" format="ss秒后重发" class="count-down" @finish="formData.countDownTime = 0" />
           <span v-else @click="sendCode" :class="[formData.countDownTime > 0 && 'text-blue-900']">发送验证码</span>
         </div>
-        <div class="mt-10">
-          <van-button block :disabled="!bankId" :class="[bankId ? 'pear-green-button' : 'pear-gray-button', 'rounded-lg']" @click="onSubmit">
-            立即提现
-          </van-button>
-        </div>
+      </div>
+      <div class="mt-10">
+        <van-button block :disabled="!bankId" :class="[bankId ? 'pear-green-button' : 'pear-gray-button', 'rounded-lg']" @click="onSubmit">
+          立即提现
+        </van-button>
       </div>
       <div class="text-white mt-2 text-xs">
         <p class="text-gray-300">提现手续费1%（最低￥1手续费）</p>
@@ -50,6 +50,7 @@
 </template>
 
 <script lang="ts">
+import { ONE_MINUTE } from '@/constants/constants'
 import { HTTP_CODE } from '@/constants/enums'
 import { maskbank } from '@/constants/utils'
 import { checkLianlianSms, getWalletRecordInfo, onDrawcash } from '@/services/wallet.service'
@@ -127,6 +128,7 @@ export default defineComponent({
         }
         if (res.data.token) {
           Toast('已发送验证码至您的手机')
+          formData.countDownTime = ONE_MINUTE
         } else {
           onSuccess()
         }

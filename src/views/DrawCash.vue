@@ -90,6 +90,7 @@
 </template>
 
 <script lang="ts">
+import { ONE_MINUTE } from '@/constants/constants'
 import { HTTP_CODE } from '@/constants/enums'
 import { isPrice, maskbank } from '@/constants/utils'
 import { checkLianlianSms, onDrawcash, onTransfer } from '@/services/wallet.service'
@@ -175,6 +176,7 @@ export default defineComponent({
         }
         if (res.data.token) {
           Toast('已发送验证码至您的手机')
+          formData.countDownTime = ONE_MINUTE
         } else {
           onSuccess()
         }
