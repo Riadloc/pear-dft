@@ -21,13 +21,13 @@
     <ll-password-field label="开户时设置" title="提现密码" ref="llPasswordField" class="mt-8 mb-4"  />
     <div class="mb-4">
       <h3 class="text-gray-300 text-sm mb-1">选择提现银行卡</h3>
-      <van-radio-group v-model="checked">
+      <van-radio-group v-model="bankId">
         <div
           class="flex justify-between"
           v-for="item in walletData.bankCards"
           :key="item.id"
         >
-          <div class="inline-flex" @click="checked = item.id">
+          <div class="inline-flex" @click="bankId = item.id">
             <div class="w-6 h-6 bg-primary rounded-md align-middle text-center">
               <pear-icon set="ph" name="credit-card-fill" size="1.3rem" class="text-white" />
             </div>
@@ -38,7 +38,7 @@
       </van-radio-group>
     </div>
     <div class="mt-10">
-      <van-button block :disabled="!checked" :class="[checked ? 'pear-green-button' : 'pear-gray-button', 'rounded-lg']" native-type="submit" @click="onBeforeSubmit">
+      <van-button block :disabled="!bankId" :class="[bankId ? 'pear-green-button' : 'pear-gray-button', 'rounded-lg']" native-type="submit" @click="onBeforeSubmit">
         立即提现
       </van-button>
     </div>
@@ -121,7 +121,7 @@ export default defineComponent({
         Toast.fail('取现金额不能小于10元')
         return
       }
-      if (!checked.value) {
+      if (!bankId.value) {
         Toast.fail('请选择提现银行卡')
         return
       }
@@ -132,6 +132,7 @@ export default defineComponent({
       const randomKey = llPasswordField.value.getRandomKey()
       runSubmit({
         price: amount.value,
+        bankId: bankId.value,
         password,
         randomKey
       })
@@ -180,7 +181,7 @@ export default defineComponent({
       }
     })
 
-    const checked = ref('')
+    const bankId = ref('')
 
     const onVisiblityChange = () => {
       if (document.visibilityState && payInfo.orderNo) {
@@ -215,7 +216,7 @@ export default defineComponent({
       onBeforeSubmit,
 
       maskbank,
-      checked
+      bankId
     }
   }
 })
