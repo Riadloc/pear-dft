@@ -25,6 +25,7 @@ const BankCardBind = () => import('@/views/BankCardBind.vue')
 const BankCardUnbind = () => import('@/views/BankCardUnbind.vue')
 const BankCardList = () => import('@/views/BankCardList.vue')
 const PaySafety = () => import('@/views/PaySafety.vue')
+const DrawCashSafety = () => import('@/views/DrawCashSafety.vue')
 const TopUp = () => import('@/views/TopUp.vue')
 const TopUpStore = () => import('@/views/TopUpStore.vue')
 const DrawCash = () => import('@/views/DrawCash.vue')
@@ -165,6 +166,11 @@ const routes = [
     path: '/paySafety',
     name: 'PaySafety',
     component: PaySafety
+  },
+  {
+    path: '/drawCashSafety',
+    name: 'DrawCashSafety',
+    component: DrawCashSafety
   },
   {
     path: '/topUp',

@@ -76,6 +76,14 @@ export function checkLianlianUser(data: any) {
   return request.post('/wallet/lianlian/user/check', data)
 }
 
+export function applyLianLianGetPassword() {
+  return request.post('/wallet/lianlian/password/apply')
+}
+
+export function checkLianLianGetPassword(data: any) {
+  return request.post('/wallet/lianlian/password/check', data)
+}
+
 export function checkBindCodeWithBank(data: any) {
   return request.post('/wallet/lianlian/bindbank/check', data)
 }

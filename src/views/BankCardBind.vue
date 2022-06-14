@@ -38,7 +38,7 @@
         placeholder="身份证号"
         :rules="[{ required: true, message: '请填写身份证号' }]"
       />
-      <ll-password-field v-if="userStore.walletData.step === LianlianSteps.SUCCESSED" label="提现时专用" title="提现密码" ref="llPasswordField" />
+      <ll-password-field show-forgot v-if="userStore.walletData.step === LianlianSteps.SUCCESSED" label="提现时专用" title="提现密码" ref="llPasswordField" />
       <div class="mt-10">
         <van-button block class="pear-green-button rounded" native-type="submit">立即绑定</van-button>
       </div>

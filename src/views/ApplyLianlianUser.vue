@@ -42,7 +42,7 @@
             class="mb-4 rounded"
             placeholder="短信验证码"
             :rules="[{ required: true, message: '请填写短信验证码' }, { pattern: /^\d{6}$/, message: '验证码格式错误' }]" />
-          <div class="link absolute -bottom-6 right-0 text-sm">
+          <div class="link absolute -bottom-6 right-0 text-sm text-white">
             <van-count-down v-if="formData1.countDownTime" :time="formData1.countDownTime" format="ss秒后重发" class="count-down" @finish="formData1.countDownTime = 0" />
             <span v-else @click="() => sendCode(formData1)" :class="[formData1.countDownTime > 0 && 'text-blue-900']">发送验证码</span>
           </div>
@@ -100,7 +100,7 @@
             class="mb-4 rounded"
             placeholder="短信验证码"
             :rules="[{ required: true, message: '请填写短信验证码' }, { pattern: /^\d{6}$/, message: '验证码格式错误' }]" />
-          <div class="link absolute -bottom-6 right-0 text-sm">
+          <div class="link absolute -bottom-6 right-0 text-sm text-white">
             <van-count-down v-if="formData2.countDownTime" :time="formData2.countDownTime" format="ss秒后重发" class="count-down" @finish="formData2.countDownTime = 0" />
             <span v-else @click="() => sendCode(formData2)" :class="[formData2.countDownTime > 0 && 'text-blue-900']">发送验证码</span>
           </div>
@@ -367,6 +367,10 @@ export default defineComponent({
   &:active {
     opacity: 0.6;
   }
+}
+.count-down {
+  @apply text-sm;
+  color: inherit!important;
 }
 :deep(.van-step__circle-container) {
   @apply bg-paper;

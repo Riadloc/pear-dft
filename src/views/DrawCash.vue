@@ -18,7 +18,7 @@
         <span class="text-xs text-green-300 absolute -bottom-5 right-0 active:opacity-70" @click="onFull">全部提现</span>
       </div>
     </van-form>
-    <ll-password-field label="开户时设置" title="提现密码" ref="llPasswordField" class="mt-8 mb-4"  />
+    <ll-password-field show-forgot label="开户时设置" title="提现密码" ref="llPasswordField" class="mt-8 mb-4"  />
     <div class="mb-4">
       <h3 class="text-gray-300 text-sm mb-1">选择提现银行卡</h3>
       <van-radio-group v-model="bankId">

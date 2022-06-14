@@ -1,12 +1,17 @@
 <template>
-  <van-cell :label="label" class="mb-4 rounded" title-class="cell-title" :border="false">
-    <template #title>
-      <span class="text-white">{{ title }}</span>
-    </template>
-    <template #value>
-      <input id="password-keyboard" class="default border-none bg-transparent w-full text-white" placeholder="请输入密码，6-12数字或字母组合" />
-    </template>
-  </van-cell>
+  <div class="relative">
+    <van-cell :label="label" class="mb-4 rounded" title-class="cell-title" :border="false">
+      <template #title>
+        <span class="text-white">{{ title }}</span>
+      </template>
+      <template #value>
+        <input id="password-keyboard" class="default border-none bg-transparent w-full text-white" placeholder="请输入密码，6-12数字或字母组合" />
+      </template>
+    </van-cell>
+    <div v-if="showForgot" class="link absolute -bottom-6 right-0 text-xs text-white">
+      <span @click="onForget">忘记提现密码？</span>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -16,13 +21,16 @@ import { getLianlianRandomKey } from '@/services/wallet.service'
 import { Dialog } from 'vant'
 import { defineComponent, onMounted, ref } from 'vue'
 import { useRequest } from 'vue-request'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   props: {
     label: String,
-    title: String
+    title: String,
+    showForgot: Boolean
   },
   setup(props, context) {
+    const router = useRouter()
     const microDone = ref<any>(null)
 
     const { data: randomData, run } = useRequest<any>(getLianlianRandomKey, {
@@ -59,6 +67,10 @@ export default defineComponent({
       return random_key
     }
 
+    const onForget = () => {
+      router.push({ name: 'DrawCashSafety' })
+    }
+
     context.expose({
       getValue,
       getRandomKey
@@ -67,6 +79,10 @@ export default defineComponent({
     onMounted(() => {
       run()
     })
+
+    return {
+      onForget
+    }
   }
 })
 </script>
@@ -77,5 +93,12 @@ export default defineComponent({
   margin-right: var(--van-field-label-margin-right);
   flex-grow: 0;
   flex-basis: var(--van-field-label-width);
+}
+.text-button {
+  @apply flex items-center text-white absolute -bottom-6 right-0 text-xs p-1;
+}
+.count-down {
+  @apply text-sm;
+  color: inherit!important;
 }
 </style>
