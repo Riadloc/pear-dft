@@ -110,7 +110,7 @@ export default defineComponent({
           })
           return
         }
-        const { change } = res.value.data
+        const { change } = res.data
         amount.value = change.toFixed(2)
       }
     })
