@@ -147,13 +147,13 @@ export default defineComponent({
           })
           return
         }
+        const { txn_seqno: orderNo, total_amount: price, token } = res.data
+        showCodeDialog.value = true
+        payInfo.orderNo = orderNo
+        payInfo.price = price
+        payInfo.token = token
         if (res.data.token) {
           Toast('已发送验证码至您的手机')
-          const { txn_seqno: orderNo, total_amount: price, token } = res.data
-          showCodeDialog.value = true
-          payInfo.orderNo = orderNo
-          payInfo.price = price
-          payInfo.token = token
         } else {
           active.value += 1
         }
@@ -172,11 +172,6 @@ export default defineComponent({
         }
         if (res.data.token) {
           Toast('已发送验证码至您的手机')
-          const { txn_seqno: orderNo, total_amount: price, token } = res.data
-          showCodeDialog.value = true
-          payInfo.orderNo = orderNo
-          payInfo.price = price
-          payInfo.token = token
         } else {
           onSuccess()
         }
@@ -207,6 +202,7 @@ export default defineComponent({
       const password = await llPasswordField.value.getValue()
       const randomKey = llPasswordField.value.getRandomKey()
       runSubmit({
+        price: payInfo.price,
         password,
         randomKey,
         bankId: bankId.value,
