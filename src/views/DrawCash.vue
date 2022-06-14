@@ -125,9 +125,6 @@ export default defineComponent({
         Toast.fail('请选择提现银行卡')
         return
       }
-      runSubmit({
-        price: amount.value
-      })
       const password = await llPasswordField.value.getValue()
       const randomKey = llPasswordField.value.getRandomKey()
       runSubmit({
