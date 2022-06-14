@@ -18,7 +18,7 @@
         <span class="text-xs text-green-300 absolute -bottom-5 right-0 active:opacity-70" @click="onFull">全部提现</span>
       </div>
     </van-form>
-    <!-- <ll-password-field label="开户时设置" title="提现密码" ref="llPasswordField" class="mt-8 mb-4"  /> -->
+    <ll-password-field label="开户时设置" title="提现密码" ref="llPasswordField" class="mt-8 mb-4"  />
     <div class="mb-4">
       <h3 class="text-gray-300 text-sm mb-1">选择提现银行卡</h3>
       <van-radio-group v-model="checked">
@@ -128,13 +128,13 @@ export default defineComponent({
       runSubmit({
         price: amount.value
       })
-      // const password = await llPasswordField.value.getValue()
-      // const randomKey = llPasswordField.value.getRandomKey()
-      // runSubmit({
-      //   price: amount.value,
-      //   password,
-      //   randomKey
-      // })
+      const password = await llPasswordField.value.getValue()
+      const randomKey = llPasswordField.value.getRandomKey()
+      runSubmit({
+        price: amount.value,
+        password,
+        randomKey
+      })
     }
     const onSuccess = () => {
       Dialog.alert({
@@ -154,16 +154,16 @@ export default defineComponent({
           })
           return
         }
-        // if (res.data.token) {
-        //   Toast('已发送验证码至您的手机')
-        //   const { txn_seqno: orderNo, total_amount: price, token } = res.data
-        //   showCodeDialog.value = true
-        //   payInfo.orderNo = orderNo
-        //   payInfo.price = price
-        //   payInfo.token = token
-        // } else {
-        //   onSuccess()
-        // }
+        if (res.data.token) {
+          Toast('已发送验证码至您的手机')
+          const { txn_seqno: orderNo, total_amount: price, token } = res.data
+          showCodeDialog.value = true
+          payInfo.orderNo = orderNo
+          payInfo.price = price
+          payInfo.token = token
+        } else {
+          onSuccess()
+        }
         onSuccess()
       }
     })

@@ -5,8 +5,6 @@
       <van-field
         label="银行卡号"
         :border="false"
-        readonly
-        @touchstart.stop="showBankCardKeyboard = true"
         v-model="formData.bankNo"
         name="bankNo"
         class="mb-4 rounded"
@@ -45,12 +43,6 @@
         <van-button block class="pear-green-button rounded" native-type="submit">立即绑定</van-button>
       </div>
     </van-form>
-    <van-number-keyboard
-      v-model="formData.bankNo"
-      :show="showBankCardKeyboard"
-      :maxlength="20"
-      @blur="showBankCardKeyboard = false"
-    />
     <typing-password-dialog
       title="请输入验证码"
       :show="showCodeDialog"
@@ -76,7 +68,6 @@ export default defineComponent({
     const userStore = useUserStore()
 
     const llPasswordField = ref<any>(null)
-    const showBankCardKeyboard = ref(false)
     const showCodeDialog = ref(false)
     const formData = reactive({
       phone: userStore.userData.phone,
@@ -161,7 +152,6 @@ export default defineComponent({
     const loading = computed(() => loading1.value || loading2.value)
 
     return {
-      showBankCardKeyboard,
       showCodeDialog,
       formData,
       llPasswordField,
