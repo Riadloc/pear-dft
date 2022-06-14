@@ -33,7 +33,7 @@ import { defineComponent, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { WalletRecordList } from '@/components'
 // import { LianlianSteps, WalletRecordType, UserRoles } from '@/constants/enums'
-import { LianlianSteps, UserRoles, WalletRecordType } from '@/constants/enums'
+import { LianlianSteps, WalletRecordType } from '@/constants/enums'
 import { useUserStore } from '@/stores/user.store'
 import { storeToRefs } from 'pinia'
 import { Dialog } from 'vant'
@@ -91,23 +91,17 @@ export default defineComponent({
     }
 
     const goDrawCash = () => {
-      if (userData.value.role === UserRoles.NORMAL) {
-        Dialog.alert({
-          message: '功能维护中，暂时关闭'
+      const valid = checkBankInfo()
+      if (!valid) return
+      if (walletData.value.step !== LianlianSteps.SUCCESSED) {
+        Dialog.confirm({
+          message: '请先开通连连支付账号',
+          confirmButtonText: '前去开通'
+        }).then(() => {
+          router.push({ name: 'LianlianUserAgreement' })
         })
       } else {
-        const valid = checkBankInfo()
-        if (!valid) return
-        if (walletData.value.step !== LianlianSteps.SUCCESSED) {
-          Dialog.confirm({
-            message: '请先开通连连支付账号',
-            confirmButtonText: '前去开通'
-          }).then(() => {
-            router.push({ name: 'LianlianUserAgreement' })
-          })
-        } else {
-          router.push('/drawCash')
-        }
+        router.push('/drawCash')
       }
     }
 

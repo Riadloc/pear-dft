@@ -25,12 +25,23 @@
             <span @click="() => onPay(item)" v-if="item.status === 0">继续支付</span>
           </span>
           <span class="cell-td basis-1/4" v-else-if="type === WalletRecordType.DRAW_CASH">
-            <span @click="() => onDrawcash(item)" v-if="[3,5].includes(item.status)">重试</span>
+            <!-- <span @click="() => onDrawcash(item)" v-if="[3,5].includes(item.status)">重试</span> -->
           </span>
           <span class="cell-td basis-1/4" v-else>
             <span>{{ item.payInfo?.remark || '' }}</span>
           </span>
         </div>
+        <!-- <div v-for="item in dataList" :key="item.id" class="flex relative">
+          <p>￥{{ item.change }}</p>
+          <p>{{ getTypeName(item.type) }}</p>
+          <p>{{ getStatusName(item.status) }}</p>
+          <p>{{ dateformat(item.createdAt) }}</p>
+          <div>
+            <div class="leading-4">
+              <van-button round plain size="mini" class="!text-gray-300">取消订单</van-button>
+            </div>
+          </div>
+        </div> -->
       </template>
     </van-list>
     <typing-password-dialog
@@ -148,7 +159,7 @@ export default defineComponent({
         case 2:
           return '关闭'
         case 5:
-          return '失败'
+          return '进行中'
       }
     }
     const getTypeName = (type: WalletRecordType) => {
