@@ -48,7 +48,7 @@ export default defineComponent({
         Toast('请填写验证码')
         return
       }
-      if (applyData.value.data) {
+      if (!applyData.value.data) {
         Toast('请先获取验证码')
       }
       const password = await llPasswordField.value.getValue()
