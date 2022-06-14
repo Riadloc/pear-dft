@@ -148,12 +148,12 @@ export default defineComponent({
           return
         }
         const { txn_seqno: orderNo, total_amount: price, token } = res.data
-        showCodeDialog.value = true
         payInfo.orderNo = orderNo
         payInfo.price = price
         payInfo.token = token
-        if (res.data.token) {
+        if (token) {
           Toast('已发送验证码至您的手机')
+          showCodeDialog.value = true
         } else {
           active.value += 1
         }
