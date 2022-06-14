@@ -110,7 +110,7 @@ export default defineComponent({
           })
           return
         }
-        const { change } = recordDetail.value.data
+        const { change } = res.value.data
         amount.value = change.toFixed(2)
       }
     })
