@@ -55,8 +55,9 @@ import { computed, defineComponent, reactive, ref } from 'vue'
 import { FilterBar, PearSmallCard, SearchScreen } from '@/components'
 import { useLoadMore } from 'vue-request'
 import { getMarketGoodList } from '@/services/goods.service'
-import { OrderEnum } from '@/constants/enums'
+import { HTTP_CODE, OrderEnum } from '@/constants/enums'
 import { useRouter } from 'vue-router'
+import { Dialog } from 'vant'
 const options = [
   {
     id: 'date',
@@ -114,6 +115,13 @@ export default defineComponent({
       manual: true,
       listKey: 'data',
       onSuccess(res: any) {
+        if (res.code === HTTP_CODE.ERROR) {
+          Dialog.alert({
+            message: res.msg
+          })
+          finished.value = true
+          return
+        }
         if (res.data.length < pageSize.value) {
           finished.value = true
         }
