@@ -25,7 +25,7 @@
             <span @click="() => onPay(item)" v-if="item.status === 0">继续支付</span>
           </span>
           <span class="cell-td basis-1/4" v-else-if="type === WalletRecordType.DRAW_CASH">
-            <span @click="() => onDrawcash(item)" v-if="item.status === 5">重试</span>
+            <span @click="() => onDrawcash(item)" v-if="[3,5].includes(item.status)">重试</span>
           </span>
           <span class="cell-td basis-1/4" v-else>
             <span>{{ item.payInfo?.remark || '' }}</span>
