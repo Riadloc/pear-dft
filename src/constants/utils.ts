@@ -104,7 +104,8 @@ export function initLianlianKeyboard(props: any) {
         }
         // ib is cleared after passGuardKeyboard.getOutput(), thus needs to be reassigned
         const password = (window as any).passGuardKeyboard.getOutput();
-        (window as any).passGuard.ib = random.map_arr
+        (window as any).passGuard.ib = random.map_arr;
+        (window as any).passGuardKeyboard.clearpwd()
         resolve(password)
       })
     }

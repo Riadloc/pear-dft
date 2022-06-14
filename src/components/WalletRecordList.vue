@@ -133,11 +133,15 @@ export default defineComponent({
     const getStatusName = (status: number) => {
       switch (status) {
         case 0:
+        case 3:
+        case 4:
           return '进行中'
         case 1:
           return '完成'
         case 2:
           return '关闭'
+        case 5:
+          return '失败'
       }
     }
     const getTypeName = (type: WalletRecordType) => {
