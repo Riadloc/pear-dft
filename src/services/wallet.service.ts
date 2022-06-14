@@ -48,6 +48,10 @@ export function getWalletInfo() {
   return request.get('/wallet/info')
 }
 
+export function getWalletRecordInfo(params: any) {
+  return request.get('/wallet/record/info', { params })
+}
+
 export function onBankBind(data: any) {
   return request.post('/wallet/bank/bind', data)
 }

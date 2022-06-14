@@ -29,6 +29,7 @@ const DrawCashSafety = () => import('@/views/DrawCashSafety.vue')
 const TopUp = () => import('@/views/TopUp.vue')
 const TopUpStore = () => import('@/views/TopUpStore.vue')
 const DrawCash = () => import('@/views/DrawCash.vue')
+const DrawCashContinue = () => import('@/views/DrawCashContinue.vue')
 const PutOnMarket = () => import('@/views/PutOnMarket.vue')
 const SecondaryDetail = () => import('@/views/SecondaryDetail.vue')
 const InfoList = () => import('@/views/InfoList.vue')
@@ -186,6 +187,11 @@ const routes = [
     path: '/drawCash',
     name: 'DrawCash',
     component: DrawCash
+  },
+  {
+    path: '/drawCashContinue',
+    name: 'DrawCashContinue',
+    component: DrawCashContinue
   },
   {
     path: '/putOnMarket',

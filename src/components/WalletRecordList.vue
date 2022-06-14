@@ -13,7 +13,7 @@
           <span class="cell-td basis-1/4">状态</span>
           <span class="cell-td basis-1/4">时间</span>
           <span class="cell-td basis-1/4" v-if="type === WalletRecordType.ALL">类型</span>
-          <span class="cell-td basis-1/4" v-else-if="type === WalletRecordType.TOP_UP">操作</span>
+          <span class="cell-td basis-1/4" v-else-if="[WalletRecordType.TOP_UP, WalletRecordType.DRAW_CASH].includes(type as number)">操作</span>
           <span class="cell-td basis-1/4" v-else>备注</span>
         </div>
         <div class="cell flex text-xs" v-for="item in dataList" :key="item.id">
@@ -23,6 +23,9 @@
           <span class="cell-td basis-1/4" v-if="type === WalletRecordType.ALL">{{ getTypeName(item.type) }}</span>
           <span class="cell-td basis-1/4" v-else-if="type === WalletRecordType.TOP_UP">
             <span @click="() => onPay(item)" v-if="item.status === 0">继续支付</span>
+          </span>
+          <span class="cell-td basis-1/4" v-else-if="type === WalletRecordType.DRAW_CASH">
+            <span @click="() => onDrawcash(item)" v-if="item.status === 5">重试</span>
           </span>
           <span class="cell-td basis-1/4" v-else>
             <span>{{ item.payInfo?.remark || '' }}</span>
@@ -130,6 +133,10 @@ export default defineComponent({
       }
     })
 
+    const onDrawcash = (item: any) => {
+      router.push({ name: 'DrawCashContinue', query: { recordId: item.id } })
+    }
+
     const getStatusName = (status: number) => {
       switch (status) {
         case 0:
@@ -172,6 +179,7 @@ export default defineComponent({
       finished,
       onLoad,
       onPay,
+      onDrawcash,
       showCodeDialog,
       onValidOk,
 
