@@ -89,7 +89,11 @@ export default defineComponent({
           Dialog.alert({
             message: data.msg
           })
+          return
         }
+        Dialog.alert({
+          message: '提现密码设置成功！'
+        })
       }
     })
 

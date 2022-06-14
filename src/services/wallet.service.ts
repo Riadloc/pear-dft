@@ -36,6 +36,10 @@ export function onDrawcash(data: any) {
   return request.post('/wallet/drawcash', data)
 }
 
+export function onTransfer(data: any) {
+  return request.post('/wallet/transfer', data)
+}
+
 export function getWalletRecords(params: any) {
   return request.get('/wallet/records', { params })
 }
