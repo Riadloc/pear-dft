@@ -19,6 +19,7 @@ const UserSetting = () => import('@/views/UserSetting.vue')
 const InviteFriends = () => import('@/views/InviteFriends.vue')
 const MyInvitation = () => import('@/views/MyInvitation.vue')
 const AuthorizedIdentity = () => import('@/views/AuthorizedIdentity.vue')
+const AuthorizedIdentity2 = () => import('@/views/AuthorizedIdentity2.vue')
 const MailBind = () => import('@/views/MailBind.vue')
 const MyWallet = () => import('@/views/MyWallet.vue')
 const BankCardBind = () => import('@/views/BankCardBind.vue')
@@ -122,6 +123,11 @@ const routes = [
     path: '/certify',
     name: 'AuthorizedIdentity',
     component: AuthorizedIdentity
+  },
+  {
+    path: '/authorized',
+    name: 'AuthorizedIdentity2',
+    component: AuthorizedIdentity2
   },
   {
     path: '/user',
@@ -280,6 +286,11 @@ router.beforeEach(async (to) => {
     }
     if (!store.isWalletFetched) {
       store.getWalletInfo()
+    }
+  }
+  if (to.name === 'AuthorizedIdentity') {
+    if (store.userData.userId === 10094) {
+      return '/authorized'
     }
   }
   return true

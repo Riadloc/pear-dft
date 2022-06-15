@@ -270,7 +270,16 @@ export default defineComponent({
       }
     },
     onChangeBank() {
-      this.$router.push({ name: 'BankCardList' })
+      if (this.userData.certified) {
+        this.$router.push({ name: 'BankCardList' })
+      } else {
+        Dialog.confirm({
+          message: '请先完成实名认证',
+          confirmButtonText: '去认证'
+        }).then(() => {
+          this.$router.push('/certify')
+        })
+      }
     },
     async submitChangeName(values: any) {
       const res = await updateUserInfo(this.userData.userId, values) as any

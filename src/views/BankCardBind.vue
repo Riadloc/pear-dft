@@ -72,8 +72,8 @@ export default defineComponent({
     const formData = reactive({
       phone: userStore.userData.phone,
       bankNo: '',
-      idNo: '',
-      realName: ''
+      idNo: userStore.walletData.idNo,
+      realName: userStore.walletData.realName
     })
 
     const onSubmit = (values: any) => {

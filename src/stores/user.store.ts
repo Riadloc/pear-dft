@@ -19,6 +19,8 @@ interface UserData {
 interface WalletData {
   balance: number;
   step: LianlianSteps;
+  realName: string;
+  idNo: string;
   bankCards: Array<{
     id: string;
     realName: string;
@@ -57,6 +59,8 @@ export const useUserStore = defineStore('user', {
       walletData: {
         balance: 0,
         step: 0,
+        realName: '',
+        idNo: '',
         bankCards: []
       }
     } as StateInteface

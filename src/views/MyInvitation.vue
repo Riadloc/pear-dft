@@ -16,7 +16,7 @@
         value-class="text-gray-100"
       >
         <template #title>{{ item.phone }}</template>
-        <template #value>{{ formatTimezoneDate(item.createAt, 'YYYY/MM/DD') }}</template>
+        <template #value>{{ formatTimezoneDate(item.createdAt, 'YYYY/MM/DD') }}</template>
       </van-cell>
     </div>
   </div>
