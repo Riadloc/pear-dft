@@ -3,7 +3,6 @@
     <pear-navbar title="个人信息" left-arrow />
     <div class="pb-6">
       <van-cell
-        round
         title-class="text-gray-100"
         class="rounded bg-card"
       >
@@ -18,7 +17,6 @@
         </template>
       </van-cell>
       <van-cell
-        round
         title-class="text-gray-100"
         class="rounded bg-card"
         :label="userData.metaAccount || '开通中...'"
@@ -31,7 +29,6 @@
         </template>
       </van-cell>
       <van-cell
-        round
         title-class="text-gray-100"
         class="rounded bg-card"
         is-link
@@ -45,7 +42,6 @@
         </template>
       </van-cell>
       <van-cell
-        round
         :border="false"
         title-class="text-gray-100"
         class="mb-3 rounded bg-card"
@@ -64,7 +60,6 @@
         </template>
       </van-cell>
       <van-cell
-        round
         title-class="text-gray-100"
         class="rounded bg-card"
       >
@@ -79,7 +74,6 @@
         </template>
       </van-cell>
       <van-cell
-        round
         title-class="text-gray-100"
         class="rounded bg-card"
         is-link
@@ -96,7 +90,6 @@
         </template>
       </van-cell>
       <van-cell
-        round
         title-class="text-gray-100"
         class="rounded bg-card"
         is-link
@@ -114,7 +107,6 @@
         </template>
       </van-cell>
       <van-cell
-        round
         title-class="text-gray-100"
         class="rounded bg-card"
         is-link
@@ -128,7 +120,6 @@
         </template>
       </van-cell>
       <van-cell
-        round
         :border="false"
         title-class="text-gray-100"
         class="mb-3 rounded bg-card"
@@ -143,22 +134,6 @@
         </template>
       </van-cell>
       <van-cell
-        round
-        :border="false"
-        title-class="text-gray-100"
-        class="mb-3 rounded bg-card"
-        is-link
-        to="/my-invitation"
-      >
-        <template #title>
-          <div class="flex items-center">
-            <pear-icon set="ph" name="share-network-light" size="1.3rem" />
-            <span class="ml-2">我的邀请</span>
-          </div>
-        </template>
-      </van-cell>
-      <van-cell
-        round
         :border="false"
         title-class="text-gray-100"
         class="rounded bg-card"

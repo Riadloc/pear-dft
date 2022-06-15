@@ -66,3 +66,13 @@ export enum UserRoles {
   /** 管理员 */
   ADMIN,
 }
+
+/** 排行榜类型 */
+export enum RankType {
+  /** 消费日榜 */
+  CONSUME_DAY,
+  /** 消费总榜 */
+  CONSUME_ALL,
+  /** 邀新榜单 */
+  INVITATION,
+}

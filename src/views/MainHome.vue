@@ -9,12 +9,12 @@
         :autoplay="5000"
         indicator-color="white"
       >
-        <van-swipe-item>
-          <img src="/banner.jpg" alt="banner">
+        <van-swipe-item v-for="item in banners" :key="item.id" @click="onClick(item.id)">
+          <pear-image
+            :src="item.uri"
+            width="100%"
+          />
         </van-swipe-item>
-        <!-- <van-swipe-item>
-          <img src="/banner.jpg" alt="banner">
-        </van-swipe-item> -->
       </van-swipe>
       <van-list
         v-model:loading="loading"
@@ -57,6 +57,8 @@ import { PearCard } from '@/components'
 import { getGoodsList } from '@/services/goods.service'
 import { useLoadMore } from 'vue-request'
 import { useUserStore } from '@/stores/user.store'
+import { bucket } from '@/constants/constants'
+import { RankType } from '@/constants/enums'
 // import { Toast } from 'vant'
 // interface GoodItem {
 //   name: string;
@@ -115,7 +117,28 @@ export default defineComponent({
       router.push('/certify')
     }
 
+    const banners = [
+      {
+        uri: `${bucket}/consume_rank_banner.jpg`,
+        id: 'consume'
+      },
+      {
+        uri: `${bucket}/invite_rank_banner.jpg`,
+        id: 'invite'
+      }
+    ]
+    const onClick = (id: string) => {
+      if (id === 'consume') {
+        router.push({ name: 'RankList', query: { type: RankType.CONSUME_DAY } })
+      } else if (id === 'invite') {
+        router.push({ name: 'RankList', query: { type: RankType.INVITATION } })
+      }
+    }
+
     return {
+      banners,
+      onClick,
+
       active,
       goToDetail,
       goods,

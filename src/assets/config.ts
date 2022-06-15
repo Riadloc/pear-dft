@@ -37,7 +37,8 @@ export const theme = {
   switchBackgroundColor: '#666',
   checkboxCheckedIconColor: '#31c17b',
   radioCheckedIconColor: '#31c17b',
-  tagPlainBackgroundColor: '#202125'
+  tagPlainBackgroundColor: '#202125',
+  actionSheetItemBackground: 'transparent'
 }
 
 export const BASE_URL = {

@@ -1,4 +1,5 @@
 @import url(preflight.css);
+@import url(./iconfont/iconfont.css);
 
 @tailwind base;
 @tailwind components;

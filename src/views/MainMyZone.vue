@@ -21,44 +21,35 @@
         </div>
       </div>
     </div>
-    <!-- <div class="p-4">
-      <div class="bg-card p-4 rounded">
-
-      </div>
-    </div> -->
-    <div class="my-menu p-4">
-      <div class="wallet flex flex-row justify-between items-center bg-card mb-3 p-3 rounded-md" @click="goWallet">
-        <div class="flex items-center">
-          <div class="text-white ml-3">
-            <p class="text-gray-300 text-xs">账户余额</p>
-            <p class="text-lg align-bottom"><span class="text-sm">￥</span>{{ walletData.balance }}</p>
-          </div>
+    <div class="p-4">
+      <div class="bg-card py-3 rounded flex justify-between flex-1">
+        <div class="icon-button" @click="onClickOrder">
+          <i class="iconfont icon-dingdan text-[2rem]"></i>
+          <span class="text-xs">我的订单</span>
         </div>
-        <div>
-          <van-button round class="pear-gray-button p-4" size="mini">进入</van-button>
+        <div class="icon-button" @click="onClickRank">
+          <i class="iconfont icon-quanyi text-[2rem]"></i>
+          <span class="text-xs">排行榜</span>
+        </div>
+        <div class="icon-button" @click="onClickInvitation">
+          <i class="iconfont icon-yaoqing text-[2rem]"></i>
+          <span class="text-xs">我的邀请</span>
+        </div>
+        <div class="icon-button" @click="onClickWallet">
+          <i class="iconfont icon-qianbao1 text-[2rem]"></i>
+          <span class="text-xs">我的钱包</span>
         </div>
       </div>
+    </div>
+    <div class="my-menu p-4 pt-0">
       <van-cell
-        is-link
-        round
-        :border="false"
-        to="/orderList"
-        title-class="text-gray-100"
-        class="mb-3 rounded bg-card"
-      >
-        <template #title>
-          <pear-icon set="ph" name="package-light" size="1.3rem" />
-          <span class="ml-2">我的订单</span>
-        </template>
-      </van-cell>
-      <!-- <van-cell
         is-link
         clickable
         round
         :border="false"
-        to="/setting"
         title-class="text-gray-100"
         class="mb-3 rounded bg-card"
+        @click="onMaintainClick"
       >
         <template #title>
           <div class="flex items-center">
@@ -66,7 +57,7 @@
             <span class="ml-2">合成中心</span>
           </div>
         </template>
-      </van-cell> -->
+      </van-cell>
       <van-cell
         is-link
         clickable
@@ -110,31 +101,75 @@
         </template>
       </van-cell>
     </div>
+    <van-action-sheet v-model:show="show" :actions="actions" @select="onSelect" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user.store'
 import { useRouter } from 'vue-router'
+import { Toast } from 'vant'
+import { RankType } from '@/constants/enums'
+
 export default defineComponent({
   setup() {
     const router = useRouter()
     const store = useUserStore()
     const { userData, walletData } = storeToRefs(store)
+
+    const show = ref(false)
+    const actions = [
+      { name: '消费日榜' },
+      { name: '消费总榜' },
+      { name: '邀新排行' }
+    ]
+
     const goUserPage = () => {
       router.push('/user')
     }
-    const goWallet = () => {
+    const onClickOrder = () => {
+      router.push('/orderList')
+    }
+    const onClickRank = () => {
+      show.value = true
+    }
+    const onClickInvitation = () => {
+      router.push('/my-invitation')
+    }
+    const onClickWallet = () => {
       router.push('/wallet')
+    }
+    const onSelect = (item: any) => {
+      switch (item.name) {
+        case '消费日榜':
+          router.push({ name: 'RankList', query: { type: RankType.CONSUME_DAY } })
+          break
+        case '消费总榜':
+          router.push({ name: 'RankList', query: { type: RankType.CONSUME_ALL } })
+          break
+        case '邀新排行':
+          router.push({ name: 'RankList', query: { type: RankType.INVITATION } })
+          break
+      }
+    }
+    const onMaintainClick = () => {
+      Toast('功能正在开发中，敬请期待')
     }
 
     return {
+      show,
+      actions,
       userData,
       walletData,
       goUserPage,
-      goWallet
+      onMaintainClick,
+      onClickOrder,
+      onClickRank,
+      onClickInvitation,
+      onClickWallet,
+      onSelect
     }
   }
 })
@@ -145,5 +180,8 @@ export default defineComponent({
   &:active {
     opacity: 0.6;
   }
+}
+.icon-button {
+  @apply flex flex-col items-center text-white flex-1 active:opacity-60;
 }
 </style>

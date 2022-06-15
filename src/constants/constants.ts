@@ -9,3 +9,5 @@ export const NORMAL_TAX = 0.035
 
 /** 8折标准手续费 */
 export const EIGHTY_DISCOUNT_TAX = 0.021
+
+export const bucket = 'https://pearmeta-1253493520.file.myqcloud.com'

@@ -36,6 +36,7 @@ const SecondaryDetail = () => import('@/views/SecondaryDetail.vue')
 const InfoList = () => import('@/views/InfoList.vue')
 const ComposeLab = () => import('@/views/ComposeLab.vue')
 const ApplyLianlianUser = () => import('@/views/ApplyLianlianUser.vue')
+const RankList = () => import('@/views/RankList.vue')
 
 const BusinessAgreement = () => import('@/views/info-views/BusinessAgreement.vue')
 const UserAgreement = () => import('@/views/info-views/UserAgreement.vue')
@@ -223,6 +224,11 @@ const routes = [
     path: '/applyLianlianUser',
     name: 'ApplyLianlianUser',
     component: ApplyLianlianUser
+  },
+  {
+    path: '/rankList',
+    name: 'RankList',
+    component: RankList
   },
   {
     path: '/agreement',
