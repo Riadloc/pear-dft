@@ -76,6 +76,7 @@
         <van-field
           readonly
           label="银行卡号"
+          @touchstart.stop="onReadonlyClick"
           :border="false"
           v-model="formData2.bankNo"
           name="bankNo"
@@ -85,7 +86,6 @@
         <van-field
           readonly
           label="银行预留手机号"
-          @touchstart.stop="onReadonlyClick"
           :border="false"
           v-model="formData2.phone"
           name="phone"

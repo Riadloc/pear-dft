@@ -21,11 +21,11 @@
         </div>
       </div>
     </div>
-    <div class="p-4">
+    <!-- <div class="p-4">
       <div class="bg-card p-4 rounded">
 
       </div>
-    </div>
+    </div> -->
     <div class="my-menu p-4">
       <div class="wallet flex flex-row justify-between items-center bg-card mb-3 p-3 rounded-md" @click="goWallet">
         <div class="flex items-center">

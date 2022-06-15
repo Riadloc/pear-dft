@@ -119,11 +119,10 @@ export default defineComponent({
         }
         if (!res.data.token) {
           userStore.getWalletInfo()
-          Toast.success({
-            message: '绑定成功',
-            onClose: () => {
-              router.back()
-            }
+          Dialog.alert({
+            message: '绑定成功'
+          }).then(() => {
+            router.back()
           })
         } else {
           Toast('已发送验证码至您的手机')
@@ -141,6 +140,11 @@ export default defineComponent({
           return
         }
         showCodeDialog.value = false
+        Dialog.alert({
+          message: '绑定成功'
+        }).then(() => {
+          router.back()
+        })
       }
     })
     const onValidOk = (code: string) => {

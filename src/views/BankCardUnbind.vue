@@ -114,6 +114,7 @@ export default defineComponent({
           Dialog.alert({
             message: res.msg
           })
+          return
         }
         Dialog.alert({
           message: '解绑申请成功提交！'
