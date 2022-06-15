@@ -289,7 +289,7 @@ router.beforeEach(async (to) => {
     }
   }
   if (to.name === 'AuthorizedIdentity') {
-    if (store.userData.userId === 10094) {
+    if (store.userData.userId === 1285306) {
       return '/authorized'
     }
   }
