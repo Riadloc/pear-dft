@@ -21,6 +21,7 @@
         :rules="[{ required: true, message: '请填写银行卡开户手机号' }]"
       />
       <van-field
+        :readonly="!!userStore.walletData.realName"
         label="姓名"
         :border="false"
         v-model="formData.realName"
@@ -30,6 +31,7 @@
         :rules="[{ required: true, message: '请填写开户人姓名' }]"
       />
       <van-field
+        :readonly="!!userStore.walletData.idNo"
         label="身份证号"
         :border="false"
         v-model="formData.idNo"

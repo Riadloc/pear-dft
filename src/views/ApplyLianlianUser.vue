@@ -74,6 +74,7 @@
           :rules="[{ required: true, message: '请选择身份证有效期' }]"
         />
         <van-field
+          readonly
           label="银行卡号"
           :border="false"
           v-model="formData2.bankNo"
@@ -84,6 +85,7 @@
         <van-field
           readonly
           label="银行预留手机号"
+          @touchstart.stop="onReadonlyClick"
           :border="false"
           v-model="formData2.phone"
           name="phone"
@@ -289,6 +291,10 @@ export default defineComponent({
         })
     }
 
+    const onReadonlyClick = () => {
+      Toast('修改银行卡需要到银行卡管理页面进行操作')
+    }
+
     const onSubmit = async () => {
       form2.value.validate()
         .then(async () => {
@@ -344,6 +350,7 @@ export default defineComponent({
       formData1,
       formData2,
       onSubmit,
+      onReadonlyClick,
       onCancel,
       onPrev,
       onNext,

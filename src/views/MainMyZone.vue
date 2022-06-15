@@ -1,6 +1,6 @@
 <template>
   <div class="my-zone">
-    <div class="my-short-info bg-card px-4 py-5 rounded-bl-lg rounded-br-lg">
+    <div class="my-short-info px-4 py-5 rounded-bl-lg rounded-br-lg">
       <div class="flex items-center rounded-lg" @click="goUserPage">
         <van-image
           round
@@ -19,6 +19,11 @@
         <div>
           <van-icon name="arrow" size="1.2rem" class="text-gray-300" />
         </div>
+      </div>
+    </div>
+    <div class="p-4">
+      <div class="bg-card p-4 rounded">
+
       </div>
     </div>
     <div class="my-menu p-4">
