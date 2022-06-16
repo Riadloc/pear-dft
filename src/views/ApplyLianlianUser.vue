@@ -362,7 +362,8 @@ export default defineComponent({
       loading,
       sendCode,
 
-      minDate: new Date()
+      minDate: new Date(),
+      maxDate: dayjs().add(21, 'year').toDate()
     }
   }
 })
