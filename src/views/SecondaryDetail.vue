@@ -66,7 +66,7 @@
         </div>
         <div class="section">
           <h4 class="section-title mb-1">购买须知</h4>
-          <p class="section-content text-sm">{{ WEB_NAME }}中的数字藏品是虚拟数字商品，而非实物商品。因数字藏品的特殊性，一经购买成功，将不支持退换。数字藏品的知识产权或其他权益属发行方或权利人所有，除另行取得发行方或权利人授权外，您不得将数字藏品用于任何商业用途。请勿对数字藏品进行炒作、场外交易或任何非法方式进行使用。</p>
+          <p class="section-content text-sm">{{ title }}中的数字藏品是虚拟数字商品，而非实物商品。因数字藏品的特殊性，一经购买成功，将不支持退换。数字藏品的知识产权或其他权益属发行方或权利人所有，除另行取得发行方或权利人授权外，您不得将数字藏品用于任何商业用途。请勿对数字藏品进行炒作、场外交易或任何非法方式进行使用。</p>
         </div>
       </div>
       <div class="footer"></div>
@@ -81,7 +81,6 @@ import { useRouter, useRoute } from 'vue-router'
 import { useRequest } from 'vue-request'
 import { getFluxGoodDetail, putItOffMarket } from '@/services/goods.service'
 import { PearCard } from '@/components'
-import { WEB_NAME } from '@/assets/config'
 import { useUserStore } from '@/stores/user.store'
 import { createSecondaryPaymentOrder } from '@/services/payment.service'
 import { HTTP_CODE } from '@/constants/enums'
@@ -186,12 +185,12 @@ export default defineComponent({
     }
 
     return {
+      title: import.meta.env.VITE_DOMAIN_NAME,
       qrcode,
       onBack,
       onTransfer,
       onCertify,
       onTakeOff,
-      WEB_NAME,
       data,
       userStore,
       goContract,

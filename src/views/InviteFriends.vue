@@ -5,7 +5,7 @@
       <van-image src="/caterina.jpg" alt="" class="w-full" />
       <div class="flex justify-between items-center py-1 px-4">
         <div>
-          <h3 class="text-sm text-bold text-black mb-2">梨数藏</h3>
+          <h3 class="text-sm text-bold text-black mb-2">{{ title }}</h3>
           <p class="text-xs text-gray-700">精品数字藏品，等你来发现</p>
         </div>
         <img :src="qrcode" alt="" class="w-[96px] h-[96px]" v-if="qrcode">
@@ -44,6 +44,7 @@ export default defineComponent({
     const copyLink = ref<any>(null)
 
     return {
+      title: import.meta.env.VITE_DOMAIN_NAME,
       copyLink
     }
   },

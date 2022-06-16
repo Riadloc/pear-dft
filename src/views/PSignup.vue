@@ -119,7 +119,6 @@ import { computed, defineComponent, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useRequest } from 'vue-request'
 import { postSignup, postSendSms, updateUserInfo, forgotPassword } from '@/services/user.service'
-import { WEB_NAME } from '@/assets/config'
 import { HTTP_CODE } from '@/constants/enums'
 import { validatePassword } from '@/constants/utils'
 import { Notify, Toast } from 'vant'
@@ -133,7 +132,7 @@ enum PageTypes {
 }
 const PageTypeTexts = {
   [PageTypes.SIGN_UP]: {
-    welcome: `欢迎注册 ${WEB_NAME}`,
+    welcome: `欢迎注册 ${import.meta.env.VITE_DOMAIN_NAME}`,
     submit: '确认注册',
     psw1: '密码',
     psw2: '重复密码'
@@ -156,7 +155,7 @@ export default defineComponent({
   name: 'UserSignup',
   data() {
     return {
-      WEB_NAME
+      title: import.meta.env.VITE_DOMAIN_NAME
     }
   },
   setup() {
