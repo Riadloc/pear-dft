@@ -152,8 +152,9 @@ export default defineComponent({
       switch (status) {
         case 0:
         case 3:
-        case 4:
           return '进行中'
+        case 4:
+          return '预付成功，等待到账'
         case 1:
           return '完成'
         case 2:
