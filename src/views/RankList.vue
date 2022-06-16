@@ -17,13 +17,14 @@
         <div class="cell flex text-xs" v-for="(item, index) in dataList" :key="item.id">
           <span class="cell-td basis-1/3">{{ index + 1 }}</span>
           <span class="cell-td basis-1/3">{{ item.user_nickname }}</span>
-          <span class="cell-td basis-1/3">{{ item.points }}</span>
+          <span class="cell-td basis-1/3">{{ Math.floor(item.points) }}</span>
         </div>
       </template>
       <div v-else class="text-center text-gray-400 mt-2">
         <span class="text-sm">暂时无人上榜</span>
       </div>
     </div>
+    <pear-spinner :show="loading" />
   </div>
 </template>
 

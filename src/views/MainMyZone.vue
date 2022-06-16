@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="p-4">
+    <div class="px-4">
       <div class="bg-card py-3 rounded flex justify-between flex-1">
         <div class="icon-button" @click="onClickOrder">
           <i class="iconfont icon-dingdan text-[2rem]"></i>
@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-    <div class="my-menu p-4 pt-0">
+    <div class="my-menu p-4 pt-3">
       <van-cell
         is-link
         clickable
