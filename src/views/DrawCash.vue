@@ -135,7 +135,7 @@ export default defineComponent({
     }
     const onSuccess = () => {
       Dialog.alert({
-        message: '申请提现成功，预计T+1日内到账'
+        message: '申请提现成功，预计5分钟内到账'
       }).then(() => {
         router.back()
       })
