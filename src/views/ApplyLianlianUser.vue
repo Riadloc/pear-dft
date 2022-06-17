@@ -140,6 +140,7 @@
         type="date"
         title="选择有效期"
         :minDate="minDate"
+        :maxDate="maxDate"
         @confirm="onPickerConfirm"
         @cancel="onPickerCancel"
       />
