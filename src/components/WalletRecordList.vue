@@ -5,27 +5,58 @@
       :finished="finished"
       finished-text="暂无数据"
       @load="onLoad"
-      class="px-4 pt-4 text-white"
-    >
+      class="px-4 pt-4 text-white">
       <template v-if="dataList.length">
         <div class="cell flex text-sm">
           <span class="cell-td basis-1/4">交易金额</span>
           <span class="cell-td basis-1/4">状态</span>
           <span class="cell-td basis-1/4">时间</span>
-          <span class="cell-td basis-1/4" v-if="type === WalletRecordType.ALL">类型</span>
-          <span class="cell-td basis-1/4" v-else-if="[WalletRecordType.TOP_UP, WalletRecordType.DRAW_CASH].includes(type as number)">操作</span>
+          <span class="cell-td basis-1/4" v-if="type === WalletRecordType.ALL"
+            >类型</span
+          >
+          <span
+            class="cell-td basis-1/4"
+            v-else-if="[WalletRecordType.TOP_UP, WalletRecordType.DRAW_CASH].includes(type as number)"
+            >操作</span
+          >
           <span class="cell-td basis-1/4" v-else>备注</span>
         </div>
         <div class="cell flex text-xs" v-for="item in dataList" :key="item.id">
           <span class="cell-td basis-1/4">{{ item.change }}</span>
-          <span class="cell-td basis-1/4">{{ getStatusName(item.status) }}</span>
-          <span class="cell-td basis-1/4">{{ dateformat(item.createdAt) }}</span>
-          <span class="cell-td basis-1/4" v-if="type === WalletRecordType.ALL">{{ getTypeName(item.type) }}</span>
-          <span class="cell-td basis-1/4" v-else-if="type === WalletRecordType.TOP_UP">
-            <span @click="() => onPay(item)" v-if="item.status === 0">继续支付</span>
+          <span class="cell-td basis-1/4">{{
+            getStatusName(item.status)
+          }}</span>
+          <span class="cell-td basis-1/4">{{
+            dateformat(item.createdAt)
+          }}</span>
+          <span
+            class="cell-td basis-1/4"
+            v-if="type === WalletRecordType.ALL"
+            >{{ getTypeName(item.type) }}</span
+          >
+          <span
+            class="cell-td basis-1/4"
+            v-else-if="type === WalletRecordType.TOP_UP">
+            <span
+              @click="() => onPay(item)"
+              v-if="item.status === PayOrderStatus.PENDING"
+              >继续支付</span
+            >
           </span>
-          <span class="cell-td basis-1/4" v-else-if="type === WalletRecordType.DRAW_CASH">
-            <span @click="() => onDrawcash(item)" v-if="[3,5].includes(item.status)">重试</span>
+          <span
+            class="cell-td basis-1/4"
+            v-else-if="type === WalletRecordType.DRAW_CASH">
+            <span
+              @click="() => onDrawcash(item)"
+              v-if="
+                [
+                  PayOrderStatus.DC_APPLYED_WAIT,
+                  PayOrderStatus.DC_TRANSFERED,
+                  PayOrderStatus.DC_APPLY_FAILED,
+                ].includes(item.status)
+              "
+              >重试</span
+            >
           </span>
           <span class="cell-td basis-1/4" v-else>
             <span>{{ item.payInfo?.remark || '' }}</span>
@@ -49,17 +80,20 @@
       :show="showCodeDialog"
       @cancel="showCodeDialog = false"
       @success="onValidOk"
-      :validate="false"
-    />
+      :validate="false" />
     <pear-spinner :show="submitLoading" />
   </div>
 </template>
 
 <script lang="ts">
-import { HTTP_CODE, WalletRecordType } from '@/constants/enums'
+import { HTTP_CODE, WalletRecordType, PayOrderStatus } from '@/constants/enums'
 import { formatTimezoneDate } from '@/constants/utils'
 import router from '@/routes'
-import { checkLianlianSms, continueTopup, getWalletRecords } from '@/services/wallet.service'
+import {
+  checkLianlianSms,
+  continueTopup,
+  getWalletRecords
+} from '@/services/wallet.service'
 import { Dialog } from 'vant'
 import { computed, defineComponent, ref } from 'vue'
 import { useLoadMore, useRequest } from 'vue-request'
@@ -72,24 +106,32 @@ export default defineComponent({
     const finished = ref(false)
     const pageSize = ref(20)
     const pageNo = ref(0)
-    const { loadingMore: loading, dataList, loadMore } = useLoadMore(() => getWalletRecords({
-      pageSize: pageSize.value,
-      pageNo: pageNo.value,
-      type: props.type
-    }), {
-      manual: true,
-      listKey: 'data',
-      onSuccess(res: any) {
-        if (res.code !== HTTP_CODE.ERROR) {
-          finished.value = res.data.length < pageSize.value
-        } else {
+    const {
+      loadingMore: loading,
+      dataList,
+      loadMore
+    } = useLoadMore(
+      () =>
+        getWalletRecords({
+          pageSize: pageSize.value,
+          pageNo: pageNo.value,
+          type: props.type
+        }),
+      {
+        manual: true,
+        listKey: 'data',
+        onSuccess(res: any) {
+          if (res.code !== HTTP_CODE.ERROR) {
+            finished.value = res.data.length < pageSize.value
+          } else {
+            finished.value = true
+          }
+        },
+        onError() {
           finished.value = true
         }
-      },
-      onError() {
-        finished.value = true
       }
-    })
+    )
     const onLoad = () => {
       pageNo.value += 1
       loadMore()
@@ -102,7 +144,11 @@ export default defineComponent({
       })
     }
     const onValidOk = (code: string) => {
-      const { txn_seqno: orderNo, total_amount: price, token } = payInfo.value.data
+      const {
+        txn_seqno: orderNo,
+        total_amount: price,
+        token
+      } = payInfo.value.data
       runCheckSms({
         orderNo,
         price,
@@ -110,7 +156,11 @@ export default defineComponent({
         code
       })
     }
-    const { data: payInfo, loading: continueLoading, run: runContinueTopup } = useRequest(continueTopup, {
+    const {
+      data: payInfo,
+      loading: continueLoading,
+      run: runContinueTopup
+    } = useRequest(continueTopup, {
       manual: true,
       throttleInterval: 2000,
       throttleOptions: { leading: true, trailing: false },
@@ -124,25 +174,28 @@ export default defineComponent({
         showCodeDialog.value = true
       }
     })
-    const { loading: checkLoading, run: runCheckSms } = useRequest(checkLianlianSms, {
-      manual: true,
-      throttleInterval: 2000,
-      throttleOptions: { leading: true, trailing: false },
-      onSuccess(res: any) {
-        if (res.code === HTTP_CODE.ERROR) {
+    const { loading: checkLoading, run: runCheckSms } = useRequest(
+      checkLianlianSms,
+      {
+        manual: true,
+        throttleInterval: 2000,
+        throttleOptions: { leading: true, trailing: false },
+        onSuccess(res: any) {
+          if (res.code === HTTP_CODE.ERROR) {
+            Dialog.alert({
+              message: res.msg
+            })
+            return
+          }
+          showCodeDialog.value = false
           Dialog.alert({
-            message: res.msg
+            message: '支付成功'
+          }).then(() => {
+            router.back()
           })
-          return
         }
-        showCodeDialog.value = false
-        Dialog.alert({
-          message: '支付成功'
-        }).then(() => {
-          router.back()
-        })
       }
-    })
+    )
 
     const onDrawcash = (item: any) => {
       router.push({ name: 'DrawCashContinue', query: { recordId: item.id } })
@@ -150,17 +203,19 @@ export default defineComponent({
 
     const getStatusName = (status: number) => {
       switch (status) {
-        case 0:
-        case 3:
+        case PayOrderStatus.PENDING:
           return '进行中'
-        case 4:
+        case PayOrderStatus.DC_TRANSFERED:
+        case PayOrderStatus.DC_APPLY_FAILED:
+        case PayOrderStatus.DC_APPLYED_WAIT:
+          return '信息缺失或发生错误，需要重试'
+        case PayOrderStatus.DC_APPLYED:
+        case PayOrderStatus.DC_APPLYED_CHECKED:
           return '预付成功，等待到账'
-        case 1:
+        case PayOrderStatus.SUCCESSED:
           return '完成'
-        case 2:
+        case PayOrderStatus.FAILED:
           return '关闭'
-        case 5:
-          return '失败'
       }
     }
     const getTypeName = (type: WalletRecordType) => {
@@ -182,7 +237,9 @@ export default defineComponent({
       return formatTimezoneDate(date, 'YYYY-MM-DD HH:mm')
     }
 
-    const submitLoading = computed(() => continueLoading.value || checkLoading.value)
+    const submitLoading = computed(
+      () => continueLoading.value || checkLoading.value
+    )
 
     return {
       loading,
@@ -199,7 +256,8 @@ export default defineComponent({
       getTypeName,
       dateformat,
 
-      WalletRecordType
+      WalletRecordType,
+      PayOrderStatus
     }
   }
 })

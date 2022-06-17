@@ -76,3 +76,23 @@ export enum RankType {
   /** 邀新榜单 */
   INVITATION,
 }
+
+/** 支付订单状态 */
+export enum PayOrderStatus {
+  /** 等待中 */
+  PENDING,
+  /** 交易成功 */
+  SUCCESSED,
+  /** 交易失败 */
+  FAILED,
+  /** 提现-已代付 */
+  DC_TRANSFERED,
+  /** 提现-已申请 */
+  DC_APPLYED,
+  /** 提现-代付成功 申请失败 */
+  DC_APPLY_FAILED,
+  /** 提现-已申请 未填写验证码 */
+  DC_APPLYED_WAIT,
+  /** 提现-已申请 填写验证码 */
+  DC_APPLYED_CHECKED,
+}

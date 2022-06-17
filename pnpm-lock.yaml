@@ -38,6 +38,7 @@ specifiers:
   typescript: ^4.4.4
   vant: 3.4.7
   vite: ^2.9.12
+  vite-plugin-html: ^3.2.0
   vite-plugin-purge-icons: ^0.8.1
   vite-plugin-style-import: ^1.4.1
   vue: ^3.2.25
@@ -88,6 +89,7 @@ devDependencies:
   tailwindcss: registry.npmmirror.com/tailwindcss/3.0.24
   typescript: registry.npmmirror.com/typescript/4.6.4
   vite: registry.npmmirror.com/vite/2.9.12_less@4.1.2
+  vite-plugin-html: registry.npmmirror.com/vite-plugin-html/3.2.0_vite@2.9.12
   vite-plugin-purge-icons: registry.npmmirror.com/vite-plugin-purge-icons/0.8.1_vite@2.9.12
   vite-plugin-style-import: registry.npmmirror.com/vite-plugin-style-import/1.4.1_vite@2.9.12
   vue-tsc: registry.npmmirror.com/vue-tsc/0.29.8_typescript@4.6.4
@@ -4515,7 +4517,7 @@ packages:
       vue: registry.npmmirror.com/vue/3.2.33
     dev: false
 
-  registry.npmmirror.com/vite-plugin-html/3.2.0_vite@2.9.9:
+  registry.npmmirror.com/vite-plugin-html/3.2.0_vite@2.9.12:
     resolution: {integrity: sha512-2VLCeDiHmV/BqqNn5h2V+4280KRgQzCFN47cst3WiNK848klESPQnzuC3okH5XHtgwHH/6s1Ho/YV6yIO0pgoQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-plugin-html/-/vite-plugin-html-3.2.0.tgz}
     id: registry.npmmirror.com/vite-plugin-html/3.2.0
     name: vite-plugin-html
@@ -4535,7 +4537,7 @@ packages:
       html-minifier-terser: registry.npmmirror.com/html-minifier-terser/6.1.0
       node-html-parser: registry.npmmirror.com/node-html-parser/5.3.3
       pathe: registry.npmmirror.com/pathe/0.2.0
-      vite: registry.npmmirror.com/vite/2.9.9_less@4.1.2
+      vite: registry.npmmirror.com/vite/2.9.12_less@4.1.2
     dev: true
 
   registry.npmmirror.com/vite-plugin-purge-icons/0.8.1_vite@2.9.12:

@@ -101,7 +101,7 @@
         </template>
       </van-cell>
     </div>
-    <van-action-sheet v-model:show="show" :actions="actions" @select="onSelect" />
+    <van-action-sheet :round="false" v-model:show="show" :actions="actions" @select="onSelect" />
   </div>
 </template>
 
