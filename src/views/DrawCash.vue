@@ -246,10 +246,9 @@ export default defineComponent({
         Toast('请获取验证码')
         return
       }
-      const { txn_seqno: seqNo, orderNo, total_amount: price, token } = dcData.value.data
+      const { txn_seqno: orderNo, total_amount: price, token } = dcData.value.data
       runCheckSms({
         orderNo,
-        txnOrderNo: seqNo,
         price,
         token,
         code: formData.code
