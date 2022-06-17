@@ -248,7 +248,8 @@ export default defineComponent({
       }
       const { txn_seqno: orderNo, total_amount: price, token } = dcData.value.data
       runCheckSms({
-        orderNo,
+        orderNo: payInfo.orderNo,
+        txnOrderNo: orderNo,
         price,
         token,
         code: formData.code
