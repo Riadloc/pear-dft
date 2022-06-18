@@ -39,3 +39,19 @@ export function putItOnMarket(data: any) {
 export function putItOffMarket(data: any) {
   return request.put('goods/market/putoff', data)
 }
+
+export function getComposeList(params: any) {
+  return request.get('/goods/compose/list', { params })
+}
+
+export function getComposeDetail(params: any) {
+  return request.get('/goods/compose/detail', { params })
+}
+
+export function getMyMaterials(params: any) {
+  return request.get('/goods/compose/materials', { params })
+}
+
+export function composeMaterials(data: any) {
+  return request.post('/goods/compose', data)
+}

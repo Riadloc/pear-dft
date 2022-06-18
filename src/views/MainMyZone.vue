@@ -111,7 +111,7 @@ import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user.store'
 import { useRouter } from 'vue-router'
 import { Toast } from 'vant'
-import { RankType } from '@/constants/enums'
+import { RankType, UserRoles } from '@/constants/enums'
 
 export default defineComponent({
   setup() {
@@ -155,7 +155,11 @@ export default defineComponent({
       }
     }
     const onMaintainClick = () => {
-      Toast('功能正在开发中，敬请期待')
+      if (userData.value.role === UserRoles.NORMAL) {
+        Toast('功能正在开发中，敬请期待')
+      } else {
+        router.push('/composeList')
+      }
     }
 
     return {

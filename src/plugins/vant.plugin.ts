@@ -23,7 +23,6 @@ import {
   Tabs,
   Notify,
   Loading,
-  Uploader,
   PullRefresh,
   NumberKeyboard,
   Dialog,
@@ -31,13 +30,13 @@ import {
   Progress,
   Overlay,
   ActionSheet,
-  ShareSheet,
   PasswordInput,
   Stepper,
   Step,
   Steps,
   Popup,
   Tag,
+  Badge,
   Image as VanImage
 } from 'vant'
 
@@ -67,7 +66,6 @@ export default {
       .use(Tab)
       .use(Tabs)
       .use(Loading)
-      .use(Uploader)
       .use(PullRefresh)
       .use(NumberKeyboard)
       .use(PasswordInput)
@@ -78,11 +76,11 @@ export default {
       .use(ActionSheet)
       .use(Stepper)
       .use(Progress)
-      .use(ShareSheet)
       .use(Step)
       .use(Steps)
       .use(Popup)
       .use(Tag)
+    app.use(Badge)
     app.config.globalProperties.$back = history.back
   }
 }

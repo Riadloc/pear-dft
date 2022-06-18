@@ -1,9 +1,6 @@
 <template>
   <div class="plogin">
     <h3 class="text-white text-lg my-10">欢迎登录 {{ title }}</h3>
-    <van-notice-bar left-icon="volume-o" class="mb-4 rounded">
-      <p>由于系统问题，部分用户的密码会登录错误。如遇到这类问题，请点击忘记密码进行密码修改</p>
-    </van-notice-bar>
     <van-button size="small" round class="absolute right-4 top-4 px-3 pear-gray-button" to="/signup">注 册</van-button>
     <van-form @submit="onSubmit" validate-trigger="onSubmit">
       <van-cell-group :border="false" size="large">
