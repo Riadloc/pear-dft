@@ -29,9 +29,7 @@
 </template>
 
 <script lang="ts">
-import { UserRoles } from '@/constants/enums'
 import { getComposeList } from '@/services/goods.service'
-import { useUserStore } from '@/stores/user.store'
 import dayjs from 'dayjs'
 import { computed, defineComponent, ref } from 'vue'
 import { useLoadMore } from 'vue-request'
@@ -54,7 +52,6 @@ const STATUS_LIST = [
 export default defineComponent({
   setup() {
     const router = useRouter()
-    const userStore = useUserStore()
 
     const finished = ref(false)
     const pageSize = ref(20)
@@ -85,10 +82,6 @@ export default defineComponent({
     const count = computed(() => data.value?.count || 0)
 
     const onClick = (item: any) => {
-      if (userStore.userData.role === UserRoles.ADMIN) {
-        router.push({ name: 'ComposeLab', query: { id: item.id } })
-        return
-      }
       if (dayjs().isBefore(item.start) || dayjs().isAfter(item.end)) {
         return
       }
