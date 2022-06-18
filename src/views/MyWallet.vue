@@ -67,7 +67,7 @@ export default defineComponent({
           message: '需要实名认证',
           confirmButtonText: '前去实名'
         }).then(() => {
-          router.push('/certify')
+          router.push('/authorized')
         })
         return false
       }

@@ -114,7 +114,7 @@ export default defineComponent({
     const goods = computed(() => dataList.value || [])
 
     const certify = () => {
-      router.push('/certify')
+      router.push('/authorized')
     }
 
     const banners = [

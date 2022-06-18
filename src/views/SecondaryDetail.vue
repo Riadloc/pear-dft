@@ -132,7 +132,7 @@ export default defineComponent({
       router.push({ name: 'PutOnMarket', query: { no: goodNo } })
     }
     const onCertify = () => {
-      router.push('/certify')
+      router.push('/authorized')
     }
     const onTakeOff = () => {
       Dialog.confirm({

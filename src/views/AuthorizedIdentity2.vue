@@ -52,7 +52,7 @@
 import { defineComponent, ref, reactive, onMounted } from 'vue'
 import { useUserStore } from '@/stores/user.store'
 import { useRequest } from 'vue-request'
-import { certifyUser2 } from '@/services/user.service'
+import { certifyUser } from '@/services/user.service'
 import { Dialog } from 'vant'
 import { useRouter } from 'vue-router'
 import dayjs from 'dayjs'
@@ -85,7 +85,7 @@ export default defineComponent({
       })
     }
 
-    const { loading, run } = useRequest(certifyUser2, {
+    const { loading, run } = useRequest(certifyUser, {
       manual: true,
       throttleInterval: 2000,
       throttleOptions: { leading: true, trailing: false },

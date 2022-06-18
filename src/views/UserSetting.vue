@@ -46,7 +46,7 @@
         title-class="text-gray-100"
         class="mb-3 rounded bg-card"
         :is-link="!userData.certified"
-        :to="userData.certified ? '' : '/certify'"
+        :to="userData.certified ? '' : '/authorized'"
       >
         <template #title>
           <div class="flex items-center">
@@ -252,7 +252,7 @@ export default defineComponent({
           message: '请先完成实名认证',
           confirmButtonText: '去认证'
         }).then(() => {
-          this.$router.push('/certify')
+          this.$router.push('/authorized')
         })
       }
     },

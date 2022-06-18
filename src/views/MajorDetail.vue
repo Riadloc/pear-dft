@@ -154,7 +154,7 @@ export default defineComponent({
     })
 
     const onCertify = () => {
-      router.push('/certify')
+      router.push('/authorized')
     }
 
     const formatHex = (value = '') => {

@@ -20,10 +20,6 @@ export function certifyUser(data: any) {
   return request.post('/user/certify', data)
 }
 
-export function certifyUser2(data: any) {
-  return request.post('/user/certify/bank4', data)
-}
-
 export function getUserInfo() {
   return request.get('/user')
 }
