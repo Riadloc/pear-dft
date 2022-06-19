@@ -89,6 +89,12 @@ export default defineComponent({
       },
       formatResult(data) {
         return data.data
+      },
+      onSuccess(data) {
+        if (data.ownerUuid !== userStore.userData.id) {
+          Toast('被禁止的访问')
+          router.back()
+        }
       }
     })
 

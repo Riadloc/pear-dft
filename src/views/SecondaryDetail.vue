@@ -32,7 +32,7 @@
               <template v-else-if="fromView === 'market'">
                 <van-button class="pear-gray-button" block disabled v-if="data.status === 0">已售罄</van-button>
                 <van-button type="warning" block @click="onCertify" v-else-if="userStore.userData.certified == 0">需要实名认证</van-button>
-                <van-button class="pear-color-button" block @click="showCaptch = true" v-else>立即购买</van-button>
+                <van-button class="pear-color-button" block @click="onBeforeBuy" v-else>立即购买</van-button>
               </template>
               <!-- <van-button class="pear-color-button" round block @click="showCaptch = true">立即购买</van-button> -->
             </div>
