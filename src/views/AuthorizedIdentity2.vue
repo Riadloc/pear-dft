@@ -118,21 +118,14 @@ export default defineComponent({
       showCaptch.value = true
     }
     onMounted(() => {
-      Dialog.alert({
-        message: '暂时暂停新用户实名认证',
-        confirmButtonText: '返回上一页'
-      }).then(() => {
-        router.back()
-      })
-
-      // if (userStore.userData.certified) {
-      //   Dialog.alert({
-      //     message: '用户已实名认证',
-      //     confirmButtonText: '返回上一页'
-      //   }).then(() => {
-      //     router.back()
-      //   })
-      // }
+      if (userStore.userData.certified) {
+        Dialog.alert({
+          message: '用户已实名认证',
+          confirmButtonText: '返回上一页'
+        }).then(() => {
+          router.back()
+        })
+      }
     })
 
     return {
