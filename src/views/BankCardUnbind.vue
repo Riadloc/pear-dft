@@ -103,6 +103,10 @@ export default defineComponent({
         if (userStore.walletData.step === LianlianSteps.SUCCESSED) {
           formData.password = await llPasswordField.value.getValue()
           formData.randomKey = llPasswordField.value.getRandomKey()
+          if (!formData.password) {
+            Toast('需要重新输入提现密码')
+            return
+          }
         }
         runBankUnbind(formData)
       })

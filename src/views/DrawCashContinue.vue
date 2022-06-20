@@ -154,6 +154,10 @@ export default defineComponent({
       }
       const password = await llPasswordField.value.getValue()
       const randomKey = llPasswordField.value.getRandomKey()
+      if (!password) {
+        Toast('需要重新输入提现密码')
+        return
+      }
       const { recordNo } = recordDetail.value.data
       runSubmit({
         price: amount.value,

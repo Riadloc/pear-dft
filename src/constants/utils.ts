@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { throttle } from 'lodash-es'
 
 export function validatePassword(value: string): boolean | string {
   console.log(value)
@@ -93,13 +94,13 @@ export function initLianlianKeyboard(props: any) {
     },
     // 获取所有密码输入的值
     getValue() {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         if ((window as any).passGuardKeyboard.getLength() === 0) {
-          reject(new Error('EMPTY'))
+          resolve('')
           return
         }
         if ((window as any).passGuardKeyboard.getValid() === 1) {
-          reject(new Error('FORMAT_ERROR'))
+          resolve('')
           return
         }
         // ib is cleared after passGuardKeyboard.getOutput(), thus needs to be reassigned
@@ -139,4 +140,8 @@ export function openLink(url: string, target = '_blank') {
   eleLink.click()
   // 然后移除
   document.body.removeChild(eleLink)
+}
+
+export function debounce(fn: any) {
+  return throttle(fn, 1000, { leading: true, trailing: false })
 }
