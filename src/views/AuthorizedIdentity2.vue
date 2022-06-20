@@ -10,7 +10,7 @@
         name="bankNo"
         class="mb-4 rounded"
         placeholder="储蓄银行卡卡号"
-        :rules="[{ required: true, message: '请填写储蓄银行卡卡号' }]"
+        :rules="[{ required: true, message: '请填写储蓄银行卡卡号' }, { pattern: /^[1-9]\d{8,30}$/, message: '格式不正确' }]"
       />
       <van-field
         label="开户手机号"
@@ -19,7 +19,7 @@
         name="phone"
         class="mb-4 rounded"
         placeholder="银行卡开户手机号"
-        :rules="[{ required: true, message: '请填写银行卡开户手机号' }]"
+        :rules="[{ required: true, message: '请填写银行卡开户手机号' }, { pattern: /^\d{11}$/, message: '手机号格式不正确' }]"
       />
       <van-field
         label="姓名"
@@ -28,7 +28,7 @@
         name="realName"
         class="mb-4 rounded"
         placeholder="开户人姓名（不是支行名称)"
-        :rules="[{ required: true, message: '请填写开户人姓名' }]"
+        :rules="[{ required: true, message: '请填写开户人姓名' }, { pattern: /^[\u4e00-\u9fa5]{2,6}$/, message: '格式不正确' }]"
       />
       <van-field
         label="身份证号"
