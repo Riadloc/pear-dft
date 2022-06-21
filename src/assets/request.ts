@@ -1,3 +1,4 @@
+import { genSignature } from '@/constants/utils'
 import axios, { AxiosResponse } from 'axios'
 import Qs from 'qs'
 import { Toast } from 'vant'
@@ -21,14 +22,18 @@ const request = axios.create({
 })
 
 request.interceptors.request.use(function(config) {
+  const { data } = config
+  if (data && typeof data === 'object') {
+    const sign = genSignature(data);
+    (config.headers as any).common.Authorization = sign
+  }
   return config
 }, function(error) {
   return Promise.reject(error)
 })
 
 request.interceptors.response.use(function(response: AxiosResponse<Response>) {
-  const { data } = response
-  console.log(response.status)
+  const { data: res } = response
   switch (response.status) {
     case 401:
       Toast('还未登录')
@@ -41,7 +46,12 @@ request.interceptors.response.use(function(response: AxiosResponse<Response>) {
       Toast('请求太过频繁，请稍后重试')
       break
   }
-  return data
+  let { data } = res
+  data = data && typeof data === 'string' ? JSON.parse(decodeURIComponent(window.atob(data))) : data
+  return {
+    ...res,
+    data
+  }
 }, function(error) {
   return Promise.reject(error)
 })

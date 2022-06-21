@@ -21,7 +21,8 @@
         </div>
       </template>
       <div v-else class="text-center text-gray-400 mt-2">
-        <span class="text-sm">暂时无人上榜</span>
+        <span class="text-sm" v-if="type === RankType.INVITATION">邀新活动已结束，核查中...</span>
+        <span class="text-sm" v-else>暂时无人上榜</span>
       </div>
     </div>
     <pear-spinner :show="loading" />

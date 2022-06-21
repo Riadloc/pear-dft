@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import { throttle } from 'lodash-es'
+import md5 from 'crypto-js/md5'
 
 export function validatePassword(value: string): boolean | string {
   console.log(value)
@@ -144,4 +145,14 @@ export function openLink(url: string, target = '_blank') {
 
 export function debounce(fn: any) {
   return throttle(fn, 1000, { leading: true, trailing: false })
+}
+
+export function genSignature(paramDict: any) {
+  const sortedNames = Object.keys(paramDict).sort()
+  let paramStr = ''
+  for (let i = 0; i < sortedNames.length; i++) {
+    const name = sortedNames[i]
+    paramStr += name + (paramDict[name] || '')
+  }
+  return md5(paramStr)
 }
