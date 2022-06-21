@@ -47,7 +47,11 @@ request.interceptors.response.use(function(response: AxiosResponse<Response>) {
       break
   }
   let { data } = res
-  data = data && typeof data === 'string' ? JSON.parse(decodeURIComponent(window.atob(data))) : data
+  try {
+    data = data && typeof data === 'string' ? JSON.parse(decodeURIComponent(window.atob(data))) : data
+  } catch (error) {
+    //
+  }
   return {
     ...res,
     data
