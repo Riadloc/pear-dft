@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 import { throttle } from 'lodash-es'
-import md5 from 'crypto-js/md5'
+import MD5 from 'crypto-js/md5'
+import hexEnc from 'crypto-js/enc-hex'
 
 export function validatePassword(value: string): boolean | string {
   console.log(value)
@@ -152,9 +153,9 @@ export function genSignature(paramDict: any) {
   let paramStr = ''
   for (let i = 0; i < sortedNames.length; i++) {
     const name = sortedNames[i]
-    if (paramDict[name] !== undefined && paramDict[name] !== null) {
+    if (paramDict[name] !== undefined) {
       paramStr += name + (paramDict[name] || '')
     }
   }
-  return md5(paramStr)
+  return MD5(paramStr).toString(hexEnc)
 }
