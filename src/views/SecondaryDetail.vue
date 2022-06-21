@@ -16,9 +16,9 @@
           round
           limit
           :name="data.name"
-          :price="fromView === 'market' ? data.marketPrice : data.price"
+          :price="data.price"
           :amount="`# ${data.serial} / ${data.copies}`"
-          :owner="data.user?.nickname"
+          :owner="data.ownner"
           is-flux
         >
           <template #actions>

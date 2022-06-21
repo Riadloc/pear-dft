@@ -34,10 +34,10 @@
           :cover="item.cover"
           round
           limit
-          :name="item.parentGood?.name"
-          :price="item.marketPrice"
-          :owner="item.user?.nickname"
-          :serial="`${item.serial}/${item.parentGood?.copies}`"
+          :name="item.name"
+          :price="item.price"
+          :owner="item.ownner"
+          :serial="`${item.serial}/${item.copies}`"
           :is-purchasing="item.status === 2"
         />
       </van-list>
