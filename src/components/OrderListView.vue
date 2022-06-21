@@ -121,7 +121,7 @@ export default defineComponent({
     const count = computed(() => data.value?.count || 0)
 
     const purchase = (data: any) => {
-      router.push({ name: 'OrderDetail', query: { id: data.id, isSecond: data.soure } })
+      router.push({ name: 'OrderDetail', query: { id: data.id } })
     }
     const cancel = (data: any) => {
       Dialog.confirm({

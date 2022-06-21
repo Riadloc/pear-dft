@@ -152,7 +152,9 @@ export function genSignature(paramDict: any) {
   let paramStr = ''
   for (let i = 0; i < sortedNames.length; i++) {
     const name = sortedNames[i]
-    paramStr += name + (paramDict[name] || '')
+    if (paramDict[name] !== undefined && paramDict[name] !== null) {
+      paramStr += name + (paramDict[name] || '')
+    }
   }
   return md5(paramStr)
 }

@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { Dialog, Toast } from 'vant'
 import { useRoute, useRouter } from 'vue-router'
 import { useRequest } from 'vue-request'
@@ -84,8 +84,7 @@ export default defineComponent({
 
     const showPasswordDialog = ref(false)
 
-    const { id, isSecond } = route.query
-    const isFluxGoodOrder = computed(() => isSecond === '1')
+    const { id } = route.query
     const { data: detailData, loading } = useRequest(() => getOrderDetail({ orderId: id }), {
       initialData: {
         user: {},
@@ -132,7 +131,6 @@ export default defineComponent({
     const onPurchase = (payKey: string) => {
       _onPurchase({
         orderId: id,
-        isSecond,
         payKey
       })
     }
@@ -172,8 +170,7 @@ export default defineComponent({
       formatTimezoneDate,
       OrderStatus,
       loading,
-      submitLoading,
-      isFluxGoodOrder
+      submitLoading
     }
   }
 })

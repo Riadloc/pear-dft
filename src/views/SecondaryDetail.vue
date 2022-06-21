@@ -123,7 +123,7 @@ export default defineComponent({
           })
           return
         }
-        router.push({ name: 'OrderDetail', query: { id: res.data, isSecond: 1 } })
+        router.push({ name: 'OrderDetail', query: { id: res.data } })
       }
     })
 
