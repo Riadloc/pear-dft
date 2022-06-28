@@ -40,6 +40,10 @@ export function putItOffMarket(data: any) {
   return request.put('goods/market/putoff', data)
 }
 
+export function openBox(data: any) {
+  return request.post('goods/openBox', data)
+}
+
 export function getComposeList(params: any) {
   return request.get('/goods/compose/list', { params })
 }

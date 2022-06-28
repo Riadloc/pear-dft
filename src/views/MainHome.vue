@@ -1,7 +1,7 @@
 <template>
   <div class="main-home">
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-      <div class="logo w-full shadow-md">
+      <div class="logo w-full">
         <span class="title">{{ title }}</span>
       </div>
       <van-swipe
@@ -165,8 +165,18 @@ export default defineComponent({
     margin: 0 auto;
   }
   .logo {
-    @apply px-4 py-3 top-0 w-full mb-4;
+    @apply px-4 py-3 top-0 w-full mb-4 relative;
     // background-image: url(/az-subtle.png);
+    &::before {
+      content: "";
+      position: absolute;
+      height: 0.12rem;
+      bottom: 0;
+      width: 100%;
+      left: 0;
+      right: 0;
+      background-image: linear-gradient(to right, white, #d977a7, #8272e1, white);
+    }
   }
   .title {
     @apply text-white text-lg;

@@ -37,38 +37,10 @@
         我的
       </van-tabbar-item>
     </van-tabbar>
-    <van-dialog
-      class="notify-dialog"
-      title="洛神正式合成"
-      v-model:show="show"
-      :before-close="beforeClose"
-      confirm-button-text="我知道了">
-      <div class="p-4 text-sm">
-        <p>合成时间：6月22日22.00:00-23.59:59</p>
-        <p>共合成588份 合成材料如下：</p>
-        <div class="indent-8">
-          <p>四大美女·貂蝉*1</p>
-          <p>四大美女·王昭君*1</p>
-          <p>四大美女·西施*1</p>
-          <p>四大美女·杨玉环*1</p>
-          <p>起源·守护者的荣光*2</p>
-          <p>起源·探索者的远见*10</p>
-        </div>
-        <p>赋能:</p>
-        <div class="indent-8">
-          <p>1.七夕礼包一份</p>
-          <p>2.平台首发盲盒优先购2个</p>
-          <p>3.节假日不定时空投 （一年不低于五次）</p>
-          <p>4.平台指定藏品优先抢权益</p>
-          <p>5.洛神后续系列分红（详情后续公布）</p>
-        </div>
-        <p>注：起源系列将在后续持续消耗，详情后续公布</p>
-      </div>
-    </van-dialog>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 export default defineComponent({
   setup() {
     const active = ref(0)
@@ -85,12 +57,12 @@ export default defineComponent({
       return true
     }
 
-    onMounted(() => {
-      const msgId = localStorage.getItem('pear:notify')
-      if (msgId !== '1') {
-        show.value = true
-      }
-    })
+    // onMounted(() => {
+    //   const msgId = localStorage.getItem('pear:notify')
+    //   if (msgId !== '1') {
+    //     show.value = true
+    //   }
+    // })
 
     return {
       active,

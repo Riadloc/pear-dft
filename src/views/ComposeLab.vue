@@ -24,7 +24,7 @@
               v-if="finalSelectList[item.objectId]?.length"
               :key="item.objectId + '1'"
               class="mb-2 mr-[3%] basis-[30%]"
-              :color="finalSelectList[item.objectId]?.length !== item.count ? '#ee0a24' : '#31c17b'"
+              :color="finalSelectList[item.objectId]?.length !== item.count ? '#ee0a24' : '#646cff'"
               :content="finalSelectList[item.objectId]?.length">
               <van-button
                 class="p-5 w-full bg-cover bg-center"

@@ -1,7 +1,7 @@
 <template>
   <div class="collect">
     <van-sticky>
-      <div class="px-4 py-2">
+      <div class="px-4 py-2 bg-paper">
         <h3 class="text-white text-lg">我的藏品</h3>
       </div>
     </van-sticky>

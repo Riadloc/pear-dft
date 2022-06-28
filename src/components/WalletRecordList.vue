@@ -3,76 +3,89 @@
     <van-list
       v-model:loading="loading"
       :finished="finished"
-      finished-text="暂无数据"
+      finished-text="没有更多"
       @load="onLoad"
-      class="px-4 pt-4 text-white">
+      class="px-4 text-white">
       <template v-if="dataList.length">
-        <div class="cell flex text-sm">
-          <span class="cell-td basis-1/4">交易金额</span>
-          <span class="cell-td basis-1/4">状态</span>
-          <span class="cell-td basis-1/4">时间</span>
-          <span class="cell-td basis-1/4" v-if="type === WalletRecordType.ALL"
-            >类型</span
-          >
-          <span
-            class="cell-td basis-1/4"
-            v-else-if="[WalletRecordType.TOP_UP, WalletRecordType.DRAW_CASH].includes(type as number)"
-            >操作</span
-          >
-          <span class="cell-td basis-1/4" v-else>备注</span>
-        </div>
-        <div class="cell flex text-xs" v-for="item in dataList" :key="item.id">
-          <span class="cell-td basis-1/4">{{ item.change }}</span>
-          <span class="cell-td basis-1/4">{{
-            getStatusName(item.status)
-          }}</span>
-          <span class="cell-td basis-1/4">{{
-            dateformat(item.createdAt)
-          }}</span>
-          <span
-            class="cell-td basis-1/4"
-            v-if="type === WalletRecordType.ALL"
-            >{{ getTypeName(item.type) }}</span
-          >
-          <span
-            class="cell-td basis-1/4"
-            v-else-if="type === WalletRecordType.TOP_UP">
-            <span
-              @click="() => onPay(item)"
-              v-if="item.status === PayOrderStatus.PENDING"
-              >继续支付</span
-            >
-          </span>
-          <span
-            class="cell-td basis-1/4"
-            v-else-if="type === WalletRecordType.DRAW_CASH">
-            <span
-              @click="() => onDrawcash(item)"
-              v-if="
-                [
-                  PayOrderStatus.DC_APPLYED_WAIT,
-                  PayOrderStatus.DC_TRANSFERED,
-                  PayOrderStatus.DC_APPLY_FAILED,
-                ].includes(item.status)
-              "
-              >重试</span
-            >
-          </span>
-          <span class="cell-td basis-1/4" v-else>
-            <span>{{ item.payInfo?.remark || '' }}</span>
-          </span>
-        </div>
-        <!-- <div v-for="item in dataList" :key="item.id" class="flex relative">
-          <p>￥{{ item.change }}</p>
-          <p>{{ getTypeName(item.type) }}</p>
-          <p>{{ getStatusName(item.status) }}</p>
-          <p>{{ dateformat(item.createdAt) }}</p>
-          <div>
-            <div class="leading-4">
-              <van-button round plain size="mini" class="!text-gray-300">取消订单</van-button>
+        <div
+          v-for="item in dataList"
+          :key="item.id"
+          class="mt-3 bg-card text-gray-300 rounded-tl-full rounded-bl-full">
+          <div class="flex h-16">
+            <div
+              class="w-16 h-full rounded-full text-center align-middle shadow-2xl border-[0.12rem] border-[#333]">
+              <i
+                :class="[
+                  'iconfont',
+                  'text-[2.5rem]',
+                  getIcon(item.type, item.change),
+                ]"></i>
+            </div>
+            <div class="flex flex-col p-2 pr-4 flex-1">
+              <div class="flex justify-between text-sm">
+                <span>{{ dateformat(item.createdAt) }} | {{ getTypeName(item.type) }}</span>
+                <span :class="getStatusClassName(item.status)">{{ getStatusName(item.status) }}</span>
+              </div>
+              <div class="flex">
+                <div class="flex flex-col justify-center flex-1 text-sm">
+                  <div class="flex justify-between items-center">
+                    <span class="font-bold text-amber-200 text-lg">{{
+                      item.change
+                    }}</span>
+                    <div>
+                      <van-button
+                        plain
+                        size="mini"
+                        class="!text-gray-300"
+                        v-if="
+                          item.payInfo?.remark &&
+                          [
+                            PayOrderStatus.FAILED,
+                            PayOrderStatus.DC_APPLYED_WAIT,
+                            PayOrderStatus.DC_TRANSFERED,
+                            PayOrderStatus.DC_APPLY_FAILED,
+                          ].includes(item.status)
+                        "
+                        @click="() => onViewRemark(item)"
+                        >查看备注</van-button
+                      >
+                      <van-button
+                        plain
+                        size="mini"
+                        class="!text-gray-300"
+                        v-if="
+                          item.type === WalletRecordType.TOP_UP &&
+                          item.status === PayOrderStatus.PENDING
+                        "
+                        @click="() => onPay(item)"
+                        >继续支付</van-button
+                      >
+                      <van-button
+                        plain
+                        size="mini"
+                        class="!text-gray-300"
+                        v-else-if="
+                          type === WalletRecordType.DRAW_CASH &&
+                          [
+                            PayOrderStatus.DC_APPLYED_WAIT,
+                            PayOrderStatus.DC_TRANSFERED,
+                            PayOrderStatus.DC_APPLY_FAILED,
+                          ].includes(item.status)
+                        "
+                        @click="() => onDrawcash(item)"
+                        >重试</van-button
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="flex text-sm">
+                <span>其他信息：{{ item.payInfo?.remark }}</span>
+              </div> -->
             </div>
           </div>
-        </div> -->
+          <!-- <div class="flex justify-between items-end"></div> -->
+        </div>
       </template>
     </van-list>
     <typing-password-dialog
@@ -200,6 +213,11 @@ export default defineComponent({
     const onDrawcash = (item: any) => {
       router.push({ name: 'DrawCashContinue', query: { recordId: item.id } })
     }
+    const onViewRemark = (item: any) => {
+      Dialog.alert({
+        message: item.payInfo.remark
+      })
+    }
 
     const getStatusName = (status: number) => {
       switch (status) {
@@ -208,14 +226,31 @@ export default defineComponent({
         case PayOrderStatus.DC_TRANSFERED:
         case PayOrderStatus.DC_APPLY_FAILED:
         case PayOrderStatus.DC_APPLYED_WAIT:
-          return '信息缺失或发生错误，需要重试'
+          return '信息缺失'
         case PayOrderStatus.DC_APPLYED:
         case PayOrderStatus.DC_APPLYED_CHECKED:
-          return '预付成功，等待到账'
+          return '预付成功'
         case PayOrderStatus.SUCCESSED:
           return '完成'
         case PayOrderStatus.FAILED:
           return '关闭'
+      }
+    }
+    const getStatusClassName = (status: number) => {
+      switch (status) {
+        case PayOrderStatus.PENDING:
+          return 'text-yellow-400'
+        case PayOrderStatus.DC_TRANSFERED:
+        case PayOrderStatus.DC_APPLY_FAILED:
+        case PayOrderStatus.DC_APPLYED_WAIT:
+          return 'text-red-400'
+        case PayOrderStatus.DC_APPLYED:
+        case PayOrderStatus.DC_APPLYED_CHECKED:
+          return 'text-green-400'
+        case PayOrderStatus.SUCCESSED:
+          return 'text-green-400'
+        case PayOrderStatus.FAILED:
+          return 'text-red-400'
       }
     }
     const getTypeName = (type: WalletRecordType) => {
@@ -228,6 +263,20 @@ export default defineComponent({
           return '提现'
         case WalletRecordType.APPLY_USER:
           return '开户'
+        default:
+          return ''
+      }
+    }
+    const getIcon = (type: WalletRecordType, change: number) => {
+      switch (type) {
+        case WalletRecordType.TRADE:
+          return change > 0 ? 'icon-cunkuan' : 'icon-touzi-03'
+        case WalletRecordType.TOP_UP:
+          return 'icon-chongzhi'
+        case WalletRecordType.DRAW_CASH:
+          return 'icon-tixian'
+        case WalletRecordType.APPLY_USER:
+          return 'icon-zhuce'
         default:
           return ''
       }
@@ -251,9 +300,12 @@ export default defineComponent({
       onDrawcash,
       showCodeDialog,
       onValidOk,
+      onViewRemark,
 
       getStatusName,
       getTypeName,
+      getStatusClassName,
+      getIcon,
       dateformat,
 
       WalletRecordType,

@@ -110,8 +110,12 @@ export default defineComponent({
           return
         }
         Dialog.alert({
-          message: '交易成功'
+          message: '交易成功！',
+          confirmButtonText: '查看',
+          cancelButtonText: '返回'
         }).then(() => {
+          router.replace({ name: 'SecondaryDetail', query: { id: res.data.goodNo, from: 'collect' } })
+        }).catch(() => {
           router.back()
         })
       }

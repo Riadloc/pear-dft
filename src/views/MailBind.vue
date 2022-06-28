@@ -181,7 +181,7 @@ export default defineComponent({
     right: 0;
   }
   .link {
-    color: #31c17b;
+    color: #646cff;
     &:active {
       opacity: 0.6;
     }

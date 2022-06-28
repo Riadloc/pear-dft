@@ -43,7 +43,7 @@ body {
   --card-large-size: calc(100vw - 2rem);
   --card-small-size: calc(50vw - 1.5rem);
   --card-base-size: 6rem;
-  --primary-color: #31c17b;
+  --primary-color: #646cff;
   --van-primary-color: var(--primary-color);
   --van-active-color: var(--van-gray-8);
 }
@@ -69,7 +69,7 @@ body {
 .pear-plain-button {
   background: transparent;
   color: #fff;
-  border: 0.06rem solid #31C17B;
+  border: 0.06rem solid #646cff;
 }
 
 .pear-plain-button2 {
@@ -97,7 +97,7 @@ body {
 }
 
 .pear-green-button {
-  background: #31C17B;
+  background: #646cff;
   color: #fff;
   border: none;
 }
@@ -105,7 +105,7 @@ body {
 .pear-green-plain-button {
   background: transparent;
   color: #fff;
-  border: 0.06rem solid #31C17B;
+  border: 0.06rem solid #646cff;
 }
 
 .pear-line {

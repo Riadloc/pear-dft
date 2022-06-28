@@ -2,26 +2,35 @@
   <div class="wallet pt-6">
     <pear-navbar title="我的余额" class="bg-paper" fixed left-arrow />
     <div class="flex flex-col items-center justify-center h-40 text-white">
-      <p class="text-3xl align-bottom"><span class="text-lg">￥</span>{{ walletData.balance }}</p>
+      <p class="text-3xl align-bottom">
+        <span class="text-lg">￥</span>{{ walletData.balance }}
+      </p>
       <p class="text-sm text-gray-300">当前余额</p>
     </div>
     <div class="flex px-4">
-      <van-button block class="rounded-lg pear-green-button mr-4" @click="goTopUp">充值</van-button>
-      <van-button block class="rounded-lg pear-gray-button" @click="goDrawCash">提现</van-button>
+      <van-button
+        block
+        class="rounded-lg pear-green-button mr-4"
+        @click="goTopUp"
+        >充值</van-button
+      >
+      <van-button block class="rounded-lg pear-gray-button" @click="goDrawCash"
+        >提现</van-button
+      >
     </div>
-    <div>
-      <van-tabs v-model:active="activeTab" shrink class="mt-4" sticky>
-      <van-tab title="全部记录" :name="WalletRecordType.ALL">
-           <wallet-record-list :type="WalletRecordType.ALL" />
+    <div class="record-list">
+      <van-tabs v-model:active="activeTab" shrink class="mt-4" background="#202125" sticky offset-top="2.857rem">
+        <van-tab title="全部记录" :name="WalletRecordType.ALL">
+          <wallet-record-list :type="WalletRecordType.ALL" />
         </van-tab>
         <van-tab title="交易记录" :name="WalletRecordType.TRADE">
-           <wallet-record-list :type="WalletRecordType.TRADE" />
+          <wallet-record-list :type="WalletRecordType.TRADE" />
         </van-tab>
         <van-tab title="充值记录" :name="WalletRecordType.TOP_UP">
-           <wallet-record-list :type="WalletRecordType.TOP_UP" />
+          <wallet-record-list :type="WalletRecordType.TOP_UP" />
         </van-tab>
         <van-tab title="提现记录" :name="WalletRecordType.DRAW_CASH">
-           <wallet-record-list :type="WalletRecordType.DRAW_CASH" />
+          <wallet-record-list :type="WalletRecordType.DRAW_CASH" />
         </van-tab>
       </van-tabs>
     </div>
@@ -71,7 +80,10 @@ export default defineComponent({
         })
         return false
       }
-      if (!walletData.value.bankCards?.length || !walletData.value.bankCards[0]?.idNo) {
+      if (
+        !walletData.value.bankCards?.length ||
+        !walletData.value.bankCards[0]?.idNo
+      ) {
         Dialog.confirm({
           message: '请先补齐银行卡信息',
           confirmButtonText: '前去绑定'
@@ -132,5 +144,7 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-
+.record-list {
+  //
+}
 </style>

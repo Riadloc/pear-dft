@@ -9,7 +9,7 @@ module.exports = {
         paper: '#202125',
         card: '#292a2d',
         gold: '#eee0c5',
-        primary: '#31c17b'
+        primary: '#646cff'
       }
     }
   },

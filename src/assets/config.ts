@@ -28,13 +28,13 @@ export const theme = {
   passwordInputDotColor: '#fff',
   popupBackgroundColor: '#292a2d',
   actionSheetItemTextColor: '#fff',
-  tabsBottomBarColor: '#31C17B',
+  tabsBottomBarColor: '#646cff',
   passwordInputCursorColor: '#fff',
   stepsBackgroundColor: '#202125',
-  switchOnBackgroundColor: '#31c17b',
+  switchOnBackgroundColor: '#646cff',
   switchBackgroundColor: '#666',
-  checkboxCheckedIconColor: '#31c17b',
-  radioCheckedIconColor: '#31c17b',
+  checkboxCheckedIconColor: '#646cff',
+  radioCheckedIconColor: '#646cff',
   tagPlainBackgroundColor: '#202125',
   actionSheetItemBackground: 'transparent'
 }

@@ -372,7 +372,7 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .link {
-  color: #31c17b;
+  color: #646cff;
   &:active {
     opacity: 0.6;
   }

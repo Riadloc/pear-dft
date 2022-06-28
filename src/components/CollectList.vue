@@ -10,7 +10,7 @@
       <div
         v-for="item in goods"
         :key="item.serial"
-        class="relative flex flex-col pb-2 pt-5 px-4 bg-paper mr-4 mb-4 text-right rounded-md active:bg-opacity-70"
+        class="collect-list-item basis-[30%] ml-[1.5%] mr-[1.5%]"
         @click="() => onClick(item)"
       >
         <span class="text-xs leading-5 text-gray-300">#{{ item.serial }}/{{ item.copies }}</span>
@@ -85,5 +85,8 @@ export default defineComponent({
   max-height: 10rem;
   min-height: 4rem;
   @apply p-4;
+  &-item {
+    @apply relative flex flex-col pb-2 pt-5 px-4 bg-paper mb-3 text-right rounded-md active:bg-opacity-70;
+  }
 }
 </style>

@@ -10,6 +10,18 @@ export enum TradeStatus {
   TRADE_FINISHED = 'TRADE_FINISHED',
 }
 
+/** 藏品类型 */
+export enum GoodTypes {
+  /** 常规 */
+  NORMAL,
+  /** 空投 */
+  AIR_DROP,
+  /** 盲盒 */
+  BLINK_BOX,
+  /** 盲盒-空投 */
+  BLINK_BOX_AIR_DROP,
+}
+
 /** 订单状态 */
 export enum OrderStatus {
   /** 待支付 */

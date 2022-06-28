@@ -2,9 +2,9 @@
   font-family: "iconfont"; /* Project id 3346926 */
   /* Color fonts */
   src: 
-       url('iconfont.woff2?t=1655285575388') format('woff2'),
-       url('iconfont.woff?t=1655285575388') format('woff'),
-       url('iconfont.ttf?t=1655285575388') format('truetype');
+       url('iconfont.woff2?t=1656050608601') format('woff2'),
+       url('iconfont.woff?t=1656050608601') format('woff'),
+       url('iconfont.ttf?t=1656050608601') format('truetype');
 }
 
 .iconfont {
@@ -13,6 +13,22 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-zhuce:before {
+  content: "\f50c";
+}
+
+.icon-touzi-03:before {
+  content: "\f590";
+}
+
+.icon-cunkuan:before {
+  content: "\f593";
+}
+
+.icon-duizhang-39:before {
+  content: "\f5b9";
 }
 
 .icon-dingdan:before {
