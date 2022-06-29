@@ -65,7 +65,7 @@
                         size="mini"
                         class="!text-gray-300"
                         v-else-if="
-                          type === WalletRecordType.DRAW_CASH &&
+                          item.type === WalletRecordType.DRAW_CASH &&
                           [
                             PayOrderStatus.DC_APPLYED_WAIT,
                             PayOrderStatus.DC_TRANSFERED,
