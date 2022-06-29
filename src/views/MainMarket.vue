@@ -1,9 +1,6 @@
 <template>
   <div class="market">
     <van-sticky>
-      <van-notice-bar left-icon="volume-o">
-        筛选和排序功能优化中，暂不可用
-      </van-notice-bar>
       <div class="shadow-lg bg-paper pt-1 pb-2 mb-4">
         <van-search
           readonly
