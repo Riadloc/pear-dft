@@ -109,14 +109,24 @@ export default defineComponent({
           })
           return
         }
-        Dialog.alert({
+        const isMajor = detailData.value.source === 0
+        Dialog.confirm({
           message: '交易成功！',
           confirmButtonText: '查看',
-          cancelButtonText: '返回'
+          cancelButtonText: '返回',
+          showCancelButton: true
         }).then(() => {
-          router.replace({ name: 'SecondaryDetail', query: { id: res.data.goodNo, from: 'collect' } })
+          if (isMajor) {
+            router.replace({ name: 'SecondaryDetail', query: { id: res.data.goodNo, from: 'collect' } })
+          } else {
+            router.back()
+          }
         }).catch(() => {
-          router.back()
+          if (isMajor) {
+            router.back()
+          } else {
+            router.go(-2)
+          }
         })
       }
     })

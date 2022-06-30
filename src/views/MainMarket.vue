@@ -51,13 +51,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref } from 'vue'
+import { computed, defineComponent, onMounted, onUnmounted, reactive, ref } from 'vue'
 import { FilterBar, PearSmallCard, SearchScreen } from '@/components'
 import { useLoadMore } from 'vue-request'
 import { getMarketGoodList } from '@/services/goods.service'
 import { HTTP_CODE, OrderEnum } from '@/constants/enums'
 import { useRouter } from 'vue-router'
 import { Dialog } from 'vant'
+import { useCacheStore } from '@/stores/cache.store'
 const options = [
   {
     id: 'date',
@@ -73,6 +74,7 @@ export default defineComponent({
   components: { FilterBar, PearSmallCard, SearchScreen },
   setup() {
     const router = useRouter()
+    const cacheStore = useCacheStore()
 
     const showSearchScreen = ref(false)
     const query = ref('')
@@ -148,6 +150,26 @@ export default defineComponent({
     const goDetail = (item: any) => {
       router.push({ name: 'SecondaryDetail', query: { id: item.goodNo, from: 'market' } })
     }
+
+    onMounted(() => {
+      const _query = cacheStore.getCache('query')
+      const _sortObj = cacheStore.getCache('sortObj')
+      if (_query) {
+        query.value = _query
+      }
+      if (_sortObj.id) {
+        sortObj.id = _sortObj.id
+        sortObj.value = _sortObj.value
+      }
+    })
+
+    onUnmounted(() => {
+      cacheStore.setCache('query', query.value)
+      cacheStore.setCache('sortObj', {
+        id: sortObj.id,
+        value: sortObj.value
+      })
+    })
 
     return {
       options,

@@ -56,7 +56,7 @@ export default defineComponent({
     },
     amount: [Number, String],
     owner: String,
-    price: String,
+    price: [String, Number],
     coverSizeClass: String,
     isSoldOut: Number,
     isFlux: {

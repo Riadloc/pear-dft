@@ -15,20 +15,22 @@
     <span class="text-sm text-white active:opacity-50" @click="show = true"
       >筛选</span
     >
-    <van-popup v-model:show="show" position="right" class="h-full w-3/4">
-      <div class="p-4 text-white flex flex-col h-full relative">
-        <h3 class="text-md mb-3">主题</h3>
-        <div class="flex-1 pb-16">
-          <van-tag
-            type="primary"
-            size="large"
-            class="mr-2 mb-2"
-            :plain="selectedGood !== item.name"
-            v-for="item in goodsList"
-            :key="item.id"
-            @click="() => onClick(item)"
-            >{{ item.name }}</van-tag
-          >
+    <van-popup v-model:show="show" position="right" class="h-full w-1/2">
+      <div class="py-4 text-white flex flex-col h-full relative">
+        <h3 class="text-md mb-3 px-4">主题</h3>
+        <div class="flex-1 pb-12 overflow-hidden">
+          <div class="h-full overflow-y-auto px-4">
+            <van-tag
+              type="primary"
+              size="large"
+              class="mr-2 mb-2 block"
+              :plain="selectedGood !== item.name"
+              v-for="item in goodsList"
+              :key="item.id"
+              @click="() => onClick(item)"
+              >{{ item.name }}</van-tag
+            >
+          </div>
         </div>
         <div class="absolute bottom-0 left-0 right-0 p-4 shadow-lg">
           <van-button class="pear-green-button rounded" block size="small" @click="onConfirm">确定</van-button>

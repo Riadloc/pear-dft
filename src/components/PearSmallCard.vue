@@ -37,7 +37,7 @@ export default defineComponent({
       default: false
     },
     owner: String,
-    price: String,
+    price: [String, Number],
     serial: String,
     isSelling: Boolean,
     isPurchasing: Boolean
