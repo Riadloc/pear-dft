@@ -28,7 +28,7 @@ export function datamask(phone: string) {
 
 export function maskbank(bankNo: string) {
   if (bankNo) {
-    return '**** ' + bankNo.slice(-4)
+    return bankNo.slice(0, 4) + ' **** ' + bankNo.slice(-4)
   }
   return ''
 }

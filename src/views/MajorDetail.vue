@@ -271,7 +271,9 @@ export default defineComponent({
     }
 
     watch(route, () => {
-      getDetail(route.query.id as string)
+      if (route.name === 'Detail') {
+        getDetail(route.query.id as string)
+      }
     })
 
     const showPayButton = computed(() => !goodNo.startsWith('F') && [GoodTypes.NORMAL, GoodTypes.BLINK_BOX].includes(data.value.type))

@@ -4,7 +4,7 @@
     <div class="pb-6">
       <van-cell
         title-class="text-gray-100"
-        class="rounded bg-card"
+        class="bg-card"
       >
         <template #title>
           <div class="flex items-center">
@@ -18,7 +18,7 @@
       </van-cell>
       <van-cell
         title-class="text-gray-100"
-        class="rounded bg-card"
+        class="bg-card"
         :label="userData.metaAccount || '开通中...'"
       >
         <template #title>
@@ -30,7 +30,7 @@
       </van-cell>
       <van-cell
         title-class="text-gray-100"
-        class="rounded bg-card"
+        class="bg-card"
         is-link
         @click="onChangeBank"
       >
@@ -44,7 +44,7 @@
       <van-cell
         :border="false"
         title-class="text-gray-100"
-        class="mb-3 rounded bg-card"
+        class="mb-3 bg-card"
         :is-link="!userData.certified"
         :to="userData.certified ? '' : '/authorized'"
       >
@@ -61,7 +61,7 @@
       </van-cell>
       <van-cell
         title-class="text-gray-100"
-        class="rounded bg-card"
+        class="bg-card"
       >
         <template #title>
           <div class="flex items-center">
@@ -75,7 +75,7 @@
       </van-cell>
       <van-cell
         title-class="text-gray-100"
-        class="rounded bg-card"
+        class="bg-card"
         is-link
         @click="onChangeName"
       >
@@ -91,7 +91,7 @@
       </van-cell>
       <van-cell
         title-class="text-gray-100"
-        class="rounded bg-card"
+        class="bg-card"
         is-link
         to="/email"
       >
@@ -108,7 +108,7 @@
       </van-cell>
       <van-cell
         title-class="text-gray-100"
-        class="rounded bg-card"
+        class="bg-card"
         is-link
         :to="{ name: 'Signup', query: { type: 1 } }"
       >
@@ -122,7 +122,7 @@
       <van-cell
         :border="false"
         title-class="text-gray-100"
-        class="mb-3 rounded bg-card"
+        class="mb-3 bg-card"
         is-link
         @click="onChangePayPassword"
       >
@@ -136,7 +136,7 @@
       <van-cell
         :border="false"
         title-class="text-gray-100"
-        class="rounded bg-card"
+        class="bg-card"
         is-link
         @click="logout"
       >
