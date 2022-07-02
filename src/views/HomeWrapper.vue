@@ -22,7 +22,7 @@
         <template #icon>
           <i class="iconfont icon-huabanfuben4"></i>
         </template>
-        市场
+        寄售
       </van-tabbar-item>
       <van-tabbar-item to="/collect" icon="bag">
         <template #icon>
