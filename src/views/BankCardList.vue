@@ -4,7 +4,7 @@
     <div class="p-4">
       <template v-if="walletData.bankCards.length">
         <div
-          class="relative"
+          class="relative mb-3"
           v-for="item in walletData.bankCards"
           :key="item.bankNo"
           @click="() => onClick(item)"
@@ -13,18 +13,14 @@
             round
             :border="false"
             title-class="text-gray-100"
-            class="mb-3 rounded !bg-card py-4"
+            class="mb-3 rounded-lg py-4 items-center"
             is-link
             @click="() => onClick(item)"
           >
             <template #title>
               <div class="flex items-center">
-                <div class="w-6 h-6 bg-primary rounded-md align-middle text-center">
-                <pear-icon
-                  set="ph"
-                  name="credit-card-fill"
-                  size="1.3rem"
-                  class="text-white" />
+                <div class="p-1 rounded-md align-middle text-center leading-none">
+                  <i class="iconfont icon-kabao text-[2rem]"></i>
                 </div>
                 <span class="ml-3">{{ maskbank(item.bankNo) }}</span>
               </div>
@@ -52,7 +48,7 @@
     </div>
     <van-action-sheet v-model:show="showInfoDialog" title="银行卡信息">
       <div class="p-4">
-        <van-cell-group :border="false">
+        <van-cell-group class="bank-card-list" :border="false">
           <van-cell title="卡号" :value="formData.bankNo" />
           <van-cell title="预留手机号" :value="formData.phone" />
           <van-cell title="绑定时间" :value="formData.createdAt" />
@@ -71,7 +67,7 @@ import { useUserStore } from '@/stores/user.store'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { datamask, formatTimezoneDate, maskbank } from '@/constants/utils'
-import { Toast } from 'vant'
+import { Dialog, Toast } from 'vant'
 import { LianlianSteps } from '@/constants/enums'
 
 export default defineComponent({
@@ -97,7 +93,7 @@ export default defineComponent({
     }
     const onClick = (item: (typeof walletData)['value']['bankCards'][number]) => {
       formData.id = item.id
-      formData.bankNo = item.bankNo
+      formData.bankNo = maskbank(item.bankNo)
       formData.phone = datamask(item.phone)
       formData.createdAt = formatTimezoneDate(item.createdAt)
       showInfoDialog.value = true
@@ -106,7 +102,9 @@ export default defineComponent({
       const { length: count } = walletData.value.bankCards
       const isApplyedUser = walletData.value.step === LianlianSteps.SUCCESSED
       if (count === 1 && isApplyedUser) {
-        Toast('不满足解绑条件！')
+        Dialog.alert({
+          message: '已开户用户至少保留绑定一张银行卡！如需解绑，请先绑定新的银行卡再进行解绑'
+        })
         return
       }
       router.push({ name: 'BankCardUnbind', query: { bankId: formData.id } })
@@ -134,10 +132,10 @@ export default defineComponent({
 })
 </script>
 <style lang="less" scoped>
-:deep(.van-cell-group) {
+:deep(.bank-card-list.van-cell-group) {
   background: transparent;
 }
-:deep(.van-cell) {
+:deep(.bank-card-list .van-cell) {
   background: transparent;
   color: #fff;
 }

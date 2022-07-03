@@ -49,12 +49,28 @@
         :border="false"
         title-class="text-gray-100"
         class="mb-3 rounded bg-card"
-        @click="onMaintainClick"
+        to="/composeList"
       >
         <template #title>
           <div class="flex items-center">
             <pear-icon set="ph" name="codesandbox-logo-light" size="1.3rem" />
             <span class="ml-2">合成中心</span>
+          </div>
+        </template>
+      </van-cell>
+      <van-cell
+        is-link
+        clickable
+        round
+        :border="false"
+        title-class="text-gray-100"
+        class="mb-3 rounded bg-card"
+        @click="onMaintainClick"
+      >
+        <template #title>
+          <div class="flex items-center">
+            <pear-icon set="ph" name="storefront-light" size="1.3rem" />
+            <span class="ml-2">积分商城</span>
           </div>
         </template>
       </van-cell>
@@ -111,6 +127,7 @@ import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user.store'
 import { useRouter } from 'vue-router'
 import { RankType } from '@/constants/enums'
+import { Toast } from 'vant'
 
 export default defineComponent({
   setup() {
@@ -154,7 +171,7 @@ export default defineComponent({
       }
     }
     const onMaintainClick = () => {
-      router.push('/composeList')
+      Toast('功能正在开发中，敬请期待')
     }
 
     return {
