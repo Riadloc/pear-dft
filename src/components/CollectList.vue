@@ -13,7 +13,7 @@
         class="collect-list-item basis-[30%] ml-[1.5%] mr-[1.5%]"
         @click="() => onClick(item)"
       >
-        <span class="text-xs leading-5 text-gray-300">#{{ item.serial }}/{{ item.copies }}</span>
+        <span class="text-xs leading-5 text-gray-300">#{{ item.serial }}/{{ item.realCopies || item.copies }}</span>
         <span class="font-semibold leading-5">￥{{ item.price }}</span>
         <span class="absolute top-0 right-0 text-xs px-2 bg-red-200 text-black rounded-bl-lg" v-if="item.status !== 0">转售中</span>
         <span class="absolute top-0 right-0 text-xs px-2 bg-green-200 text-black rounded-bl-lg" v-else>已拥有</span>

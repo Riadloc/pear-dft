@@ -37,7 +37,7 @@
           :name="item.name"
           :price="item.price"
           :owner="item.ownner"
-          :serial="`${item.serial}/${item.copies}`"
+          :serial="`${item.serial}/${item.realCopies || item.copies}`"
           :is-purchasing="item.status === 2"
         />
       </van-list>

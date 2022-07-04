@@ -17,7 +17,7 @@
           limit
           :name="data.name"
           :price="data.price"
-          :amount="`# ${data.serial} / ${data.copies}`"
+          :amount="`# ${data.serial} / ${data.realCopies || data.copies}`"
           :owner="data.ownner"
           is-flux
         >

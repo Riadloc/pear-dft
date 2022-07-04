@@ -21,7 +21,7 @@
           limit
           :name="data.name"
           :price="data.price"
-          :amount="data.copies"
+          :amount="data.realCopies || data.copies"
           :owner="data.user?.nickname"
           :is-sold-out="data.isSoldOut">
           <template #actions v-if="showPayButton">
