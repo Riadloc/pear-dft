@@ -43,6 +43,23 @@
     </div>
     <div class="my-menu p-4 pt-3">
       <van-cell
+        v-if="showSurvery"
+        is-link
+        clickable
+        round
+        :border="false"
+        title-class="text-gray-100"
+        class="mb-3 rounded bg-primary"
+        @click="onSurveryClick"
+      >
+        <template #title>
+          <div class="flex items-center">
+            <pear-icon set="ph" name="gift-light" size="1.3rem" />
+            <span class="ml-2">领奖信息录入</span>
+          </div>
+        </template>
+      </van-cell>
+      <van-cell
         is-link
         clickable
         round
@@ -122,12 +139,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user.store'
 import { useRouter } from 'vue-router'
 import { RankType } from '@/constants/enums'
+import { RANK_USERS } from '@/constants/constants'
 import { Toast } from 'vant'
+import { openLink } from '@/constants/utils'
 
 export default defineComponent({
   setup() {
@@ -141,6 +160,8 @@ export default defineComponent({
       { name: '消费总榜' },
       { name: '邀新排行' }
     ]
+
+    const showSurvery = computed(() => RANK_USERS.includes(userData.value.userId))
 
     const goUserPage = () => {
       router.push('/user')
@@ -173,9 +194,13 @@ export default defineComponent({
     const onMaintainClick = () => {
       Toast('功能正在开发中，敬请期待')
     }
+    const onSurveryClick = () => {
+      openLink('https://wj.qq.com/s2/10479761/0c6d/')
+    }
 
     return {
       show,
+      showSurvery,
       actions,
       userData,
       walletData,
@@ -185,7 +210,8 @@ export default defineComponent({
       onClickRank,
       onClickInvitation,
       onClickWallet,
-      onSelect
+      onSelect,
+      onSurveryClick
     }
   }
 })
