@@ -19,14 +19,10 @@ jobs:
         node-version: 16.15.1
         cache: 'pnpm'
 
-    - name: Get pnpm cache directory
-      id: pnpm-cache-dir
-      run: |
-        echo "::set-output name=dir::$(npm config get cache)"
-    - uses: actions/cache@v3
+    - name: Caching
+      uses: actions/cache@v3
       id: pnpm-cache
       with:
-        path: ${{ steps.npm-cache-dir.outputs.dir }}
         key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: |
           ${{ runner.os }}-node-
