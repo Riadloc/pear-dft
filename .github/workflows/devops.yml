@@ -1,10 +1,9 @@
 name: Deploy CI
 on:
-  # push:
-  #   branches: [ "main" ]
-  # pull_request:
-  #   branches: [ "main" ]
-  workflow_dispatch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -20,42 +19,47 @@ jobs:
         node-version: 16.15.1
         cache: 'pnpm'
 
+    - name: Get pnpm cache directory
+      id: pnpm-cache-dir
+      run: |
+        echo "::set-output name=dir::$(pnpm config get cache)"
+    - uses: actions/cache@v3
+      id: pnpm-cache
+      with:
+        path: ${{ steps.npm-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
     - name: Install dependencies
       run: pnpm install
     
-    # - name: MegaLinter
-    #   id: ml
-    #   uses: megalinter/megalinter/flavors/javascript@v5
-    #   env:
-    #     VALIDATE_ALL_CODEBASE: true
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #     APPLY_FIXES: none
-    #     SHOW_ELAPSED_TIME: true
-    #     FILEIO_REPORTER: true
-
-    # - name: Archive production artifacts
-    #   if: ${{ success() }} || ${{ failure() }}
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: MegaLinter reports
-    #     path: |
-    #       report
-    #       mega-linter.log
+    - name: MegaLinter
+      id: ml
+      uses: megalinter/megalinter/flavors/javascript@v5
+      env:
+        VALIDATE_ALL_CODEBASE: true
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        APPLY_FIXES: none
+        SHOW_ELAPSED_TIME: true
+        FILEIO_REPORTER: true
+        LINTER_RULES_PATH: /
+        FILTER_REGEX_INCLUDE: (src/)
+        FILTER_REGEX_EXCLUDE: (src/assets/sdks/)
+        PRINT_ALPACA: false
+        PRINT_ALL_FILES: false
 
     - name: Build
       run: |
         pnpm run build
 
-    - name: Copy Files
-      uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      env:
-        LASTSSH: "Doing something after copying"
-      with:
-        host: ${{ secrets.HOST }}
-        user: ${{ secrets.USER }}
-        pass: ${{ secrets.PASS }}
-        scp: |
-          ./dist/* => /home/github/app/
-        last_ssh: |
-          echo $LASTSSH 
-          ls -la
+    # - name: Copy Files
+    #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+    #   with:
+    #     host: ${{ secrets.HOST }}
+    #     user: ${{ secrets.USER }}
+    #     pass: ${{ secrets.PASS }}
+    #     scp: |
+    #       ./dist/* => /home/github/app/
+    #     last_ssh: |
+    #       ls -la
