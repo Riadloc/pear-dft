@@ -23,6 +23,7 @@ jobs:
       uses: actions/cache@v3
       id: pnpm-cache
       with:
+        path: ./
         key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: |
           ${{ runner.os }}-node-
@@ -39,7 +40,7 @@ jobs:
         APPLY_FIXES: none
         SHOW_ELAPSED_TIME: true
         FILEIO_REPORTER: true
-        LINTER_RULES_PATH: /
+        LINTER_RULES_PATH: ./
         FILTER_REGEX_INCLUDE: (src/)
         FILTER_REGEX_EXCLUDE: (src/assets/sdks/)
         PRINT_ALPACA: false
