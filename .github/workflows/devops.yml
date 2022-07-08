@@ -1,0 +1,43 @@
+name: Deploy CI
+on:
+  # push:
+  #   branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
+  workflow_dispatch
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: pnpm/action-setup@v2.2.2
+      with:
+        version: 7
+    - name: Use Node.js 16.15.1
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16.15.1
+        cache: 'pnpm'
+    - name: Install dependencies
+      run: pnpm install
+    - name: Lint Code Base
+      uses: github/super-linter@v4
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.js
+    - name: Build
+      run: |
+        npx vite build
+    - name: Copy Files
+      uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+      env:
+        LASTSSH: "Doing something after copying"
+      with:
+        host: ${{ secrets.HOST }}
+        user: ${{ secrets.USER }}
+        pass: ${{ secrets.PASS }}
+        scp: |
+          ./dist/* => /home/github/app/
+        last_ssh: |
+          echo $LASTSSH 
+          ls -la
