@@ -13,23 +13,41 @@ jobs:
     - uses: pnpm/action-setup@v2.2.2
       with:
         version: 7
+
     - name: Use Node.js 16.15.1
       uses: actions/setup-node@v2
       with:
         node-version: 16.15.1
         cache: 'pnpm'
+
     - name: Install dependencies
       run: pnpm install
-    - name: Lint Code Base
-      uses: github/super-linter@v4
+    
+    - name: MegaLinter
+      id: ml
+      uses: megalinter/megalinter/flavors/javascript@v5
       env:
+        VALIDATE_ALL_CODEBASE: true
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        LINTER_RULES_PATH: /
-        VALIDATE_JAVASCRIPT_STANDARD: false
-        JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.js
+        APPLY_FIXES: none
+        DISABLE:
+          - SPELL
+        SHOW_ELAPSED_TIME: true
+        FILEIO_REPORTER: true
+
+    - name: Archive production artifacts
+      if: ${{ success() }} || ${{ failure() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: MegaLinter reports
+        path: |
+          report
+          mega-linter.log
+
     - name: Build
       run: |
         npx vite build
+
     - name: Copy Files
       uses: cross-the-world/ssh-scp-ssh-pipelines@latest
       env:
