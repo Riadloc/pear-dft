@@ -30,8 +30,6 @@ jobs:
         VALIDATE_ALL_CODEBASE: true
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         APPLY_FIXES: none
-        DISABLE:
-          - SPELL
         SHOW_ELAPSED_TIME: true
         FILEIO_REPORTER: true
 
